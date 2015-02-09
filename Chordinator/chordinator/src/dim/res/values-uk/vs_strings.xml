@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="about">Sobre o Chordinator</string>
+    <string name="chord_aug_firstrun_text">Thank you for downloading Chordinator. The app will now scan your disk for songs and import you SETLISTs.</string>
+    <string name="app_name">Chordinator</string>
+    <string name="app_label">Chordinator</string>
+	<string name="feedback">"Chordinator Зворотній зв'язок"</string>
+
+</resources>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="toggle_favs">Toggle Favourite</string>
+    <string name="favourites">Favourites</string>
+
+    <string name="pref_tit_colour_scheme">Colour Scheme</string>
+    <string name="pref_sum_colour_scheme">The Song Screen Colour Scheme</string>
+					
+</resources>

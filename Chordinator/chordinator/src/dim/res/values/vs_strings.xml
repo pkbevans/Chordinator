@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<string name="about">About Chordinator</string>
+	<string name="chord_aug_firstrun_text">Thank you for downloading Chordinator Diminished. The app will now scan your disk for songs and import you SETLISTs.</string>
+    <string name="app_name">Chordinator Dim</string>
+    <string name="app_label">Chordinator Dim</string>
+	<string name="feedback">Chordinator Dim Feedback</string>
+
+</resources>

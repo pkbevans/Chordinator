@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="@string/pref_cat_songviewer" >
+        <ListPreference
+            android:defaultValue="@string/default_colour"
+            android:entries="@array/colour_schemes"
+            android:entryValues="@array/colour_scheme_values"
+            android:key="@string/pref_key_colourscheme"
+            android:summary="@string/pref_sum_colour_scheme"
+            android:title="@string/pref_tit_colour_scheme" />
+        <ListPreference
+            android:defaultValue="@string/default_mode"
+            android:entries="@array/modes"
+            android:entryValues="@array/mode_values"
+            android:key="@string/pref_key_mode"
+            android:summary="@string/pref_sum_mode"
+            android:title="@string/pref_tit_mode" />
+        <ListPreference
+            android:defaultValue="@string/default_text_size"
+            android:entries="@array/text_sizes"
+            android:entryValues="@array/text_size_values"
+            android:key="@string/pref_key_textsize"
+            android:summary="@string/pref_sum_textsize"
+            android:title="@string/pref_tit_text_size" />
+        <ListPreference
+            android:defaultValue="@string/default_grid_instrument"
+            android:entries="@array/grid_instrument_entries"
+            android:entryValues="@array/grid_instrument_values"
+            android:key="@string/pref_key_grid_instrument"
+            android:summary="@string/pref_sum_chord_grid_instrument"
+            android:title="@string/pref_tit_chord_grid_instrument" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/pref_key_showgrids"
+            android:summaryOff="@string/pref_sum_grids_off"
+            android:summaryOn="@string/pref_sum_grids_on"
+            android:title="@string/pref_tit_grids_on" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/pref_key_adddashes"
+            android:summaryOff="@string/pref_sum_adddashes_off"
+            android:summaryOn="@string/pref_sum_adddashes_on"
+            android:title="@string/pref_tit_adddashes" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/pref_key_honourlfs"
+            android:summaryOff="@string/pref_sum_honourlfs_off"
+            android:summaryOn="@string/pref_sum_honourlfs_on"
+            android:title="@string/pref_tit_honourlfs" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/pref_key_autoscroll"
+            android:summaryOff="@string/pref_sum_autoscroll_off"
+            android:summaryOn="@string/pref_sum_autoscroll_on"
+            android:title="@string/pref_autoscroll" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/pref_key_turboscroll"
+            android:summaryOff="@string/pref_sum_turboscroll_off"
+            android:summaryOn="@string/pref_sum_turboscroll_on"
+            android:title="@string/pref_turboscroll" />
+        
+        <ListPreference
+            android:entries="@array/scroll_delay_entries"
+            android:entryValues="@array/scroll_delay_values"
+            android:key="@string/pref_key_scroll_delay"
+            android:summary="@string/pref_sum_scroll_delay"
+            android:title="@string/pref_tit_scroll_delay" />
+    </PreferenceCategory>
+
+    <PreferenceScreen android:title="@string/pref_tit_encoding" >
+        <intent
+            android:action="android.intent.action.MAIN"
+            android:targetClass="com.bondevans.chordinator.prefs.EncodingPrefs"
+            android:targetPackage="@string/target_package" />
+    </PreferenceScreen>
+
+</PreferenceScreen>

@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="grids_off">"Немає сітки"</string>
+    <string name="set_options">"Nереваги"</string>
+    <string name="auto_scroll">"Auto Scroll"</string>
+    <string name="stop_scroll">"Стоп Прокрутка"</string>
+    <string name="ok">"Ок"</string>
+    <string name="cancel">"Скасувати"</string>
+    <string name="description">"Перегляд акордів пісні"</string>
+    <string name="help">"Довідка"</string>
+    <string name="edit_song">"Редагувати"</string>
+    <string name="share_song">"Участь"</string>
+    <string name="song_path">"com.bondevans.chordinator.SongPath"</string>
+    <string name="transpose_up">"Transpose Up"</string>
+    <string name="transpose_down">"Транспонування вниз"</string>
+    <string name="help_screen_title">"Chordinator Допомога"</string>
+    <string name="open">"Відкрити"</string>
+    <string name="add_to_set_list">"Додати в набір&#8230;"</string>
+    <string name="edit_setlist">"Змінити папки"</string>
+    <string name="choose_set">"Виберіть SET,"</string>
+    <string name="add">"Додати SET"</string>
+    <string name="no_sets">"Ви в даний час не має SETS."</string>
+    <string name="up">"Догори"</string>
+    <string name="down">"Вниз&#8230;"</string>
+    <string name="delete">"Видалити"</string>
+    <string name="delete_all">"Видалити всі пісні"</string>
+    <string name="save">"Зберегти"</string>
+    <string name="add_new_set">"Додати SET"</string>
+    <string name="autoscroll_summary_on">"Кожна пісня буде автоматично Автопрокрутка"</string>
+    <string name="autoscroll_summary_off">"Немає Автопрокрутка"</string>
+    <string name="chord_grids_summary_on">"Завжди показувати сітки гітарних акордів"</string>
+    <string name="chord_grids_summary_off">"Не показувати сітки гітарних акордів"</string>
+    <string name="save_trans">"Зберегти транспонувати пісні"</string>
+    <string name="grids_on">"Chord сітки на"</string>
+    <string name="save_text">"Зберегти в текстовий файл"</string>
+    <string name="refresh">"Оновити"</string>
+    <string name="convert">"Перетворити в ChoPro"</string>
+    <string name="artist">"Виконавець"</string>
+    <string name="title">"Посада"</string>
+    <string name="composer">"Композитор"</string>
+    <string name="set_song_details">"Встановіть пісні Детальніше"</string>
+    <string name="empty_set">"Пусте безліч. Будь ласка, додайте кілька пісень."</string>
+    <string name="save_html">"Зберегти в форматі HTML (Beta)"</string>
+    <string name="close">"Закрити"</string>
+    <string name="options">"Параметри"</string>
+    <string name="banned_file_type">"Chordinator не може відкрити цей тип файлу"</string>
+    <string name="save_as">"Зберегти копію"</string>
+    <string name="copy_failed">"Копіювання не вдалося."</string>
+    <string name="copying">"Копіювання&#8230;"</string>
+    <string name="file_exists">"Файл вже існує. Будь ласка, виберіть інше ім'я."</string>
+    <string name="new_file_name">"Нове ім'я файлу"</string>
+    <string name="are_you_sure_delete">"Ви впевнені, що хочете видалити цей файл?"</string>
+    <string name="no_todos">"В даний час немає пісні"</string>
+    <string name="menu_insert">"Додати елемент"</string>
+    <string name="menu_delete">"Видалення пісні"</string>
+    <string name="song_summary">"Висновки"</string>
+    <string name="song_description">"Видалення пісні"</string>
+    <string name="song_edit_summary">"Висновки"</string>
+    <string name="song_edit_description">"Опис"</string>
+    <string name="song_edit_confirm">"Підтвердити"</string>
+    <string name="set_name">"Встановити ім'я"</string>
+    <string name="menu_delete_set">"Видалення УСТАНОВКА"</string>
+    <string name="search">"Пошук"</string>
+    <string name="tabname_songs">"Мої пісні"</string>
+    <string name="tabname_sets">"НАБОРИ"</string>
+    <string name="tabname_browse">"File Browser"</string>
+    <string name="toggle_favs">"Переключити Улюблений"</string>
+    <string name="no_songs">"Немає ще пісні? Ви можете використовувати File Browser, щоб знайти існуючі пісні, або використовувати сканування об'єкту або пошук в Інтернеті для нових пісень."</string>
+    <string name="favourites">"Обраних"</string>
+    <string name="recent">"Останній"</string>
+    <string name="already_chopro">"Ця пісня вже в форматі ChoPro"</string>
+    <string name="saved">"збережені"</string>
+    <string name="filename">"Нове ім'я файлу"</string>
+    <string name="song_found">"Нова пісня Знайдено"</string>
+    <string name="loading_page">"Завантаження сторінки&#8230;"</string>
+    <string name="save_file">"Файл був змінений. Ви хочете, щоб зберегти його?"</string>
+    <string name="welcome">"Ласкаво просимо в"</string>
+    <string name="scan_for_songs">"Сканування пісні"</string>
+    <string name="search_songs">"Пошук в Інтернеті для пісні"</string>
+    <string name="tabname_welcome">"Ласкаво просимо"</string>
+    <string name="pref_cat_songviewer">"Пісня перегляду"</string>
+    <string name="pref_tit_grids_on">"Завжди показувати акорд сітки"</string>
+    <string name="pref_sum_grids_on">"Chord сітки буде за замовчуванням"</string>
+
+    <string-array name="colour_schemes">
+        <item>"Чорний текст на білому тлі"</item>
+        <item>"Білий текст на чорному фоні"</item>
+    </string-array>
+    <string-array name="grid_instrument_entries">
+        <item>"Гітара"</item>
+        <item>"Мандоліна"</item>
+        <item>"Ukelele"</item>
+    </string-array>
+
+    <string name="pref_tit_colour_scheme">"Колірна гамма"</string>
+    <string name="pref_tit_text_files">"Текстові файли"</string>
+    <string name="pref_tit_encoding">"Кодування за замовчуванням"</string>
+    <string name="pref_sum_encoding">"Кодування текстових файлів використовується для відкриття файлу пісні. Залиште порожнім, якщо сумніваєтесь. Спробуйте \"UTF-8\" в Азії або \"Windows-1251\" для кирилиці"</string>
+    <string name="pref_sum_grids_off">"Chord сітки не будуть відображатися"</string>
+    <string name="pref_tit_text_size">"Розмір тексту"</string>
+    <string name="pref_autoscroll">"Автопрокрутка"</string>
+    <string name="pref_sum_autoscroll_on">"Пісні будуть автоматичної прокрутки автоматично при перегляді"</string>
+    <string name="pref_sum_autoscroll_off">"Пісні не буде починатися з Автопрокрутка ПО"</string>
+    <string name="pref_sum_adddashes_off">"Тире не додав до слів розділити хордою"</string>
+    <string name="pref_sum_adddashes_on">"Додаються тире словами розділити хордою"</string>
+    <string name="pref_tit_adddashes">"Додати тире словами розділити хордою"</string>
+    <string name="pref_sum_honourlfs_off">"Порожні рядки не відображаються"</string>
+    <string name="pref_sum_honourlfs_on">"Порожні рядки відображаються"</string>
+    <string name="pref_tit_honourlfs">"Порожні рядки"</string>
+    <string name="pref_tit_scroll_delay">"Виділіть Затримка в секундах"</string>
+    <string name="pref_sum_scroll_delay">"Затримка в секундах перед прокрутка починається"</string>
+    <string name="search_for">"Пісня або художник для пошуку"</string>
+    <string name="only_chordie">"Тільки Пошук по Chordie.com"</string>
+    <string name="scanning">"Сканування&#8230;"</string>
+    <string name="add_songs">"Додати пісні&#8230;"</string>
+    <string name="done">"Гаразд"</string>
+    <string name="already_in_set">"вже в комплекті."</string>
+    <string name="menu_delete_from_set">"Видалити з SET"</string>
+    <string name="back_to_sets">"Повернутися до НАБОРИ"</string>
+    <string name="set">"Налаштування"</string>
+    <string name="set_deleted">"НАБІР Дистанційні"</string>
+    <string name="failed_to_delete">"Не вдалося видалити"</string>
+    <string name="pref_tit_chord_grid_instrument">"Інструменти:"</string>
+    <string name="song_browser_title">"Браузер Chordinator пісні"</string>
+    <string name="banned_file">"Chordinator не може відкрити цей файл"</string>
+    <string name="up_to">"Аж до "</string>
+    <string name="no_song">"Ні пісні вибране."</string>
+    <string name="web_url">"www.bondevans.com/chordinator"</string>
+    <string name="whats_new">"Що нового?"</string>
+    <string name="select_set">"Виберіть SET"</string>
+    <string name="search_instruction">"1.Введіть пісні та / або виконавця\n2.Follow посилання Google\n3.App буде захоплювати chopro\n4.Confirm нове ім'я файлу"</string>
+    <string name="search_instruction1">"1.Введіть пісні та / або виконавця"</string>
+    <string name="search_instruction2">"2.Follow посилання Google"</string>
+    <string name="search_instruction3">"3.App буде захоплювати chopro"</string>
+    <string name="search_instruction4">"4.Confirm нове ім'я файлу"</string>
+    <string name="searching">"Пошук"</string>
+    <string name="search_title">"Пошук Chordinator"</string>
+    <string name="pref_sum_chord_grid_instrument">"Інструмент, щоб показати Chord сітки для"</string>
+    <string name="pref_sum_colour_scheme">"Колір екрану Пісня схеми"</string>
+    <string name="pref_sum_textsize">"Розмір тексту на екрані пісні"</string>
+    <string name="home">"Домашня сторінка"</string>
+    <string name="rename">Rename&#8230;</string>
+    <string name="rename_set">"Перейменувати набір&#8230;"</string>
+    <string name="are_you_sure_delete_set">Are you sure you want to delete this SET?</string>
+    <string name="new_set_name">"Назва нового набору"</string>
+    <string name="rename_failed">"Не вдалося перейменувати"</string>
+
+    <string-array name="modes">
+        <item>Normal - Chords and Lyrics</item>
+        <item>Chords Only - Lyrics are not displayed</item>
+        <item>Lyrics Only - Chords are not displayed</item>
+    </string-array>
+
+    <string name="pref_tit_mode">Chord and Lyric Display</string>
+    <string name="pref_sum_mode">Whether to show Chords or Lyrics or Both</string>
+    <!-- v1.0 Aug -->
+    <string name="add_songs_to">Adicionar músicas a</string>
+    <string name="export_settings">Exportar configuração</string>
+    <string name="import_settings">Importar configuração</string>
+    <string name="settings_exported">Configuração exportada para</string>
+    <string name="settings_imported">Configuração importada com sucesso</string>
+    <string name="export_failed">Falha na exportação</string>
+    <string name="import_failed">Arquivo de configuração não encontrado: </string>
+    <string name="song_too_big">Song too big - try reducing Text Size</string>
+    <string name="orig_trans">Revert to Original key</string>
+    <string name="chorus">Chorus</string>
+    <string name="import_set">Import Set</string>
+    <string name="export_set">Export Set</string>
+    <string name="exported_to">Exported to</string>
+    <string name="imported">imported</string>
+    <string name="added">Added</string>
+    <string name="songs">songs</string>
+    <string name="no_songs_found">No new songs found</string>
+    <string name="pref_sum_split_screen_on">"Розділений екран буде використовуватися в ландшафтному"</string>
+    <string name="pref_sum_split_screen_off">"Поділ екрана не використовуватиметься в ландшафтному"</string>
+    <string name="pref_tit_split_screen">"Розділений екран в ландшафтному"</string>
+    <string name="sendlog">"Надіслати журналі налагодження розробнику"</string>
+    <string name="start_grab">"Почати схопити!"</string>
+    <string name="stop_grab">"Зупинити захват!"</string>
+    <string name="trial_finished_title">"Ваша безкоштовна підписка Минув"</string>
+    <string name="trial_finished_text">"Я сподіваюся, що вам подобається з розширеною версією Chordinator. Ви можете купити повну версію з https://play.google.com/store/apps/details?id=com.bondevans.chordinator.aug"</string>
+    <string name="promote_paid_app_text">"Якщо ви любите Chordinator, будь ласка підтримати продовження розробки цього додатка, заплативши невелику суму за Доповнена версія Chordinator"</string>
+    <string name="promote_paid_app_title">"Чи намагалися ви Chordinator розширеної?"</string>
+    <string name="paid_url">"https://play.google.com/store/apps/details?id=com.bondevans.chordinator.aug"</string>
+    <string name="keywords">"Ключові слова"</string>
+    <string name="no_thanks">"Може бути, пізніше"</string>
+    <string name="no_network">"Немає підключення до Інтернету."</string>
+    <string name="file">File:</string>
+    <string name="files_scanned">"Files scanned: %s"</string>
+    <string name="folder">Folder:</string>
+    <string name="pref_sum_turboscroll_off">Faster Scrolling is OFF</string>
+    <string name="pref_sum_turboscroll_on">Faster Scrolling is ON</string>
+    <string name="pref_turboscroll">Faster scrolling</string>
+    <string name="print">Print&#8230;</string>
+    <string name="search_hint">Search Songs</string>
+    <string name="songs_found">"New Songs found: %s"</string>
+    <string name="start">Start Scan</string>
+    <string name="task_cancelled_msg">Cancelled</string>
+    <string name="task_complete_msg">Complete</string>
+    <string name="task_started_msg">Started</string>
+
+</resources>

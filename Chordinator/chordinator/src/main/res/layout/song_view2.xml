@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/frame2x"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <ScrollView
+        android:id="@+id/scrollerx"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <com.bondevans.chordinator.SongCanvas3
+            android:id="@+id/song_canvasx"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <requestFocus>
+            </requestFocus>
+        </com.bondevans.chordinator.SongCanvas3>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/transparent_panel1x"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center|left"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/prevButtonx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="prev"
+            android:visibility="invisible" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/transparent_panel2x"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center|right"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/nextButtonx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="next"
+            android:visibility="invisible" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/transparent_panel3x"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="bottom|left"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/minusButtonx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="--"
+            android:visibility="invisible" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/transparent_panel4x"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="bottom|right"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/plusButtonx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="++"
+            android:visibility="invisible" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/transparent_panel5x"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="bottom|center"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/scroll_speedx"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="10"
+            android:textSize="30sp"
+            android:visibility="invisible" >
+        </TextView>
+
+        <Button
+            android:id="@+id/scrollButtonx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="auto_scroll"
+            android:visibility="invisible" />
+    </LinearLayout>
+
+</FrameLayout>

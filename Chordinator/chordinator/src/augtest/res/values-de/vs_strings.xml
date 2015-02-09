@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="about">Über Chordinator Test</string>
+    <string name="chord_aug_firstrun_text">Dankeschön für das Herunterladen Chordinator Test. Die App wird nun scannen Sie Ihre Festplatte für Songs und importieren Sie Setlisten.</string>
+    <string name="app_name">Chordinator Test</string>
+    <string name="app_label">Chordinator+</string>
+    <string name="feedback">Chordinator Test Feedback</string>
+
+</resources>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="chord_aug_firstrun_heading">First Run</string>
+    <string name="alphabet"> ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+    <string name="show_details">"Zeige Details"</string>
+    <string name="song_details">"Songdetails"</string>
+    <string name="browse_to">"Goto Speicherort"</string>
+    <string name="split_proportions">"Split-Screen Proportionen"</string>
+    <string name="pref_sum_split_proportions">"Stellen Sie die Proportionen des Dual-Fenster im Querformat"</string>
+    <string name="delete_from_disk">"Song löschen Datei von der Festplatte"</string>
+    <string name="convert_chopro">"Convert to Chopro Format"</string>
+    <string name="make_download_dir">"Machen Sie diesen Ordner der Download-Lage"</string>
+    <string name="feature_disabled">"Diese Funktion ist nicht in der freien Version des Chordinator verfügbar\n\nDie Songliste Bildschirm in Chordinator Augmented zeigt alle Ihre Songs in einer benutzerfreundlichen Weise -. Takng den Songtitel und Interpreten aus den Tags in Ihre Song-Datei. Sie können keine Dateien öffnen, aus dieser Sicht in der kostenlosen Version der App - nutzen Sie bitte die Datei-Browser-Option, um Ihre Songs zu finden. Bitte beachten Sie, ein Upgrade auf die Chordinator Augmented, um diese Funktion zu aktivieren.\n\nDie Augmented App hat keine Anzeigen oder lästige Pop-up-Nachrichten."</string>
+    <string name="upgrade_now">"Upgraden Sie jetzt!"</string>
+    <string name="feature_disabled_title">"Funktion deaktiviert."</string>
+
+</resources>

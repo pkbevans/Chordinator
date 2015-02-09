@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="divider_colour">#30B3E4</color>
+    <string-array name="text_sizes">
+        <item>10</item>
+        <item>12</item>
+        <item>14</item>
+        <item>16</item>
+        <item>18</item>
+        <item>20</item>
+        <item>22</item>
+        <item>24</item>
+        <item>28</item>
+        <item>32</item>
+        <item>36</item>
+        <item>42</item>
+        <item>44</item>
+        <item>46</item>
+        <item>48</item>
+        <item>56</item>
+    </string-array>
+    <string-array name="text_size_values">
+        <item>10</item>
+        <item>12</item>
+        <item>14</item>
+        <item>16</item>
+        <item>18</item>
+        <item>20</item>
+        <item>22</item>
+        <item>24</item>
+        <item>28</item>
+        <item>32</item>
+        <item>36</item>
+        <item>42</item>
+        <item>44</item>
+        <item>46</item>
+        <item>48</item>
+        <item>56</item>
+        </string-array>
+    <string-array name="split_proportion_entries">
+        <item>20:80</item>
+        <item>25:75</item>
+        <item>30:70</item>
+        <item>35:65</item>
+        <item>45:55</item>
+        <item>50:50</item>
+    </string-array>
+    <string-array name="split_proportion_values">
+        <item>20</item>
+        <item>25</item>
+        <item>30</item>
+        <item>35</item>
+        <item>45</item>
+        <item>50</item>
+    </string-array>
+    <string name="pref_key_split_proportions">splitProps</string>
+    <string name="default_split_prop">45</string>
+    <string name="logfile_name">chordinator_log.txt</string>
+    <string name="mimetype">text/*</string>
+    <string name="next">>></string>
+    <string name="plus">++</string>
+    <string name="minus">--</string>
+    <string name="ten">10</string>
+    <string name="prev">&lt;&lt;</string>
+    <color name="listcolor">#FFE87C</color>
+    <color name="black">#000000</color>
+    <color name="white">#ffffff</color>
+    <string-array name="colour_scheme_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+    <string-array name="scroll_delay_entries">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+		<item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+		<item>20</item>
+		</string-array>
+    <string-array name="scroll_delay_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+		<item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+		<item>20</item>
+		</string-array>
+    <string-array name="grid_instrument_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+<!-- IMPORTANT.  THESE VALUES NEED TO BE THE SAME AS VALUES IN SongPrefs.java -->
+    <string name="pref_key_textsize">TextSize</string>
+    <string name="pref_key_showgrids">"ShowGrids"</string>
+    <string name="pref_key_autoscroll">"AutoScroll"</string>
+    <string name="pref_key_turboscroll">"TurboScroll"</string>
+    <string name="pref_key_songdir">"SongDir"</string>
+    <string name="pref_key_showhelponstart">"ShowHelp"</string>
+    <string name="pref_key_colourscheme">"ColourScheme"</string>
+    <string name="pref_key_grid_instrument">"GridInstrument"</string>
+    <string name="pref_key_default_encoding">"DefaultEncoding"</string>
+    <string name="pref_key_scroll_delay">scrollDelay</string>
+    <string name="pref_key_split_screen">"SplitScreen"</string>
+	<string name="pref_key_adddashes">"addDashes"</string>
+	<string name="pref_key_honourlfs">"honourLFs"</string>
+	<string name="pref_key_mode">Mode</string>
+    <string-array name="mode_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        </string-array>
+<!-- IMPORTANT.  THESE VALUES NEED TO BE THE SAME AS VALUES IN SongPrefs.java -->
+    <string name="default_colour">1</string>
+    <string name="default_mode">0</string>
+    <string name="default_text_size">22</string>
+    <string name="default_grid_instrument">1</string>
+    <string name="sdcard">/sdcard</string>
+    <string name="external_card">/extCard</string>
+    <string name="ad_unit_id">ca-app-pub-6671309937731262/5600367631</string>
+    <string name="ad_unit_id_live">ca-app-pub-6671309937731262/5600367631</string>
+    <string name="ad_unit_id_test">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="authority">com.bondevans.chordinator</string>
+    <string name="app_version">aug</string>
+    <string name="target_package">com.bondevans.chordinator</string>
+    <string name="paid_url">https://play.google.com/store/apps/details?id=com.bondevans.chordinator.aug</string>
+
+</resources>

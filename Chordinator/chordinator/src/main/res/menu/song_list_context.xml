@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <group android:id="@+id/context_group_songlist" >
+        <item
+            android:id="@+id/edit"
+            android:title="@string/edit_song">
+        </item>
+        <item
+            android:id="@+id/add_to_set"
+            android:title="@string/add_to_set_list">
+        </item>
+        <item
+            android:id="@+id/delete"
+            android:title="@string/menu_delete">
+        </item>
+        <item
+            android:id="@+id/details"
+            android:title="@string/show_details">
+        </item>
+        <item
+            android:id="@+id/browseTo"
+            android:title="@string/browse_to">
+        </item>
+        <item android:id="@+id/share" android:title="@string/share_song"></item>
+        </group>
+
+</menu>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:id="@+id/context_group_browser">
+    <item android:title="@string/edit_song" android:id="@+id/edit"></item>
+    <item android:title="@string/open" android:id="@+id/open"></item>
+    <item android:title="@string/share_song" android:id="@+id/share"></item>
+    <item android:id="@+id/add_to_set" android:title="@string/add_to_set_list"></item>
+    <item android:title="@string/convert" android:id="@+id/convert"></item>
+    <item android:title="@string/delete" android:id="@+id/delete"></item>
+    <item android:id="@+id/save_as" android:title="@string/save_as"></item>
+    <item android:id="@+id/rename" android:title="@string/rename"></item>
+    <item android:id="@+id/import_set" android:title='@string/import_set'></item>
+        
+    </group>
+    
+</menu>

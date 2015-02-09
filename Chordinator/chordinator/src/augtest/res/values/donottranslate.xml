@@ -1,0 +1,6 @@
+<resources>
+
+    <string name="authority">com.bondevans.chordinator.augtest</string>
+    <string name="target_package">com.bondevans.chordinator.augtest</string>
+    
+</resources>

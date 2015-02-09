@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_frame"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <ScrollView
+        android:id="@+id/scroller"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <com.bondevans.chordinator.SongCanvas3
+            android:id="@+id/song_canvas"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <requestFocus>
+            </requestFocus>
+        </com.bondevans.chordinator.SongCanvas3>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/prev_button_panel"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center|left"
+        android:orientation="vertical" >
+
+        <ImageButton
+            android:id="@+id/prevButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/prev"
+            android:visibility="invisible"
+            android:background="@drawable/size_bkgrnd"
+            android:src="@drawable/prev_button" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/next_button_panel"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center|right"
+        android:orientation="vertical" >
+
+        <ImageButton
+            android:id="@+id/nextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/next"
+            android:visibility="invisible"
+            android:background="@drawable/size_bkgrnd"
+            android:src="@drawable/next_button" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/zoom_panel"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="right|bottom"
+        android:orientation="vertical"
+        android:paddingBottom="6dip"
+        android:paddingRight="6dip" >
+
+        <ImageButton
+            android:id="@+id/biggerButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:background="@drawable/size_bkgrnd"
+            android:src="@drawable/textsize_inc_button" />
+
+        <ImageButton
+            android:id="@+id/smallerButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:background="@drawable/size_bkgrnd"
+            android:src="@drawable/textsize_dec_button" />
+    </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/transpose_up_panel"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="right|top"
+        android:orientation="vertical"
+        android:paddingTop="12dip"
+        android:paddingRight="6dip" >
+
+        <ImageButton
+            android:id="@+id/trupButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:background="@drawable/size_bkgrnd"
+            android:src="@drawable/trup_button" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/transpose_down_panel"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="left|top"
+        android:orientation="vertical"
+        android:paddingTop="12dip"
+        android:paddingLeft="6dip" >
+
+        <ImageButton
+            android:id="@+id/trdownButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:background="@drawable/size_bkgrnd"
+            android:src="@drawable/trdown_button" />
+    </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/autoscroll_panel"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom|center"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/scroll_speed"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="@string/ten"
+            android:textSize="30sp"
+            android:visibility="visible" />
+
+        <LinearLayout
+            android:id="@+id/autoscroll_buttons"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+	        android:gravity="bottom|center"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/minusButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/minus"
+                android:visibility="visible" />
+
+            <Button
+                android:id="@+id/scrollButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/auto_scroll"
+                android:visibility="visible" />
+
+            <Button
+                android:id="@+id/plusButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/plus"
+                android:visibility="visible" />
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>

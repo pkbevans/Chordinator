@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="chord_aug_firstrun_heading">First Run</string>
+	<string name="alphabet"> ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+    <string name="show_details">"Показати деталі"</string>
+    <string name="song_details">"Пісня Детальніше"</string>
+    <string name="browse_to">"На розташування файлу"</string>
+    <string name="split_proportions">"Розділений екран Пропорції"</string>
+    <string name="pref_sum_split_proportions">"Встановити пропорції подвійний панелі в ландшафтному режимі"</string>
+    <string name="delete_from_disk">"Видалити пісню файлу з диска"</string>
+    <string name="convert_chopro">"Перетворити на формат Chopro"</string>
+    <string name="make_download_dir">"Зробити цю папку місці завантаження"</string>
+    <string name="feature_disabled">"Ця функція недоступна в безкоштовній версії Chordinator\n\nВ Song List екрану в Chordinator розширеної показує всі ваші пісні в зручному для користувача вигляді -. Takng назву пісні та ім'я виконавця з тегів в файл пісні. Ви не можете відкривати файли з цієї точки зору у безкоштовній версії програми - будь ласка, використовуйте опцію File Browser для пошуку музичних композицій. Будь ласка, подумайте про оновлення до Chordinator Доповнена щоб включити цю функцію.\n\nThe розширеної програма не має ніяких оголошень або дратівливих спливаючих повідомлень."</string>
+    <string name="upgrade_now">"Оновити зараз."</string>
+    <string name="feature_disabled_title">"Функція відключена."</string>
+
+</resources>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- PORTRAIT LAYOUT -->
+<fragment
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:name="com.bondevans.chordinator.SongBrowserFragment"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:id="@+id/songbrowser_fragment">
+</fragment>

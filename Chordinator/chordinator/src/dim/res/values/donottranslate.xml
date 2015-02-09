@@ -1,0 +1,7 @@
+<resources>
+
+    <string name="authority">com.bondevans.chordinator.dim</string>
+    <string name="app_version">dim</string>
+    <string name="target_package">com.bondevans.chordinator</string>
+    
+</resources>

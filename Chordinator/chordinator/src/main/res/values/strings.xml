@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="grids_off">No Grids</string>
+    <string name="set_options">Preferences</string>
+    <string name="auto_scroll">Auto Scroll</string>
+    <string name="stop_scroll">Stop Scroll</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="description">Song Chord Viewer</string>
+    <string name="help">Help</string>
+    <string name="edit_song">Edit</string>
+    <string name="share_song">Share&#8230;</string>
+    <string name="song_path">com.bondevans.chordinator.SongPath</string>
+    <string name="transpose_up">Transpose Up</string>
+    <string name="transpose_down">Transpose Down</string>
+    <string name="help_screen_title">Chordinator Help</string>
+    <string name="open">Open</string>
+    <string name="add_to_set_list">Add Song to SET&#8230;</string>
+    <string name="edit_setlist">Edit SET</string>
+    <string name="choose_set">Choose SET</string>
+    <string name="add">Add New SET</string>
+    <string name="no_sets">You do not currently have any SETS.</string>
+    <string name="up">Up</string>
+    <string name="down">Down</string>
+    <string name="delete">Delete</string>
+    <string name="delete_all">Delete All Songs</string>
+    <string name="save">Save</string>
+    <string name="add_new_set">Create SET&#8230;</string>
+    <string name="autoscroll_summary_on">Each song will automatically Auto Scroll</string>
+    <string name="autoscroll_summary_off">No Auto Scroll</string>
+    <string name="chord_grids_summary_on">Always show guitar chord grids</string>
+    <string name="chord_grids_summary_off">Don\'t show guitar chord grids</string>
+    <string name="save_trans">Save Transposed Song</string>
+    <string name="grids_on">Chord Grids On</string>
+    <string name="save_text">Save to text file</string>
+    <string name="refresh">Refresh</string>
+    <string name="convert">Convert to ChoPro</string>
+    <string name="artist">Artist</string>
+    <string name="title">Title</string>
+    <string name="composer">Composer</string>
+    <string name="set_song_details">Set Song Details</string>
+    <string name="empty_set">Empty SET.  Please add some songs.</string>
+    <string name="save_html">Save to HTML</string>
+    <string name="close">Close</string>
+    <string name="options">Options</string>
+    <string name="banned_file_type">The Chordinator cannot open this file type</string>
+    <string name="save_as">Save Copy</string>
+    <string name="copy_failed">Copy Failed.</string>
+    <string name="copying">Copying&#8230;</string>
+    <string name="file_exists">File already exists.  Please choose a different name.</string>
+    <string name="new_file_name">New File Name</string>
+    <string name="are_you_sure_delete">Are you sure you want to delete this file?</string>
+    <string name="no_todos">Currently there are no Songs</string>
+    <string name="menu_insert">Add Item</string>
+    <string name="menu_delete">Delete Song</string>
+    <string name="song_summary">Summary</string>
+    <string name="song_description">Delete Song</string>
+    <string name="song_edit_summary">Summary</string>
+    <string name="song_edit_description">Description</string>
+    <string name="song_edit_confirm">Confirm</string>
+    <string name="set_name">Select SET</string>
+    <string name="menu_delete_set">Delete SET</string>
+    <string name="search">Search</string>
+    <string name="tabname_songs">My Songs</string>
+    <string name="tabname_sets">SETS</string>
+    <string name="tabname_browse">File Browser</string>
+    <string name="toggle_favs">Toggle Favorite</string>
+    <string name="no_songs">No Songs yet?  You can use the File Browser to find your existing songs, or use the scan facility or search the Internet for new songs.</string>
+    <string name="favourites">Favorite</string>
+    <string name="recent">Recent</string>
+    <string name="already_chopro">This song is already in ChoPro format</string>
+    <string name="saved">saved</string>
+    <string name="filename">New File Name</string>
+    <string name="song_found">New Song Found</string>
+    <string name="loading_page">Loading page&#8230;</string>
+    <string name="save_file">The File has changed.  Do you want to save it?</string>
+    <string name="welcome">Welcome to</string>
+    <string name="scan_for_songs">Scan for songs</string>
+    <string name="search_songs">Search Internet for Songs</string>
+    <string name="tabname_welcome">Welcome</string>
+    <string name="pref_cat_songviewer">The Song Viewer</string>
+    <string name="pref_tit_grids_on">Always show chord grids</string>
+    <string name="pref_sum_grids_on">Chord grids will be on by default</string>
+
+    <string-array name="colour_schemes">
+        <item>Black Text on White Background</item>
+        <item>White text on Black Background</item>
+    </string-array>
+    <string-array name="grid_instrument_entries">
+        <item>Guitar</item>
+        <item>Mandolin</item>
+        <item>Ukelele</item>
+    </string-array>
+
+    <string name="pref_tit_colour_scheme">Color Scheme</string>
+    <string name="pref_tit_text_files">Text Files</string>
+    <string name="pref_tit_encoding">Default Encoding</string>
+    <string name="pref_sum_encoding">Text file Encoding used to open song files.  Leave blank if in doubt.  Try \"utf-8\" in Asia or \"windows-1251\" for cyrillic</string>
+    <string name="pref_sum_grids_off">Chord Grids will NOT be displayed</string>
+    <string name="pref_tit_text_size">Text Size</string>
+    <string name="pref_autoscroll">Auto scroll</string>
+    <string name="pref_turboscroll">Faster scrolling</string>
+    <string name="pref_sum_autoscroll_on">Songs will Auto scroll automatically when viewed</string>
+    <string name="pref_sum_autoscroll_off">Songs will not start with Autoscroll ON</string>
+    <string name="pref_sum_turboscroll_on">Faster Scrolling is ON</string>
+    <string name="pref_sum_turboscroll_off">Faster Scrolling is OFF</string>
+    <string name="pref_sum_adddashes_off">Dashes NOT added to words split by a chord</string>
+    <string name="pref_sum_adddashes_on">Dashes ARE added to words split by a chord</string>
+    <string name="pref_tit_adddashes">Add dashes to words split by a chord</string>
+    <string name="pref_sum_honourlfs_off">Empty lines are NOT displayed</string>
+    <string name="pref_sum_honourlfs_on">Empty lines are displayed</string>
+    <string name="pref_tit_honourlfs">Empty lines</string>
+    
+    <string name="pref_tit_scroll_delay">Scroll Delay in seconds</string>
+    <string name="pref_sum_scroll_delay">The delay in seconds before scrolling starts</string>
+    <string name="search_for">Song or Artist to search for</string>
+    <string name="only_chordie">Only Search on Chordie.com</string>
+    <string name="scanning">Scanning&#8230;</string>
+    <string name="add_songs">Add songs&#8230;</string>
+    <string name="done">Done</string>
+    <string name="already_in_set">is already in the SET.</string>
+    <string name="menu_delete_from_set">Delete from SET</string>
+    <string name="back_to_sets">Back to SETS</string>
+    <string name="set">SET</string>
+    <string name="set_deleted">SET Deleted</string>
+    <string name="failed_to_delete">Failed to delete</string>
+    <string name="pref_tit_chord_grid_instrument">Instrument</string>
+    <string name="song_browser_title">The Chordinator Song Browser</string>
+    <string name="banned_file">The Chordinator can\'t open this file</string>
+    <string name="up_to">Up to </string>
+    <string name="no_song">No Song Selected.</string>
+    <string name="web_url">www.bondevans.com/chordinator</string>
+    <string name="whats_new">What\'s new?</string>
+    <string name="select_set">Select the SET</string>
+    <string name="search_instruction">Instructions:\n1.Enter song and/or artist\n2.Follow google links\n3.App will grab chords if song found\n4.Confirm new file name</string>
+    <string name="search_instruction1">1.Enter song and/or artist</string>
+    <string name="search_instruction2">2.Follow google links</string>
+    <string name="search_instruction3">3.App will grab chopro</string>
+    <string name="search_instruction4">4.Confirm new file name</string>
+    <string name="searching">Searching&#8230;</string>
+    <string name="search_title">Chordinator Search</string>
+    <string name="pref_sum_chord_grid_instrument">The Instrument to show Chord Grids for</string>
+    <string name="pref_sum_colour_scheme">The Song Screen Color Scheme</string>
+    <string name="pref_sum_textsize">The text size on the Song Screen</string>
+    <string name="home">Home</string>
+
+    <string name="rename">Rename&#8230;</string>
+    <string name="rename_set">Rename SET&#8230;</string>
+    <string name="are_you_sure_delete_set">Are you sure you want to delete this SET?</string>
+    <string name="new_set_name">New SET Name</string>
+    <string name="rename_failed">Failed to Rename</string>
+
+    <string-array name="modes">
+        <item>Normal - Chords and Lyrics</item>
+        <item>Chords Only - Lyrics are not displayed</item>
+        <item>Lyrics Only - Chords are not displayed</item>
+    </string-array>
+
+    <string name="pref_tit_mode">Chord and Lyric Display</string>
+    <string name="pref_sum_mode">Whether to show Chords or Lyrics or Both</string>
+	<!-- v1.0 Aug -->
+	<string name="add_songs_to">Add Songs to</string>
+	<string name="export_settings">Export Settings</string>
+	<string name="import_settings">Import Settings</string>
+	<string name="settings_exported">Settings exported to</string>
+	<string name="settings_imported">Settings imported successfully</string>
+	<string name="export_failed">Export Failed</string>
+	<string name="import_failed">Cannot find settings file: </string>
+	<string name="song_too_big">Song too big - try reducing Text Size</string>
+	<string name="orig_trans">Revert to Original key</string>
+	<string name="chorus">Chorus</string>
+	<string name="import_set">Import Set</string>						
+	<string name="export_set">Export Set</string>						
+	<string name="exported_to">Exported to</string>						
+	<string name="imported">imported</string>						
+	<string name="added">Added</string>
+	<string name="songs">songs</string>
+	<string name="no_songs_found">No new songs found</string>
+
+	<string name="pref_sum_split_screen_on">Split screen will be used in Landscape</string>
+	<string name="pref_sum_split_screen_off">Split screen will NOT be used in Landscape</string>
+	<string name="pref_tit_split_screen">Split Screen in Landscape</string>
+	<string name="sendlog">Send Debug Log to developer</string>
+	<string name="start_grab">Start grab!</string>
+	<string name="stop_grab">Stop grabbing!</string>
+
+	<string name="trial_finished_title">Your Free Trial Has Expired</string>
+	<string name="trial_finished_text">I hope that you like the Augmented version of the Chordinator.  You can buy the full version from https://play.google.com/store/apps/details?id=com.bondevans.chordinator.aug</string>
+	<string name="promote_paid_app_text">If you like The Chordinator, please support the continued development of this app by paying a small amount for the Augmented version of the Chordinator</string>
+	<string name="promote_paid_app_title">Have you tried Chordinator Augmented?</string>
+	<string name="keywords">Keywords</string>
+	<string name="no_thanks">Maybe later</string>
+	<string name="no_network">No Internet connection available.</string>
+	<string name="search_hint">Search Songs</string>
+	<string name="files_scanned">"Files scanned: %s"</string>
+	<string name="songs_found">"New Songs found: %s"</string>
+	<string name="task_started_msg">Started</string>
+	<string name="task_cancelled_msg">Cancelled</string>
+	<string name="task_complete_msg">Complete</string>
+	<string name="start">Start Scan</string>
+	<string name="folder">Folder: </string>
+	<string name="file">File: </string>
+	<string name="print">Print&#8230;</string>
+
+</resources>

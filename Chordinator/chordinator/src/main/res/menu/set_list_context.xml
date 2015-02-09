@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="@string/edit_song" android:id="@+id/edit"></item>
+    <item android:title="@string/open" android:id="@+id/open"></item>
+    <item android:id="@+id/delete" android:title="@string/menu_delete_set"></item>
+    <item android:id="@+id/add_songs" android:title="@string/add_songs"></item>
+    <item android:id="@+id/rename" android:title="@string/rename"></item>
+    
+</menu>
