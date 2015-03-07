@@ -13,7 +13,9 @@ import android.net.Uri;
 
 import com.bondevans.chordinator.ChordinatorException;
 import com.bondevans.chordinator.Log;
+import com.bondevans.chordinator.R;
 import com.bondevans.chordinator.SongFile;
+import com.bondevans.chordinator.SongUtils;
 import com.bondevans.chordinator.utils.Ute;
 
 public class DBUtils {
@@ -77,6 +79,28 @@ public class DBUtils {
 				null,	// where clause
 				null);	// any args in the where clause
 	}
+
+	/**
+	 * Convenience method to update a Set song (set_order) in the DB
+	 * @param cr
+	 * @param authority
+	 * @param setId
+	 * @param songId
+	 * @param setOrder
+	 */
+	public static void updateSetSong(ContentResolver cr, String authority, long setId, long songId, int setOrder){
+		// This song already exists, so just update the last_access column
+		ContentValues values = new ContentValues();//Values to update
+		values.put(SongDB.COLUMN_SET_ORDER, setOrder);
+		String whereClause = SongDB.COLUMN_SONG_ID + "="+songId;
+
+		Log.d(TAG, "HELLO updateSetSong: ["+setId+"]["+songId+"]");
+		cr.update(Uri.withAppendedPath(DBUtils.SETITEM(authority), String.valueOf(setId)),
+				values, 	// Columns to update
+				whereClause,	// where clause
+				null);	// any args in the where clause
+	}
+
 	/**
 	 * DIRTY HACK!! replace any instance of "/mnt/sdcard/" with "/sdcard/" when either adding or looking up a song
 	 * 2.4.0 Not doing this any more
@@ -142,13 +166,37 @@ public class DBUtils {
 			ContentValues values = new ContentValues();
 			values.put(SongDB.COLUMN_SETLIST_ID, set_id);
 			values.put(SongDB.COLUMN_SONG_ID, song_id);
-			values.put(SongDB.COLUMN_SET_ORDER, 99);// TODO HARDCODED
+			values.put(SongDB.COLUMN_SET_ORDER, getMaxSetOrder(cr, authority, set_id)+1);// TODO HARDCODED
 			Log.d(TAG, "HELLO - adding song to SET");
 
 			cr.insert(SETITEM(authority), values);
 		}
 	}
 
+	public static int deleteSongFromSet(ContentResolver cr, String authority, long setId, long songId){
+		int rows = cr.delete(
+				Uri.withAppendedPath(DBUtils.SETITEM(authority), String.valueOf(setId)),
+				SongDB.COLUMN_SONG_ID + "="+songId, null);
+		return rows;
+	}
+
+	public static int getMaxSetOrder(ContentResolver cr, String authority, long set_id) {
+		int ret=-1;
+		String[] projection = new String [] {"MAX(set_order)"};
+		Cursor max = cr.query(Uri.withAppendedPath(SETITEM(authority), String.valueOf(set_id)), projection, null, null, null);
+		if (max.moveToFirst()) {
+			String m = max.getString(0);
+			Log.d(TAG, "HELLO - GOT MAX[" + m + "]");
+			max.close();
+			try{
+				ret = Integer.parseInt(m);
+			}
+			catch(NumberFormatException e){
+				// do nothing (ret = -1)
+			}
+		}
+		return ret;
+	}
 	public static int deleteSongByFile(ContentResolver cr, String authority, String filePath, String fileName){
 		String [] selectionArgs = new String [] {doMnt(filePath), fileName};
 

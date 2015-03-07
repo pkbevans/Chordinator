@@ -210,7 +210,8 @@ public class ChordinatorSongProvider extends ContentProvider {
 		    queryBuilder.appendWhere(where);
 			//	        queryBuilder.appendWhere(" AND (" + SongDB.TABLE_SETITEM + "." +
 			//	        		SongDB.COLUMN_SONG_ID+"="+SongDB.TABLE_SONG+"."+SongDB.COLUMN_ID+")");
-	        Log.d(TAG, "HELLO SETITEMS_FOR_SET ["+uri.getLastPathSegment()+"] tables["+queryBuilder.getTables()+"] where["+where+"]");
+	        Log.d(TAG, "HELLO SETITEMS_FOR_SET ["+uri.getLastPathSegment()+
+			        "] tables["+queryBuilder.getTables()+"] where["+where+"]");
 	        break;
 	    case SETITEM_ID:
 		    queryBuilder.setTables(SongDB.TABLE_SETITEM);
@@ -275,6 +276,21 @@ public class ChordinatorSongProvider extends ContentProvider {
 
             tableName = SongDB.TABLE_SETITEM;
             break;
+		case SETITEMS:
+			tableName = SongDB.TABLE_SETITEM;
+			modWhere = new StringBuilder(whereClause);
+			break;
+        case SETITEMS_FOR_SET:
+	        // Update setitems for given set
+	        tableName = SongDB.TABLE_SETITEM;
+	        id = uri.getLastPathSegment();
+	        modWhere = new StringBuilder(SongDB.COLUMN_SETLIST_ID
+			        + "=" + id);
+
+	        if (!TextUtils.isEmpty(whereClause)) {
+		        modWhere.append(" AND " + whereClause);
+	        }
+	        break;
         case SONGS:
             tableName = SongDB.TABLE_SONG;
             modWhere = new StringBuilder(whereClause);

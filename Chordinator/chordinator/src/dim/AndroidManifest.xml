@@ -106,16 +106,10 @@
         <activity android:name="com.bondevans.chordinator.setlist.SetSongListActivity" 
 			android:uiOptions="splitActionBarWhenNarrow" >
         </activity>
-        <activity android:name="com.bondevans.chordinator.setlist.AddSongsToSetActivity" >
-        </activity>
         <activity
             android:name="com.bondevans.chordinator.setlist.EditSetList"
             android:configChanges="orientation"
             android:label="@string/edit_setlist" >
-        </activity>
-        <activity
-            android:name="com.bondevans.chordinator.setlist.EditSetListActivity"
-            android:configChanges="orientation" >
         </activity>
         <activity android:name="com.bondevans.chordinator.asynctask.ScanSongsActivity" >
         </activity>

@@ -179,7 +179,7 @@ LoaderManager.LoaderCallbacks<Cursor> {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		Log.d(TAG, "HELLO onCreatView");
-		mContentView = inflater.inflate(R.layout.songlist_layout, null);
+		mContentView = inflater.inflate(R.layout.songlist_layout, container, false);
 		Log.d(TAG, "HELLO onCreatView2");
 		return mContentView;
 	}
@@ -581,7 +581,7 @@ LoaderManager.LoaderCallbacks<Cursor> {
 			// to findViewById() on each row.
 			ViewHolder holder;
 			if( convertView == null){
-				convertView = mInflater.inflate(R.layout.songlist_item, null);
+				convertView = mInflater.inflate(R.layout.songlist_item, parent, false);
 				// Creates a ViewHolder and store references to the child views
 				// we want to bind data to.
 				holder = new ViewHolder();

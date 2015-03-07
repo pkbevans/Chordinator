@@ -228,7 +228,7 @@ public class SongCanvas3 extends View {
 
 	/**
 	 *
-	 * @param height - requested height of bitmap
+	 * @param requestedHeight - requested height of bitmap
 	 * @returns actual height of bitmap
 	 */
 	private void createCanvas(int requestedHeight){
@@ -693,8 +693,8 @@ public class SongCanvas3 extends View {
 
 	/**
 	 * Adds dashes around given string to fill 2/3 of the width of the screen
-	 * @param Text
-	 * @return
+	 * @param text
+	 * @return text+dashes
 	 */
 	private String addDashes(String text){
 		if( text.length()>1){
@@ -1045,12 +1045,13 @@ public class SongCanvas3 extends View {
 	/**
 	 * Returns index into lyrics of longest set of complete words that will
 	 * fit in space. Returns -1 if no complete words will fit in.
+	 * REWRITTEN to perform better on long strings.
 	 *
 	 * @param lyrics
 	 * @param space
 	 * @return
 	 */
-	private int findLongestWordIndex(String lyrics, float space) {
+	private int findLongestWordIndexOld(String lyrics, float space) {
 		int i = 0;
 		while( i >= 0 && (mPaint.measureText(lyrics) > space)) {
 			// chop words off the end until the line will fit
@@ -1063,11 +1064,48 @@ public class SongCanvas3 extends View {
 	}
 
 	/**
+	 * Returns index into lyrics of longest set of complete words that will
+	 * fit in space. Returns -1 if no complete words will fit in.
+	 *
+	 * @param lyrics the lyrics
+	 * @param space available space
+	 * @return index index of longest set of words that will fit the given space
+	 */
+	private int findLongestWordIndex(String lyrics, float space) {
+//		Log.d(TAG, "findLongestWordIndex: ["+lyrics+"] space["+space+"]");
+		// split on spaces
+		String words[] = lyrics.split("\\s");
+		float len=0;
+		int index=0;
+		float spaceLen = mPaint.measureText(" ");
+		boolean first=true;
+
+		for( String word: words){
+			len += mPaint.measureText(word);
+			if(len>=space){
+				break;
+			}
+			len += spaceLen;
+			if(first){
+				first = false;
+			}
+			else{
+				index+=1;   // Add one for the space between words
+			}
+			// add words until the string is too long to fit in
+			index += word.length();
+		}
+		// Return index of longest word or 0 if no words fit
+//		Log.d(TAG, "findLongestWordIndex: ["+index+"] ["+lyrics.substring(0,index)+"]");
+		return index;
+	}
+
+	/**
 	 * Returns index into word of longest string that will fit in space.
 	 * Returns -1 if no chars will fit.
 	 *
-	 * @param lyrics
-	 * @param space
+	 * @param word text
+	 * @param space available space
 	 * @return
 	 */
 	private int findLongestStringIndex(String word, float space) {

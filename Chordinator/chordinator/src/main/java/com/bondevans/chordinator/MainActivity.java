@@ -29,6 +29,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
 import com.bondevans.chordinator.asynctask.ScanSongsActivity;
+import com.bondevans.chordinator.asynctask.SortOutFilePathsTask;
 import com.bondevans.chordinator.db.DBUtils;
 import com.bondevans.chordinator.dialogs.AddSetDialog;
 import com.bondevans.chordinator.dialogs.FirstRunFragment;
@@ -38,7 +39,6 @@ import com.bondevans.chordinator.dialogs.SetListDialog;
 import com.bondevans.chordinator.prefs.ChordinatorPrefs;
 import com.bondevans.chordinator.prefs.SongPrefs;
 import com.bondevans.chordinator.search.SearchCriteria;
-import com.bondevans.chordinator.setlist.AddSongsToSetActivity;
 import com.bondevans.chordinator.setlist.SetSongListActivity;
 import com.bondevans.chordinator.songlist.SongListFragment;
 import com.bondevans.chordinator.utils.Ute;
@@ -67,7 +67,6 @@ AddSetDialog.CreateSetListener
 	private static final int SEARCH_LOCAL_ID = Menu.FIRST + 25;
 
 	private static int mColourScheme;
-	private static int DARK=ColourScheme.DARK;
 	private static int LIGHT=ColourScheme.LIGHT;
 	private static final String TAG_SONGLIST = "TAG_SONGLIST";
 	public static final String TAG_SONGVIEWER = "TAG_SONGVIEWER";
@@ -89,7 +88,7 @@ AddSetDialog.CreateSetListener
 		super.onCreate(savedInstanceState);
 
 		// See if they want split screen mode in Landscape
-		int listPaneSize=0;
+		int listPaneSize;
 		if((listPaneSize = useSplitScreenMode())>0){
 			Log.d(TAG, "HELLO SPLIT SCREEN");
 			setContentView(R.layout.songlist_fragment);// This is the xml with all the different frags
@@ -217,7 +216,7 @@ AddSetDialog.CreateSetListener
 		
 		editor.putInt(SongPrefs.PREF_KEY_FIRSTRUN_VERSION, thisVersion);
 		editor.putBoolean(SongPrefs.PREF_KEY_FIRSTRUN, false);
-		editor.commit();
+		editor.apply(); // Use apply rather than commit to do it in background
 	}
 
 	private int useSplitScreenMode(){
@@ -249,8 +248,8 @@ AddSetDialog.CreateSetListener
 
 	/**
 	 * Adds song to SET selected in Dialog
-	 * @param setId
-	 * @param songId
+	 * @param setId Set ID
+	 * @param songId Song ID
 	 */
 	public void setNameClicked(long setId, long songId, String setName, String songName){
 		if(songId>0){
@@ -429,8 +428,10 @@ AddSetDialog.CreateSetListener
 	}
 	private void deleteSongs() {
 		Log.d(TAG, "HELLO deleteSongs");
-		int rows = getContentResolver().delete(DBUtils.SET(getString(R.string.authority)), null, null);
-		rows = getContentResolver().delete(DBUtils.SONG(getString(R.string.authority)), null, null);
+		// Delete all Sets
+		getContentResolver().delete(DBUtils.SET(getString(R.string.authority)), null, null);
+		// Delete all Songs
+		int rows = getContentResolver().delete(DBUtils.SONG(getString(R.string.authority)), null, null);
 		SongUtils.toast(this, rows+" Songs Deleted");
 	}
 	private void showHelp() {
@@ -497,24 +498,11 @@ AddSetDialog.CreateSetListener
 		}
 	}
 
-	public void addSongs(long setId, String setName) {
-		Intent myIntent = new Intent(this, AddSongsToSetActivity.class);
-		try {
-			// Put the SET iD in the intent
-			myIntent.putExtra(AddSongsToSetActivity.KEY_SETID, setId);
-			myIntent.putExtra(AddSongsToSetActivity.KEY_SETNAME, setName);
-			startActivity(myIntent);
-		}
-		catch (ActivityNotFoundException e) {
-			SongUtils.toast( this,e.getMessage());
-		}
-	}
-
 	private void setupActionBar(){
 		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 		getSupportActionBar().setDisplayShowTitleEnabled(false);
 		getSupportActionBar().setDisplayShowHomeEnabled(true);
-		getSupportActionBar().setLogo(mColourScheme == DARK? R.drawable.chordinator_aug_logo_dark_bkgrnd: R.drawable.chordinator_aug_logo_light_bkgrnd);
+		getSupportActionBar().setLogo(mColourScheme == LIGHT? R.drawable.chordinator_aug_logo_light_bkgrnd: R.drawable.chordinator_aug_logo_dark_bkgrnd);
 	}
 
 	@Override

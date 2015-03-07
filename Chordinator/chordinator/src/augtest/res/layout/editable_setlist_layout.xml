@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:gravity="center_horizontal"
+              android:orientation="vertical">
+
+    <com.mobeta.android.dslv.DragSortListView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:dslv="http://schemas.android.com/apk/com.bondevans.chordinator.augtest"
+        android:id="@android:id/list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:padding="3dp"
+        android:layout_margin="3dp"
+        android:dividerHeight="2dp"
+        dslv:drag_enabled="true"
+        dslv:collapsed_height="2dp"
+        dslv:drag_scroll_start="0.33"
+        dslv:max_drag_scroll_speed="0.5"
+        dslv:float_alpha="0.0"
+        dslv:slide_shuffle_speed="0.3"
+        dslv:track_drag_sort="false"
+        dslv:use_default_controller="false"/>
+
+    <TextView
+        android:id="@android:id/empty"
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1.0"
+        android:text="@string/empty_set"/>
+
+</LinearLayout>

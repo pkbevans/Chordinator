@@ -10,11 +10,10 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -39,7 +38,6 @@ import com.bondevans.chordinator.dialogs.LatestFragment;
 import com.bondevans.chordinator.dialogs.SetListDialog;
 import com.bondevans.chordinator.prefs.ChordinatorPrefs;
 import com.bondevans.chordinator.prefs.SongPrefs;
-import com.bondevans.chordinator.search.SearchCriteria;
 import com.bondevans.chordinator.songlist.SongListFragment;
 import com.bondevans.chordinator.utils.Ute;
 
@@ -48,7 +46,8 @@ implements SongListFragment.OnSongSelectedListener,
 SongViewerFragment.SongViewerListener, 
 SetListDialog.OnSetSelectedListener,
 AddSetDialog.CreateSetListener,
-DeleteRenameSetDialog.DeleteRenameSetListener
+DeleteRenameSetDialog.DeleteRenameSetListener,
+AddSongsToSetFragment.OnSongsAddedListener
 {
 	private static final String TAG = "SetSongListActivity";
 	private static final int SHOWHELP_ID = Menu.FIRST + 1;
@@ -57,23 +56,23 @@ DeleteRenameSetDialog.DeleteRenameSetListener
 	private static final int ADDSONGS_ID = Menu.FIRST + 7;
 	private static final int DELETESET_ID = Menu.FIRST + 8;
 	private static final int SHARESONG_ID = Menu.FIRST + 10;
-	private static final int SEARCH_INTERNET_ID = Menu.FIRST + 18;
 	private static final int ABOUT_ID = Menu.FIRST + 19;
 	private static final int EXPORTSET_ID = Menu.FIRST + 20;
-	private static final int EDITSET_ID = Menu.FIRST + 22;
 	private static final int RENAMESET_ID = Menu.FIRST + 23;
 	private static final int SEARCH_LOCAL_ID = Menu.FIRST + 25;
 	public static final String INTENT_SETID = "com.bondevans.chordinator.setId";
 	public static final String INTENT_SETNAME = "com.bondevans.chordinator.setName";
+//	public static final String SETLIST_KEY = "Setlist";
 
 	private static int mColourScheme;
 	public static int DARK=ColourScheme.DARK;
 	private static int LIGHT=ColourScheme.LIGHT;
 	private static final String TAG_SETSONGLIST = "TAG_SETSONGLIST";
+	private static final String TAG_ADDSETSONGLIST = "TAG_ADDSETSONGLIST";
 	public static final String TAG_SONGVIEWER = "TAG_SONGVIEWER";
 	public static final String KEY_SETID = "jsfrsth";
 	public static final String KEY_SETNAME = "ksfyggyh";
-	SetSongListFragment setSongListFragment;
+	EditSetListFragment mEditSetListFragment;
 	SongViewerFragment	songViewerFragment;
 	private long mSetId;
 	private String mSetName;
@@ -114,17 +113,17 @@ DeleteRenameSetDialog.DeleteRenameSetListener
 		}
 		else{
 			Log.d(TAG, "HELLO SPLIT SCREEN - NOT");
-			setContentView(R.layout.songlist_fragment_nosplit);// This is the xml with all the different frags
+			setContentView(R.layout.songlist_fragment_nosplit);// This is the xml with a single fragment
 		}
 		FragmentManager fm = getSupportFragmentManager();
-		if(null==(setSongListFragment = (SetSongListFragment) fm.findFragmentByTag(TAG_SETSONGLIST))){
+		if(null==(mEditSetListFragment = (EditSetListFragment) fm.findFragmentByTag(TAG_SETSONGLIST))){
 			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-			setSongListFragment = SetSongListFragment.newInstance(mSetId, mSetName);
-			ft.add(R.id.list_container, setSongListFragment, TAG_SETSONGLIST);
+			mEditSetListFragment = EditSetListFragment.newInstance(mSetId, mSetName);
+			ft.add(R.id.list_container, mEditSetListFragment, TAG_SETSONGLIST);
 			ft.commit();
 		}
 		else{
-			setSongListFragment.setSetId(mSetId, mSetName);
+			mEditSetListFragment.setSetId(mSetId, mSetName);
 		}
 		// Check to see if we have a frame in which to embed the songView
 		// fragment directly in the containing UI.
@@ -152,7 +151,7 @@ DeleteRenameSetDialog.DeleteRenameSetListener
 			@Override
 			public boolean onQueryTextChange(String newText) {
 				Log.d(TAG, "HELLO - onQueryTextChange1 ["+newText+"]");
-				setSongListFragment.setFilter(newText);
+				mEditSetListFragment.setFilter(newText);
 				return false;
 			}                                                  
 		});
@@ -193,17 +192,18 @@ DeleteRenameSetDialog.DeleteRenameSetListener
 			mSetName=setName;
 			// Instantiate a new instance of SetSongListFragment or replace existing one if already in place
 			FragmentManager fm = getSupportFragmentManager();
-			if(null==(setSongListFragment = (SetSongListFragment) fm.findFragmentByTag(TAG_SETSONGLIST))){
+			if(null==(mEditSetListFragment = (EditSetListFragment) fm.findFragmentByTag(TAG_SETSONGLIST))){
 				FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-				setSongListFragment = SetSongListFragment.newInstance(setId, setName);
+				mEditSetListFragment = EditSetListFragment.newInstance(setId, setName);
 				// Add the fragment to the activity, pushing this transaction on to the back stack.
-				ft.replace(R.id.list_container, setSongListFragment, TAG_SETSONGLIST);
+				ft.replace(R.id.list_container, mEditSetListFragment, TAG_SETSONGLIST);
 				ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 				ft.addToBackStack(null);
 				ft.commit();
 			}
 			else{
-				setSongListFragment.setSetId(setId, setName);
+				mEditSetListFragment.setSetId(setId, setName);
+				mEditSetListFragment.updateList();
 			}
 			setupActionBar();
 		}
@@ -255,7 +255,7 @@ DeleteRenameSetDialog.DeleteRenameSetListener
 			public boolean onMenuItemActionCollapse(MenuItem item) {
 				// Do something when collapsed
 				Log.d(TAG, "HELLO onMenuItemActionCollapse");
-				setSongListFragment.setFilter("");
+				mEditSetListFragment.setFilter("");
 				return true;  // Return true to collapse action view
 			}
 
@@ -266,10 +266,6 @@ DeleteRenameSetDialog.DeleteRenameSetListener
 			}
 		})
 		.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS| MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
-
-		menu.add(0,EDITSET_ID, 0, getString(R.string.edit_setlist))
-		.setIcon(mColourScheme == LIGHT ? R.drawable.ic_edit_setlist_light : R.drawable.ic_edit_setlist_dark)
-		.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);//|MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 
 		menu.add(0,ADDSONGS_ID, 0, getString(R.string.add_songs))
 		.setIcon(mColourScheme == LIGHT ? R.drawable.ic_add_songs_light : R.drawable.ic_add_songs_dark)
@@ -282,10 +278,6 @@ DeleteRenameSetDialog.DeleteRenameSetListener
 		menu.add(0,EXPORTSET_ID, 0, getString(R.string.export_set));
 
 		menu.add(0,RENAMESET_ID, 0, getString(R.string.rename_set));
-
-		menu.add(0,SEARCH_INTERNET_ID, 0, getString(R.string.search_songs))
-		.setIcon(mColourScheme == LIGHT ? R.drawable.ic_download_light:R.drawable.ic_download_dark)
-		.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);//|MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 
 		menu.add(0, PREFERENCES_ID, 0, getString(R.string.set_options))
 		.setIcon(R.drawable.ic_menu_preferences);
@@ -329,14 +321,8 @@ DeleteRenameSetDialog.DeleteRenameSetListener
 		case DELETESET_ID:
 			deleteSet(mSetId, mSetName);
 			break;
-		case EDITSET_ID:
-			editSet(mSetId, mSetName);
-			break;
 		case SHARESONG_ID:
 			songViewerFragment.shareSong();
-			break;
-		case SEARCH_INTERNET_ID:
-			searchInternetForSongs();
 			break;
 		case ABOUT_ID:
 			showAbout();
@@ -414,17 +400,19 @@ DeleteRenameSetDialog.DeleteRenameSetListener
 		}
 	}
 
-	public void addSongs(long setId, String setName) {
-		Intent myIntent = new Intent(this, AddSongsToSetActivity.class);
-		try {
-			// Put the SET iD in the intent
-			myIntent.putExtra(AddSongsToSetActivity.KEY_SETID, setId);
-			myIntent.putExtra(AddSongsToSetActivity.KEY_SETNAME, setName);
-			startActivity(myIntent);
-		}
-		catch (ActivityNotFoundException e) {
-			SongUtils.toast( this,e.getMessage());
-		}
+	/**
+	 * Start new fragment to add songs to the set
+	 * @param setId
+	 * @param setName
+	 */
+	public void addSongs(long setId, String setName){
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		AddSongsToSetFragment addSongsToSetFragment = AddSongsToSetFragment.newInstance(mSetId, mSetName);
+		// Add the fragment to the activity, pushing this transaction on to the back stack.
+		ft.replace(R.id.list_container, addSongsToSetFragment, TAG_ADDSETSONGLIST);
+		ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+		ft.addToBackStack(null);
+		ft.commit();
 	}
 
 	public void deleteSetFromDB(long set_id, String setName) {
@@ -474,31 +462,6 @@ DeleteRenameSetDialog.DeleteRenameSetListener
 		super.onSaveInstanceState(outState);
 	}
 
-	@Override
-	/*
-	 * Handle non-menu keyboard events
-	 */
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		Log.d(TAG, "HELLO - onKeyDown");
-		switch (keyCode) {
-		case KeyEvent.KEYCODE_BACK:
-			Log.d(TAG, "HELLO - BACK PRESSED");
-			finish();
-			return true;
-		}
-		return false;
-	}
-
-	private void searchInternetForSongs(){
-		Log.d(TAG, "SearchForSongs");
-		Intent myIntent = new Intent(this, SearchCriteria.class);
-		try {
-			startActivity(myIntent);
-		} catch (ActivityNotFoundException e) {
-			SongUtils.toast(this, "SearchCriteria not found");
-		}
-	}
-
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
 	 */
@@ -519,20 +482,7 @@ DeleteRenameSetDialog.DeleteRenameSetListener
 			Log.d(TAG, "HELLO onActivityResult");
 		}
 	}
-	private void editSet(long set_id, String setName) {
-		// Open the file with the EditSetList Activity
-		Intent myIntent = new Intent(this, EditSetListActivity.class);
-		try {
-			// Put the set ID in the intent
-			myIntent.putExtra(EditSetListActivity.SET_ID, set_id);
-			myIntent.putExtra(EditSetListActivity.SET_NAME, setName);
-			startActivity(myIntent);
-		} 
-		catch (ActivityNotFoundException e) {
-			SongUtils.toast( this,e.getMessage());
-		}
 
-	}
 	@Override
 	public void nextSong() {
 		// NOT applicable in Landscape
@@ -553,5 +503,18 @@ DeleteRenameSetDialog.DeleteRenameSetListener
 	@Override
 	public void createBrowserSet(String setName, String songName) {
 		// Not used.
+	}
+
+	@Override
+	public void songsAdded() {
+		Log.d(TAG, "songsAdded");
+		if(mEditSetListFragment == null){
+			Log.d(TAG, "songsAdded2");
+			mEditSetListFragment = (EditSetListFragment) getSupportFragmentManager().findFragmentByTag(TAG_SETSONGLIST);
+		}
+		if (mEditSetListFragment!= null ){
+			Log.d(TAG, "songsAdded3");
+			mEditSetListFragment.setLoaded(false);
+		}
 	}
 }

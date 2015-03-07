@@ -171,7 +171,7 @@ public class SongBrowserFragment extends ListFragment
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		mContentView = inflater.inflate(R.layout.songbrowser_layout, null);
+		mContentView = inflater.inflate(R.layout.songbrowser_layout, container, false);
 		mCurrentFolder = (TextView)mContentView.findViewById(R.id.currentFolder);
 		Log.d(TAG, "HELLO onCreatView");
 		return mContentView;
@@ -264,7 +264,8 @@ public class SongBrowserFragment extends ListFragment
 	/**
 	 * fill
 	 * lists all files and folders in a given directory
-	 * @param files
+	 * @param folder
+	 * @param nameFilter
 	 */
 	private void listFilesinFolder(File folder, String nameFilter) {
 		directoryEntries.clear();

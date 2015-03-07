@@ -3,10 +3,9 @@ package com.bondevans.chordinator.setlist;
 import java.util.ArrayList;
 import java.util.List;
 
-//import android.app.Activity;
+import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
-//import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
@@ -39,12 +38,40 @@ LoaderManager.LoaderCallbacks<Cursor> {
 	private static final String TAG = "AddSongsToSetFragment";
 	private static final int SONG_LIST_LOADER = 0x01;
 	private SongCursorAdapter adapter;
-	static class Songs{
+	private OnSongsAddedListener onSongsAddedListener;
+	private boolean mConfigChangeInProgress=false;
+	private long mSetId;
+	private String mSetName;
+
+	static class CheckedSetSong extends SetSong{
 		boolean selected;
-		long	songId;
-		String	title;
+
+		public CheckedSetSong(){
+			super(0,"","","","",0);
+			selected = false;
+		}
+		public CheckedSetSong(boolean selected, long id, String title, String artist, String composer, String filePath, int setOrder) {
+			super(id, title, artist, composer, filePath, setOrder);
+			this.selected = selected;
+		}
 	}
-	static List<Songs> checked = new ArrayList<Songs>();
+
+	static List<CheckedSetSong> checked = new ArrayList<CheckedSetSong>();
+
+	public interface OnSongsAddedListener {
+		public void songsAdded();
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		try {
+			onSongsAddedListener = (OnSongsAddedListener) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString()
+					+ " must implement OnSongsAddedListener");
+		}
+	}
 
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.Fragment#onActivityCreated(android.os.Bundle)
@@ -62,9 +89,15 @@ LoaderManager.LoaderCallbacks<Cursor> {
 	 * Create a new instance of MyFragment that will be initialized
 	 * with the given arguments.
 	 */
-	static AddSongsToSetFragment newInstance(int mode) {
+	static AddSongsToSetFragment newInstance(long setId, String setName) {
 		AddSongsToSetFragment f = new AddSongsToSetFragment();
 		Log.d(TAG, "HELLO newInstance");
+
+		Bundle args = new Bundle();
+		args.putLong(SetSongListActivity.KEY_SETID, setId);
+		args.putString(SetSongListActivity.KEY_SETNAME, setName);
+		f.setArguments(args);
+
 		return f;
 	}
 
@@ -73,7 +106,14 @@ LoaderManager.LoaderCallbacks<Cursor> {
 		super.onCreate(savedInstanceState);
 
 		Log.d(TAG, "HELLO onCreate");
-		
+
+		Bundle args = getArguments();
+		if(args!=null){
+			mSetId = args.getLong(SetSongListActivity.KEY_SETID);
+			mSetName = args.getString(SetSongListActivity.KEY_SETNAME);
+			Log.d(TAG, "HELLO onCreate - setId["+mSetId+"] setname["+mSetName+"]");
+		}
+
 		if(savedInstanceState==null){
 			Log.d(TAG, "HELLO savedInstanceState ==null");
 			// Reset checked arraylist
@@ -102,7 +142,7 @@ LoaderManager.LoaderCallbacks<Cursor> {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		mContentView = inflater.inflate(R.layout.add_song_to_set_layout, null);
-		Log.d(TAG, "onCreatView ");
+		Log.d(TAG, "onCreateView ");
 		return mContentView;
 	}
 	@Override
@@ -142,12 +182,17 @@ LoaderManager.LoaderCallbacks<Cursor> {
 	}
 	
 	public void addSongsToSet(long setId){
+		boolean listenerUpdated=false;
 		Log.d(TAG, "HELLO addSongsToSet ["+setId+"]");
 		for(int i=0; i< checked.size(); i++){
 //			Log.d(TAG, "HELLO pos["+i+"] title["+checked.get(i).title+"]["+(checked.get(i).selected?"ON":"OFF")+"]");
 			if(checked.get(i).selected){
 				try {
-					DBUtils.addSongToSet(getActivity().getContentResolver(), getString(R.string.authority), setId, checked.get(i).songId);
+					DBUtils.addSongToSet(getActivity().getContentResolver(), getString(R.string.authority), setId, checked.get(i).id);
+					if(!listenerUpdated){
+						onSongsAddedListener.songsAdded();
+						listenerUpdated=true;
+					}
 				} catch (ChordinatorException e) {
 					// Song already exists
 					SongUtils.toast(getActivity(), checked.get(i).title + " "+ getString(R.string.already_in_set));
@@ -188,7 +233,7 @@ LoaderManager.LoaderCallbacks<Cursor> {
 			// Have we got an entry for this position - if not add
 			while(checked.size()<=pos){
 				// add entry to array
-				checked.add(new Songs());
+				checked.add(new CheckedSetSong());
 			}
 			// A ViewHolder keeps references to children views to avoid unnecessary calls
             // to findViewById() on each row.
@@ -209,8 +254,8 @@ LoaderManager.LoaderCallbacks<Cursor> {
 					@Override
 					public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 						Log.d(TAG,"HELLO onCheckedChanged ["+(isChecked?"ON":"OFF")+"] title=["+holder.title.getText()+"]");
-						Songs song = new Songs();
-						song.songId = holder.songId;
+						CheckedSetSong song = new CheckedSetSong();
+						song.id = holder.songId;
 						song.title = (String) holder.title.getText();
 						song.selected = isChecked;
 						checked.set(holder.pos, song);
@@ -249,5 +294,41 @@ LoaderManager.LoaderCallbacks<Cursor> {
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		Log.d(TAG, "HELLO onListItemClicked");
+	}
+
+	@Override
+	public void onDestroyView() {
+		Log.d(TAG, "onDestroyView");
+		if(!mConfigChangeInProgress){
+			// Back button pressed so, update set songs
+			Log.d(TAG, "BACK");
+			addSongsToSet(mSetId);
+		}
+		super.onDestroyView();
+	}
+
+	@Override
+	public void onPause() {
+		Log.d(TAG, "onPause");
+		super.onPause();
+	}
+
+	@Override
+	public void onStop() {
+		Log.d(TAG, "onStop");
+		super.onStop();
+	}
+
+	@Override
+	public void onDestroy() {
+		Log.d(TAG, "onDestroy");
+		super.onDestroy();
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		mConfigChangeInProgress = true;
+		Log.d(TAG, "onSaveInstanceState");
 	}
 }

@@ -1,0 +1,23 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 19
+    buildToolsVersion "19.1.0"
+//    project.archivesBaseName = "drag-sort-listview"
+//    project.version = android.defaultConfig.versionName
+}
+
+dependencies {
+    compile 'com.android.support:support-v4:19.0.+'
+}
+
+buildscript {
+    repositories {
+//        mavenCentral()
+    }
+
+    dependencies {
+//        classpath 'com.android.tools.build:gradle:1.0.1'
+    }
+}
+

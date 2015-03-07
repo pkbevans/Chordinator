@@ -2,49 +2,113 @@ package com.bondevans.chordinator.setlist;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
-import android.content.ActivityNotFoundException;
-import android.content.Intent;
-import android.content.res.Configuration;
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 
+import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.actionbarsherlock.app.SherlockListFragment;
 import com.bondevans.chordinator.Log;
 import com.bondevans.chordinator.SongUtils;
 import com.bondevans.chordinator.R;
-import com.commonsware.cwac.tlv.TouchListView;
+import com.bondevans.chordinator.db.DBUtils;
+import com.bondevans.chordinator.songlist.SongListFragment;
+import com.mobeta.android.dslv.DragSortController;
+import com.mobeta.android.dslv.DragSortListView;
 
-public class EditSetListFragment extends SherlockListFragment {
-	private final static String TAG = "EditSetListActivity";
-	public final static String 	SET_ID = "set_id";
-	public final static String 	SET_NAME = "set_name";
-	private static final int 	REQUEST_ADDSONGS = 0;
-	private boolean 			loaded = false;
-	public	SetList2 			setList;
-	private IconicAdapter 		adapter=null;
-	private List<String> 		songs = new ArrayList<String>();
-	private long 				mSetId;
-	private String				mSetName;
-	private View 				mContentView;
+public class EditSetListFragment extends ListFragment {
+	private final static String TAG = "EditSetListFragment";
+	private boolean mLoaded = false;
+	public SetList2 mSetList;
+	private long mSetId;
+	private String mSetName;
+	private SetSongAdapter mAdapter;
+	private SongListFragment.OnSongSelectedListener songSelectedListener;
+
+	private final DragSortListView.DropListener mDropListener =
+			new DragSortListView.DropListener() {
+				@Override
+				public void drop(int from, int to) {
+					if (from != to) {
+						Log.d(TAG, "HELLO drop [" + from + "][" + to + "]");
+						// Swap list items in adapter
+						SetSong item = mAdapter.getItem(from);
+						mAdapter.remove(item);
+						mAdapter.insert(item, to);
+						// also swap items in SetList2
+						mSetList.moveSong(from, to);
+						// Swap in the DB too
+						doSwap(from, to);
+					}
+				}
+			};
+
+	private final DragSortListView.RemoveListener mRemoveListener =
+			new DragSortListView.RemoveListener() {
+				@Override
+				public void remove(int which) {
+					Log.d(TAG, "HELLO remove[" + which + "]");
+					// remove item from list
+					SetSong song = mAdapter.getItem(which);
+					mAdapter.remove(song);
+					// also remove it from the SetList2
+					mSetList.removeSong(which);
+					// Delete from DB
+					doDelete(mSetId, song.id);
+				}
+			};
+	private String mFilter="";
+
+	public static EditSetListFragment newInstance(long setId, String setName) {
+		EditSetListFragment f = new EditSetListFragment();
+
+		Bundle args = new Bundle();
+		args.putLong(SetSongListActivity.KEY_SETID, setId);
+		args.putString(SetSongListActivity.KEY_SETNAME, setName);
+		f.setArguments(args);
+
+		return f;
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstance) {
-		Log.d(TAG, "HELLO onCreate - loaded["+(loaded?"TRUE":"FALSE")+"]");
+		Log.d(TAG, "HELLO onCreate - mLoaded[" + (mLoaded ? "TRUE" : "FALSE") + "]");
 		super.onCreate(savedInstance);
+
+		Bundle args = getArguments();
+		if (args != null) {
+			mSetId = args.getLong(SetSongListActivity.KEY_SETID);
+			mSetName = args.getString(SetSongListActivity.KEY_SETNAME);
+			Log.d(TAG, "HELLO onCreate - setId[" + mSetId + "] setname[" + mSetName + "]");
+		}
+		setRetainInstance(true);
 	}
 
-	/* (non-Javadoc)
-	 * @see android.support.v4.app.ListFragment#onViewCreated(android.view.View, android.os.Bundle)
+	/**
+	 * Called from DSLVFragment.onActivityCreated(). Override to
+	 * set a different mAdapter.
 	 */
-	@Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
-		super.onViewCreated(view, savedInstanceState);
+	protected void setListAdapter(String filter) {
+		List<SetSong> array;
+		if(!filter.isEmpty()){
+			array = mSetList.getFilteredSongs(filter);
+		}
+		else {
+			array = mSetList.getSongs();
+		}
+		List<SetSong> list = new ArrayList<SetSong>(array);
+
+		mAdapter = new SetSongAdapter(getActivity(), R.layout.edit_setlist_item, R.id.title, list);
+		setListAdapter(mAdapter);
 	}
 
 	/* (non-Javadoc)
@@ -52,121 +116,213 @@ public class EditSetListFragment extends SherlockListFragment {
 	 */
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
-		TouchListView tlv=(TouchListView)getListView();
+		DragSortListView dslv;
+		super.onActivityCreated(savedInstanceState);
+		Log.d(TAG, "HELLO onActivityCreated - mLoaded[" + (mLoaded ? "TRUE" : "FALSE") + "]");
 
-		if(!loaded){
+		dslv = (DragSortListView) getListView();
+		DragSortController controller = buildController(dslv);
+		dslv.setFloatViewManager(controller);
+		dslv.setOnTouchListener(controller);
+		dslv.setDragEnabled(true);
+
+		dslv.setDropListener(mDropListener);
+		dslv.setRemoveListener(mRemoveListener);
+
+		if (!mLoaded) {
 			// Get the ID and name of the chosen setlist from the Intent
 			loadSongs();
 		}
 
-		adapter=new IconicAdapter(songs);
-		setListAdapter(adapter);
+		setListAdapter(mFilter);
+		mAdapter = (SetSongAdapter) getListAdapter();
 
-		tlv.setDropListener(onDrop);
-		tlv.setRemoveListener(onRemove);
-		super.onActivityCreated(savedInstanceState);
+		dslv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View v, int position,
+			                        long id) {
+				SetSong song = mAdapter.getItem(position);
+				songSelectedListener.onSongSelected(song.id, song.filePath);
+
+			}
+		});
+		dslv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+			@Override
+			public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2,
+			                               long arg3) {
+				return true;
+			}
+		});
 	}
 
-	public void setSet(long setId, String setName){
-		mSetId = setId;
-		mSetName = setName;
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		try {
+			songSelectedListener = (SongListFragment.OnSongSelectedListener) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString()
+					+ " must implement OnSongSelectedListener");
+		}
 	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		Log.d(TAG, "HELLO onCreatView ["+mSetName+"]");
-		
-		mContentView = inflater.inflate(R.layout.edit_set_layout, null);
-		return mContentView;
+	                         Bundle savedInstanceState) {
+		Log.d(TAG, "onCreateView [" + mSetName + "]");
+
+		return inflater.inflate(R.layout.editable_setlist_layout, container, false);
 	}
 
-	public void loadSongs(){
+	/**
+	 * Called in onCreateView. Override this to provide a custom
+	 * DragSortController.
+	 */
+	protected DragSortController buildController(DragSortListView dslv) {
+		// defaults are
+		//   dragStartMode = onDown
+		//   removeMode = flingRight
+		DragSortController controller = new DragSortController(dslv);
+		controller.setDragHandleId(R.id.drag_handle);
+		controller.setClickRemoveId(R.id.click_remove);
+		controller.setRemoveEnabled(true);
+		controller.setSortEnabled(true);
+		controller.setDragInitMode(DragSortController.ON_LONG_PRESS);
+		controller.setRemoveMode(DragSortController.FLING_REMOVE);
+		return controller;
+	}
+
+	public void setSetId(long setId, String setName) {
+		mSetId = setId;
+		mSetName = setName;
+//		loadSongs();
+	}
+
+	/**
+	 *
+	 *
+	 * @param filter
+	 */
+	public void setFilter(String filter) {
+		mFilter = filter;
+		setListAdapter(mFilter);
+		mFilter="";
+	}
+
+	private void loadSongs() {
 		Log.d(TAG, "loadSongs");
-		// Create a SetList from the file and load up into listView
+		// Create a SetList from the DB and load up into listView
 		try {
-			setList = new SetList2(getActivity().getContentResolver(), getString(R.string.authority), mSetId);
+			mSetList = new SetList2(getActivity().getContentResolver(), getString(R.string.authority), mSetId);
 		} catch (Exception e) {
-			SongUtils.toast(getActivity(), "Can't open set list: "+ mSetId);
+			SongUtils.toast(getActivity(), "Can't open set list: " + mSetId);
 			e.printStackTrace();
 			return;
 		}
-		songs.clear();
-		try {
-			for( int i=0;i< setList.size();i++){
-				songs.add(setList.getNextTitle());
-			}
-		} catch (Exception e) {
-			// Ignore errors 
-			Log.d(TAG, "EOF - songs.size()="+songs.size());
-		}
+		mLoaded = true;
 		getListView().invalidateViews();
 	}
 
+	public void updateList() {
+		loadSongs();
+		setListAdapter(mFilter);
+	}
 
-	private TouchListView.DropListener onDrop=new TouchListView.DropListener() {
+//	private List<SetSong> getSetSongs() {
+//		return mAdapter.getSetSongs();
+//	}
+
+//	private boolean setUpdated() {
+//		return mSetList.isUpdated();
+//	}
+
+	static class SetSongAdapter extends ArrayAdapter<SetSong> {
+
+		private final LayoutInflater mInflater;
+		private String songFilter="";
+
+		public SetSongAdapter(Context context, int resource, int textViewResourceId, List<SetSong> objects) {
+			super(context, resource, textViewResourceId, objects);
+			mInflater = LayoutInflater.from(context);
+		}
+
+		public List<SetSong> getSetSongs() {
+			List<SetSong> l = new ArrayList<SetSong>();
+			for (int i = 0; i < getCount(); i++) {
+				Log.d(TAG, "HELLO : " + getItem(i));
+				l.add(getItem(i));
+			}
+			return l;
+		}
+
+		/* (non-Javadoc)
+		 * @see android.widget.CursorAdapter#getView(int, android.view.View, android.view.ViewGroup)
+        */
 		@Override
-		public void drop(int from, int to) {
-			String item=adapter.getItem(from);
+		public View getView(int pos, View convertView, ViewGroup parent) {
+			SetSong song = getItem(pos);
+			// A ViewHolder keeps references to children views to avoid unnecessary calls
+			// to findViewById() on each row.
+			ViewHolder holder;
+			if (convertView == null) {
+				convertView = mInflater.inflate(R.layout.edit_setlist_item, parent, false);
+				// Creates a ViewHolder and store references to the child views
+				// we want to bind data to.
+				holder = new ViewHolder();
+				holder.title = (TextView) convertView.findViewById(R.id.title);
+				holder.artist = (TextView) convertView.findViewById(R.id.artist);
+				holder.composer = (TextView) convertView.findViewById(R.id.composer);
 
-			adapter.remove(item);
-			adapter.insert(item, to);
-			setList.moveSong(from, to);
-		}
-	};
-
-	private TouchListView.RemoveListener onRemove=new TouchListView.RemoveListener() {
-		@Override
-		public void remove(int which) {
-			Log.d(TAG, "HELLO remove1");
-			adapter.remove(adapter.getItem(which));
-			Log.d(TAG, "HELLO remove2");
-			setList.removeSong(which);
-			Log.d(TAG, "HELLO remove3");
-		}
-	};
-
-	class IconicAdapter extends ArrayAdapter<String> {
-		IconicAdapter(List<String> songs) {
-			super(getActivity(), R.layout.edit_set_item, songs);
-		}
-
-		public View getView(int position, View convertView,
-				ViewGroup parent) {
-			View row=convertView;
-
-			if (row==null) {													
-				LayoutInflater inflater=LayoutInflater.from(getActivity());;
-				row=inflater.inflate(R.layout.edit_set_item, parent, false);
+				convertView.setTag(holder);
+//				Log.d(TAG,"HELLO inflating v");
+			} else {
+				// Get the ViewHolder back to get fast access to the TextView
+				// and the ImageView.
+				holder = (ViewHolder) convertView.getTag();
 			}
 
-			TextView label=(TextView)row.findViewById(R.id.label);
-			label.setText(songs.get(position));
+			holder.title.setText(song.title);
+			holder.artist.setText(song.artist);
+			String composer = song.composer;
+			if (!composer.equals("")) {
+				holder.composer.setText("(" + composer + ")");
+			} else {
+				holder.composer.setText("");
+			}
 
-			return(row);
+			return convertView;
+		}
+
+		static class ViewHolder {
+			TextView title;
+			TextView artist;
+			TextView composer;
+		}
+
+	}
+
+	public void setLoaded(boolean loaded) {
+		this.mLoaded = loaded;
+	}
+
+	private void doDelete(long setId, long songId) {
+		int rows = DBUtils.deleteSongFromSet(getActivity().getContentResolver(),
+				getString(R.string.authority), setId, songId);
+		if (rows != 1) {
+			SongUtils.toast(getActivity(), "Failed to Delete - songId=" + songId);
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see android.app.Activity#onConfigurationChanged(android.content.res.Configuration)
-	 */
-	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-		Log.d(TAG, "onConfigurationChanged");
-		loaded = true;
-		super.onConfigurationChanged(newConfig);
-	}
-
-
-	public void addSongs(long setId, String setName) {
-		Intent myIntent = new Intent(getActivity(), AddSongsToSetActivity.class);
-		try {
-			// Put the SET iD in the intent
-			myIntent.putExtra(AddSongsToSetActivity.KEY_SETID, setId);
-			myIntent.putExtra(AddSongsToSetActivity.KEY_SETNAME, setName);
-			startActivityForResult(myIntent, REQUEST_ADDSONGS);
-		}
-		catch (ActivityNotFoundException e) {
-			SongUtils.toast( getActivity(),e.getMessage());
+	private void doSwap(int pos1, int pos2) {
+		SetSong song;
+		// Update the set_order for all set songs between position from and position to
+		int from = pos1 < pos2 ? pos1 : pos2;
+		int to = pos1 < pos2 ? pos2 : pos1;
+		for (int index = from; index <= to; index++) {
+			song = mAdapter.getItem(index);
+			Log.d(TAG, "HELLO - Updating " + song.title + " set_order to " + index);
+			// Update the song at position index - set_order = index
+			DBUtils.updateSetSong(getActivity().getContentResolver(), getString(R.string.authority), mSetId, song.id, index);
 		}
 	}
 }

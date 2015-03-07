@@ -1,4 +1,4 @@
-package com.bondevans.chordinator;
+package com.bondevans.chordinator.asynctask;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -6,6 +6,9 @@ import android.os.AsyncTask;
 import android.os.Environment;
 
 
+import com.bondevans.chordinator.ChordinatorException;
+import com.bondevans.chordinator.Log;
+import com.bondevans.chordinator.R;
 import com.bondevans.chordinator.db.DBUtils;
 
 public class SortOutFilePathsTask extends AsyncTask<String, Void, String> {
@@ -36,11 +39,11 @@ public class SortOutFilePathsTask extends AsyncTask<String, Void, String> {
 	}
 
 	void sortOutFileNames(String authority) {
-		Log.d(TAG, "Updating song paths for ["+authority+"] to ["+Environment.getExternalStorageDirectory().getPath()+"]");
+		Log.d(TAG, "Updating song paths for [" + authority + "] to [" + Environment.getExternalStorageDirectory().getPath() + "]");
 		try {
 			DBUtils.updateSongPaths(mContext.getContentResolver(), 
 					authority, 
-					mContext.getString(R.string.sdcard), 
+					mContext.getString(R.string.sdcard),
 					Environment.getExternalStorageDirectory().getPath());
 		} catch (ChordinatorException e) {
 			e.printStackTrace();
