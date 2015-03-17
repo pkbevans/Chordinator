@@ -211,7 +211,7 @@ public class SongCanvas3 extends View {
 			}
 		}
 		else{
-			Log.d(TAG,"HELLO onDraw4: [" + mSongHeight + "]");
+//			Log.d(TAG,"HELLO onDraw4: [" + mSongHeight + "]");
 			// Copy from the bitmap to the actual screen
 			if(mBitmap != null){
 				if(!gReal.getClipBounds(mRect)){
@@ -227,9 +227,8 @@ public class SongCanvas3 extends View {
 	}
 
 	/**
-	 *
+	 * Create a Canvas of the given height
 	 * @param requestedHeight - requested height of bitmap
-	 * @returns actual height of bitmap
 	 */
 	private void createCanvas(int requestedHeight){
 		Log.d(TAG,"HELLO createCanvas: [" + requestedHeight + "]");
@@ -305,9 +304,9 @@ public class SongCanvas3 extends View {
 	}
 
 	/**
-	 * Paints Song
+	 * Paints Song to given canvas
 	 *
-	 * @param g
+	 * @param g Canvas
 	 */
 	private void paintSong(Canvas g) {
 		int start, end;
@@ -326,7 +325,7 @@ public class SongCanvas3 extends View {
 		StringBuilder cs = new StringBuilder(theSong.getSongText());
 
 		int i=0;
-		String text="";
+		String text;
 		// Loop thru songtext...
 		while( i<cs.length()) {
 			switch (cs.charAt(i)) {
@@ -488,7 +487,7 @@ public class SongCanvas3 extends View {
 							 && cs.charAt(j) != '{'&& cs.charAt(j) != '\n') {
 						 ++j;
 					 }
-					 end = j++;
+					 end = j;
 					 String wordAfterChord = cs.substring(start, end);
 
 					 if(MODE_LYRICS_ONLY != mMode){
@@ -558,7 +557,7 @@ public class SongCanvas3 extends View {
 
 	/**
 	 * 
-	 * @param song
+	 * @param song the song
 	 * @return length of tab - including the {sot}/{eot}/{start_of_tab}/{end_of_tab}
 	 */
 	private int getTab(String song) {
@@ -693,7 +692,7 @@ public class SongCanvas3 extends View {
 
 	/**
 	 * Adds dashes around given string to fill 2/3 of the width of the screen
-	 * @param text
+	 * @param text text to add dashes to
 	 * @return text+dashes
 	 */
 	private String addDashes(String text){
@@ -713,7 +712,7 @@ public class SongCanvas3 extends View {
 	/**
 	 * paintTitle
 	 *
-	 * @param g
+	 * @param g Canvas
 	 */
 	private void paintTitle(Canvas g) {
 		if (titleRequired) {
@@ -811,9 +810,8 @@ public class SongCanvas3 extends View {
 			// Work out how many grids to put on this line
 			int ctl = x > maxChords ? maxChords : x;
 			// Work out x coord to start at
-			int startX = (int) ((getWidth() - (ctl * sw)) / 2);
+			int gridX = (int) ((getWidth() - (ctl * sw)) / 2);
 			// draw the grids
-			int gridX = startX;
 			for (int z = ctl; z > 0; z--, currChord++) {
 				cgp.drawShape(g, Transpose.chord(chords.get(currChord), transposeBy), gridX, gridY);
 				gridX += cgp.getShapeWidth();
@@ -899,9 +897,9 @@ public class SongCanvas3 extends View {
 	 * Paints chord symbols on the chord line above the appropriate lyrics.
 	 * This method requires chordY to be set correctly.
 	 *
-	 * @param g
-	 * @param chord
-	 * @param wordAfterChord
+	 * @param g Canvas
+	 * @param chord Chord to paint
+	 * @param wordAfterChord lyrics after the chord
 	 */
 	private void paintChords(Canvas g, String chord, String wordAfterChord) {
 		mPaint.setColor(col.chords());
@@ -939,13 +937,12 @@ public class SongCanvas3 extends View {
 	}
 
 	/**
-	 * Remove any spaces from String
-	 * @param in
-	 * @return
+	 * Remove any spaces from given String
+	 * @param in String
+	 * @return String
 	 */
 	private String removeSpaces(String in){
-		String out=in.replaceAll(" ", "");
-		return out;
+		return in.replaceAll(" ", "");
 	}
 	private void paintLyrics(Canvas g, String text, String textAfterChord, String chord) {
 		if (mIgnoreSpaces && text.trim().equalsIgnoreCase("")) {
@@ -961,7 +958,7 @@ public class SongCanvas3 extends View {
 		}
 		// X COORD - Make sure that we've got room on the line. If not work out
 		// how much we can fit on the line.
-		String tmp = "";
+		String tmp;
 		if(mPaint.measureText(textAfterChord) > mPaint.measureText(chord)){
 			tmp = text + textAfterChord;
 		}
@@ -1047,9 +1044,9 @@ public class SongCanvas3 extends View {
 	 * fit in space. Returns -1 if no complete words will fit in.
 	 * REWRITTEN to perform better on long strings.
 	 *
-	 * @param lyrics
-	 * @param space
-	 * @return
+	 * @param lyrics the lyrics
+	 * @param space amount of space available
+	 * @return index of longest word
 	 */
 	private int findLongestWordIndexOld(String lyrics, float space) {
 		int i = 0;
@@ -1106,7 +1103,7 @@ public class SongCanvas3 extends View {
 	 *
 	 * @param word text
 	 * @param space available space
-	 * @return
+	 * @return longest string that will fit in the space available
 	 */
 	private int findLongestStringIndex(String word, float space) {
 		while( mPaint.measureText(word) > space ){
@@ -1186,10 +1183,10 @@ public class SongCanvas3 extends View {
 	/**
 	 * Calls drawString after checking whether canvas needs to be re-sized
 	 *
-	 * @param g
-	 * @param text
-	 * @param x
-	 * @param y
+	 * @param g Canvas
+	 * @param text text to paint
+	 * @param x x coordinate
+	 * @param y y coordinate
 	 */
 	private void drawSongString(Canvas g, String text, float x, float y, Paint paint){
 		g.drawText(text, x, y, paint);
@@ -1197,7 +1194,7 @@ public class SongCanvas3 extends View {
 
 	/** Set song to paint on the canvas
 	 *
-	 * @param song
+	 * @param song Song
 	 */
 	public void setSong(Song song) {
 		theSong = song;
@@ -1224,7 +1221,7 @@ public class SongCanvas3 extends View {
 
 	/**
 	 * Transposes up or down depending on key pressed.
-	 * @param up
+	 * @param up true to transpose up, false to transpose down
 	 */
 	public void transposeSong (boolean up){
 		if(up){
@@ -1263,7 +1260,7 @@ public class SongCanvas3 extends View {
 		String cs = theSong.getSongText();
 
 		int i = 0;
-		String chord = null;
+		String chord;
 		// Loop thru songtext...
 		if (true) {
 			end = 0;

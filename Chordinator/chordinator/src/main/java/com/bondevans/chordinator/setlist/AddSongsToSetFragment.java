@@ -41,7 +41,7 @@ LoaderManager.LoaderCallbacks<Cursor> {
 	private OnSongsAddedListener onSongsAddedListener;
 	private boolean mConfigChangeInProgress=false;
 	private long mSetId;
-	private String mSetName;
+	private String mFilter="";
 
 	static class CheckedSetSong extends SetSong{
 		boolean selected;
@@ -50,13 +50,13 @@ LoaderManager.LoaderCallbacks<Cursor> {
 			super(0,"","","","",0);
 			selected = false;
 		}
-		public CheckedSetSong(boolean selected, long id, String title, String artist, String composer, String filePath, int setOrder) {
-			super(id, title, artist, composer, filePath, setOrder);
-			this.selected = selected;
-		}
 	}
 
-	static List<CheckedSetSong> checked = new ArrayList<CheckedSetSong>();
+	/**
+	 * List of songs to be added to the Set - only songs that have been selected
+	 * are added to the list
+	 */
+	private static List<CheckedSetSong> mChecked = new ArrayList<CheckedSetSong>();
 
 	public interface OnSongsAddedListener {
 		public void songsAdded();
@@ -110,14 +110,13 @@ LoaderManager.LoaderCallbacks<Cursor> {
 		Bundle args = getArguments();
 		if(args!=null){
 			mSetId = args.getLong(SetSongListActivity.KEY_SETID);
-			mSetName = args.getString(SetSongListActivity.KEY_SETNAME);
-			Log.d(TAG, "HELLO onCreate - setId["+mSetId+"] setname["+mSetName+"]");
+			Log.d(TAG, "HELLO onCreate - setId["+mSetId+"]");
 		}
 
 		if(savedInstanceState==null){
 			Log.d(TAG, "HELLO savedInstanceState ==null");
-			// Reset checked arraylist
-			checked.clear();
+			// Reset mChecked arraylist
+			mChecked.clear();
 		}
 		else{
 			Log.d(TAG, "HELLO savedInstanceState !=null");
@@ -134,16 +133,14 @@ LoaderManager.LoaderCallbacks<Cursor> {
 		setListAdapter(adapter);    
 	}
 
-	private View mContentView;
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.ListFragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
 	 */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		mContentView = inflater.inflate(R.layout.add_song_to_set_layout, null);
 		Log.d(TAG, "onCreateView ");
-		return mContentView;
+		return inflater.inflate(R.layout.add_song_to_set_layout, container, false);
 	}
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle arg1) {
@@ -152,9 +149,20 @@ LoaderManager.LoaderCallbacks<Cursor> {
 
 		String orderBy = SongDB.COLUMN_TITLE + " ASC";
 
-		CursorLoader cursorLoader = new CursorLoader(getActivity(),
-				DBUtils.SONG(getString(R.string.authority)), projection, null, null, orderBy);
-		return cursorLoader;
+		// Support Filter
+		String selectionClause="";
+		String[] selectionArgs=null;
+		if(!mFilter.isEmpty()){
+			selectionClause = SongDB.COLUMN_TITLE + " like ? OR " + SongDB.COLUMN_ARTIST + " like ? OR " + SongDB.COLUMN_COMPOSER + " like ?";
+			selectionArgs = new String[3];
+			selectionArgs[0]= "%"+mFilter+"%";
+			selectionArgs[1]= "%"+mFilter+"%";
+			selectionArgs[2]= "%"+mFilter+"%";
+			Log.d(TAG, "HELLO - selection=["+selectionClause+"]");
+		}
+
+		return new CursorLoader(getActivity(),
+				DBUtils.SONG(getString(R.string.authority)), projection, selectionClause, selectionArgs, orderBy);
 	}
 
 	@Override
@@ -184,22 +192,21 @@ LoaderManager.LoaderCallbacks<Cursor> {
 	public void addSongsToSet(long setId){
 		boolean listenerUpdated=false;
 		Log.d(TAG, "HELLO addSongsToSet ["+setId+"]");
-		for(int i=0; i< checked.size(); i++){
-//			Log.d(TAG, "HELLO pos["+i+"] title["+checked.get(i).title+"]["+(checked.get(i).selected?"ON":"OFF")+"]");
-			if(checked.get(i).selected){
+		for(int i=0; i< mChecked.size(); i++){
+//			Log.d(TAG, "HELLO pos["+i+"] title["+mChecked.get(i).title+"]["+(mChecked.get(i).selected?"ON":"OFF")+"]");
+			if(mChecked.get(i).selected){
 				try {
-					DBUtils.addSongToSet(getActivity().getContentResolver(), getString(R.string.authority), setId, checked.get(i).id);
+					DBUtils.addSongToSet(getActivity().getContentResolver(), getString(R.string.authority), setId, mChecked.get(i).id);
 					if(!listenerUpdated){
 						onSongsAddedListener.songsAdded();
 						listenerUpdated=true;
 					}
 				} catch (ChordinatorException e) {
 					// Song already exists
-					SongUtils.toast(getActivity(), checked.get(i).title + " "+ getString(R.string.already_in_set));
+					SongUtils.toast(getActivity(), mChecked.get(i).title + " "+ getString(R.string.already_in_set));
 				}
 			}
 		}
-		// TODO - Put list of songs in set into Description column
 	}
 
 	private static class SongCursorAdapter extends SimpleCursorAdapter{
@@ -227,20 +234,11 @@ LoaderManager.LoaderCallbacks<Cursor> {
 		 */
 		@Override
 		public View getView(int pos, View convertView, ViewGroup parent) {
-            // Need to maintain an array of booleans, matching the list of songs 
-//			Log.d(TAG,"HELLO getView pos=["+pos+"] size=["+checked.size()+"]");
-
-			// Have we got an entry for this position - if not add
-			while(checked.size()<=pos){
-				// add entry to array
-				checked.add(new CheckedSetSong());
-			}
 			// A ViewHolder keeps references to children views to avoid unnecessary calls
             // to findViewById() on each row.
             final ViewHolder holder;
 			if( convertView == null){
-//				Log.d(TAG,"HELLO inflating ["+pos+"]");
-				convertView = mInflater.inflate(R.layout.add_song_to_set_item, null);
+				convertView = mInflater.inflate(R.layout.add_song_to_set_item, parent, false);
                 // Creates a ViewHolder and store references to the child views
                 // we want to bind data to.
                 holder = new ViewHolder();
@@ -248,17 +246,17 @@ LoaderManager.LoaderCallbacks<Cursor> {
                 holder.artist = (TextView) convertView.findViewById(R.id.artist);
                 holder.isChecked = (CheckBox) convertView.findViewById(R.id.checkBox1);
                 // All songs start as unchecked.
-                holder.isChecked.setChecked(checked.get(pos).selected);
+                holder.isChecked.setChecked(isSelected(holder.songId));
                 holder.isChecked.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 					
 					@Override
 					public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-						Log.d(TAG,"HELLO onCheckedChanged ["+(isChecked?"ON":"OFF")+"] title=["+holder.title.getText()+"]");
+						Log.d(TAG,"Changed ["+(isChecked?"ON":"OFF")+"] title=["+holder.title.getText()+"] pos=["+holder.pos+"]");
 						CheckedSetSong song = new CheckedSetSong();
 						song.id = holder.songId;
 						song.title = (String) holder.title.getText();
 						song.selected = isChecked;
-						checked.set(holder.pos, song);
+						setSelected(song);
 					}
 				});
 
@@ -267,7 +265,6 @@ LoaderManager.LoaderCallbacks<Cursor> {
 			else {
 				// Get the ViewHolder back to get fast access to the TextView
 				// and the ImageView.
-//				Log.d(TAG,"HELLO NOT inflating ["+pos+"]");
 				holder = (ViewHolder) convertView.getTag();
 			}
 
@@ -277,7 +274,7 @@ LoaderManager.LoaderCallbacks<Cursor> {
 				holder.songId = mCursor.getLong(0);
 				holder.title.setText(mCursor.getString(1));
 				holder.artist.setText(mCursor.getString(2));
-				holder.isChecked.setChecked(checked.get(pos).selected);
+				holder.isChecked.setChecked(isSelected(holder.songId));
 			}
 
 			return convertView;
@@ -291,6 +288,41 @@ LoaderManager.LoaderCallbacks<Cursor> {
         }
 	}
 
+	/**
+	 * Returns true if the song with the given Id is currently selected, else false
+	 * @param id song.id
+	 * @return true if the song is currently selected
+	 */
+	static boolean isSelected(long id){
+		// Return mChecked position for give id
+		for(int i=0; i< mChecked.size();i++){
+//			Log.d(TAG, "isSelected pos["+i+"] title["+mChecked.get(i).title+"]["+(mChecked.get(i).selected?"ON":"OFF")+"]");
+			if(mChecked.get(i).id == id){
+				return mChecked.get(i).selected;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Set the selected state of the given song in the mChecked list - adding it if necessary
+	 * @param song A song
+	 */
+	static void setSelected(CheckedSetSong song){
+		for(int i=0; i< mChecked.size();i++){
+			Log.d(TAG, "setSelected pos["+i+"] title["+song.title+"]["+(song.selected?"ON":"OFF")+"]");
+			if(mChecked.get(i).id == song.id){
+				// Got the entry.  Now need to update the selected flag
+				mChecked.set(i,song);
+				return ;
+			}
+		}
+		// If we didn't find an entry then add a new one (if selected is true - otherwise don't bother)
+		if(song.selected){
+			Log.d(TAG, "setSelected Adding title["+song.title+"]["+(song.selected?"ON":"OFF")+"]");
+			mChecked.add(song);
+		}
+	}
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		Log.d(TAG, "HELLO onListItemClicked");
@@ -308,27 +340,19 @@ LoaderManager.LoaderCallbacks<Cursor> {
 	}
 
 	@Override
-	public void onPause() {
-		Log.d(TAG, "onPause");
-		super.onPause();
-	}
-
-	@Override
-	public void onStop() {
-		Log.d(TAG, "onStop");
-		super.onStop();
-	}
-
-	@Override
-	public void onDestroy() {
-		Log.d(TAG, "onDestroy");
-		super.onDestroy();
-	}
-
-	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		mConfigChangeInProgress = true;
 		Log.d(TAG, "onSaveInstanceState");
+	}
+
+	/**
+	 * Sets the text to filter the lsit of songs by
+	 * @param filter filter text
+	 */
+	public void setFilter(String filter){
+		mFilter=filter;
+		getLoaderManager().restartLoader(SONG_LIST_LOADER, null, this);
+		mFilter="";
 	}
 }

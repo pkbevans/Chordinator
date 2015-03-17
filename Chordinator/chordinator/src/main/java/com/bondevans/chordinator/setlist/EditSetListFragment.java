@@ -2,21 +2,25 @@ package com.bondevans.chordinator.setlist;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.support.v4.app.ListFragment;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.bondevans.chordinator.EditSong;
 import com.bondevans.chordinator.Log;
 import com.bondevans.chordinator.SongUtils;
 import com.bondevans.chordinator.R;
@@ -146,13 +150,37 @@ public class EditSetListFragment extends ListFragment {
 
 			}
 		});
-		dslv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-			@Override
-			public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2,
-			                               long arg3) {
-				return true;
-			}
-		});
+		registerForContextMenu(dslv);
+	}
+
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+		Log.d(TAG, "HELLO - songlistcontext");
+		MenuInflater inflater = getActivity().getMenuInflater();
+		inflater.inflate(R.menu.setsong_list_context, menu);
+		menu.setHeaderTitle(getString(R.string.options));
+	}
+
+	/* (non-Javadoc)
+ * @see android.app.Activity#onContextItemSelected(android.view.MenuItem)
+ */
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+		SetSong song = mAdapter.getItem(info.position);
+
+		if (item.getItemId() == R.id.edit) {
+			Log.d(TAG,"HELLO edit Selected:");
+			editSong(song);
+			return true;
+		} else if (item.getItemId() == R.id.delete) {
+			Log.d(TAG, "Delete: "+song.id);
+			mRemoveListener.remove(info.position);
+			return true;
+		} else {
+			return super.onContextItemSelected(item);
+		}
 	}
 
 	@Override
@@ -195,13 +223,13 @@ public class EditSetListFragment extends ListFragment {
 	public void setSetId(long setId, String setName) {
 		mSetId = setId;
 		mSetName = setName;
-//		loadSongs();
 	}
 
 	/**
 	 *
-	 *
-	 * @param filter
+	 * Sets the song filter text - only songs which match the given string on title, artist or
+	 * composer will be shown
+	 * @param filter the filter
 	 */
 	public void setFilter(String filter) {
 		mFilter = filter;
@@ -228,31 +256,13 @@ public class EditSetListFragment extends ListFragment {
 		setListAdapter(mFilter);
 	}
 
-//	private List<SetSong> getSetSongs() {
-//		return mAdapter.getSetSongs();
-//	}
-
-//	private boolean setUpdated() {
-//		return mSetList.isUpdated();
-//	}
-
 	static class SetSongAdapter extends ArrayAdapter<SetSong> {
 
 		private final LayoutInflater mInflater;
-		private String songFilter="";
 
 		public SetSongAdapter(Context context, int resource, int textViewResourceId, List<SetSong> objects) {
 			super(context, resource, textViewResourceId, objects);
 			mInflater = LayoutInflater.from(context);
-		}
-
-		public List<SetSong> getSetSongs() {
-			List<SetSong> l = new ArrayList<SetSong>();
-			for (int i = 0; i < getCount(); i++) {
-				Log.d(TAG, "HELLO : " + getItem(i));
-				l.add(getItem(i));
-			}
-			return l;
 		}
 
 		/* (non-Javadoc)
@@ -323,6 +333,21 @@ public class EditSetListFragment extends ListFragment {
 			Log.d(TAG, "HELLO - Updating " + song.title + " set_order to " + index);
 			// Update the song at position index - set_order = index
 			DBUtils.updateSetSong(getActivity().getContentResolver(), getString(R.string.authority), mSetId, song.id, index);
+		}
+	}
+	/**
+	 * Edit the current Song
+	 */
+	private void editSong(SetSong song) {
+		// Open the file with the EditSong Activity
+		Intent myIntent = new Intent(getActivity(), EditSong.class);
+		try {
+			// Put the path to the song file in the intent
+			myIntent.putExtra(getString(R.string.song_path), song.filePath);
+			startActivity(myIntent);
+		}
+		catch (ActivityNotFoundException e) {
+			SongUtils.toast( getActivity(),e.getMessage());
 		}
 	}
 }

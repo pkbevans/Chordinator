@@ -3,6 +3,7 @@ package com.bondevans.chordinator.dialogs;
 
 import java.io.File;
 
+import com.bondevans.chordinator.Log;
 import com.bondevans.chordinator.R;
 import com.bondevans.chordinator.SongUtils;
 
@@ -18,9 +19,13 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 
 public class LatestFragment extends DialogFragment{
+	private static final String TAG = "LatestFragment";
 	private static String mVersion = "";
 	private String[] mStrings = {
 			// TODO - Sort out memory problems
+			"v5.3 - New. Swipe to remove song from SET in SET listing",
+			"v5.3 - Improved - Reordering of SETs. Now on main SET listing and works much better",
+			"v5.3 - Improved. Performance improved on lyric-only songs",
 			"v5.2 - New - Migrated to Android Studio",
 			"v5.2 - Fixed - Problem with Adding new Set",
 			"v5.2 - Improved - On Songlist screen - current sort highlighted and reverse order now possible",
@@ -181,6 +186,7 @@ public class LatestFragment extends DialogFragment{
 			startActivity(Intent.createChooser(theIntent, "Send Feedback With...."));
 		} 
 		catch (Exception e) {
+			Log.d(TAG,"Something went wrong");
 		}
 	}
 
@@ -204,6 +210,7 @@ public class LatestFragment extends DialogFragment{
 			startActivity(Intent.createChooser(theIntent, "Share With...."));
 		}
 		catch (Exception e) {
+			Log.d(TAG,"Something went wrong");
 		}
 	}
 }

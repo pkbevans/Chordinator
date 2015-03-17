@@ -62,10 +62,8 @@ AddSongsToSetFragment.OnSongsAddedListener
 	private static final int SEARCH_LOCAL_ID = Menu.FIRST + 25;
 	public static final String INTENT_SETID = "com.bondevans.chordinator.setId";
 	public static final String INTENT_SETNAME = "com.bondevans.chordinator.setName";
-//	public static final String SETLIST_KEY = "Setlist";
 
 	private static int mColourScheme;
-	public static int DARK=ColourScheme.DARK;
 	private static int LIGHT=ColourScheme.LIGHT;
 	private static final String TAG_SETSONGLIST = "TAG_SETSONGLIST";
 	private static final String TAG_ADDSETSONGLIST = "TAG_ADDSETSONGLIST";
@@ -85,7 +83,7 @@ AddSongsToSetFragment.OnSongsAddedListener
 		LinearLayout songFrame=null;
 		Log.d(TAG, "HELLO onCreate");
 		mColourScheme = Ute.getColourScheme(this);
-		setTheme(mColourScheme == ColourScheme.LIGHT? R.style.Theme_Sherlock_Light: R.style.Theme_Sherlock);
+		setTheme(mColourScheme == LIGHT? R.style.Theme_Sherlock_Light: R.style.Theme_Sherlock);
 
 		super.onCreate(savedInstanceState);
 
@@ -95,7 +93,7 @@ AddSongsToSetFragment.OnSongsAddedListener
 		mSetName = savedInstanceState == null?myIntent.getStringExtra(INTENT_SETNAME): savedInstanceState.getString(KEY_SETNAME);
 
 		// See if they want split screen mode in Landscape
-		int listPaneSize=0;
+		int listPaneSize;
 		if((listPaneSize = useSplitScreenMode())>0){
 			Log.d(TAG, "HELLO SPLIT SCREEN");
 			setContentView(R.layout.songlist_fragment);// This is the xml with all the different frags
@@ -149,9 +147,15 @@ AddSongsToSetFragment.OnSongsAddedListener
 			}
 
 			@Override
-			public boolean onQueryTextChange(String newText) {
-				Log.d(TAG, "HELLO - onQueryTextChange1 ["+newText+"]");
-				mEditSetListFragment.setFilter(newText);
+			public boolean onQueryTextChange(String filter) {
+				Log.d(TAG, "HELLO - onQueryTextChange1 ["+filter+"]");
+				AddSongsToSetFragment frag;
+				if((frag=(AddSongsToSetFragment)getSupportFragmentManager().findFragmentByTag(TAG_ADDSETSONGLIST)) != null) {
+					frag.setFilter(filter);
+				}
+				else {
+					mEditSetListFragment.setFilter(filter);
+				}
 				return false;
 			}                                                  
 		});
@@ -171,8 +175,8 @@ AddSongsToSetFragment.OnSongsAddedListener
 
 	/**
 	 * Adds song to SET selected in Dialog
-	 * @param setId
-	 * @param songId
+	 * @param setId SET Id
+	 * @param songId SET name
 	 */
 	public void setNameClicked(long setId, long songId, String setName, String songName){
 		if(songId>0){
@@ -248,14 +252,19 @@ AddSongsToSetFragment.OnSongsAddedListener
 		.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);//|MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 
 		menu.add(0,SEARCH_LOCAL_ID, 0, getString(R.string.search_songs))
-		.setIcon(mColourScheme == LIGHT ? R.drawable.ai_search_light:R.drawable.ai_search_dark)
+		.setIcon(mColourScheme == LIGHT ? R.drawable.ai_search_light : R.drawable.ai_search_dark)
 		.setActionView(searchSetView)
 		.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
 			@Override
 			public boolean onMenuItemActionCollapse(MenuItem item) {
 				// Do something when collapsed
 				Log.d(TAG, "HELLO onMenuItemActionCollapse");
-				mEditSetListFragment.setFilter("");
+				AddSongsToSetFragment frag;
+				if ((frag = (AddSongsToSetFragment) getSupportFragmentManager().findFragmentByTag(TAG_ADDSETSONGLIST)) != null) {
+					frag.setFilter("");
+				} else {
+					mEditSetListFragment.setFilter("");
+				}
 				return true;  // Return true to collapse action view
 			}
 
@@ -265,7 +274,7 @@ AddSongsToSetFragment.OnSongsAddedListener
 				return true;  // Return true to expand action view
 			}
 		})
-		.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS| MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+		.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
 
 		menu.add(0,ADDSONGS_ID, 0, getString(R.string.add_songs))
 		.setIcon(mColourScheme == LIGHT ? R.drawable.ic_add_songs_light : R.drawable.ic_add_songs_dark)
@@ -302,8 +311,10 @@ AddSongsToSetFragment.OnSongsAddedListener
 		Log.d(TAG, "onOptionsItemSelected");
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			// Back to Songs
-			finish();
+			// Back to Songs - unless we are showing AddSongsToSetFragment
+			if(!removeAddSongsIfShowing()){
+				finish();
+			}
 			break;
 		case SHOWHELP_ID:
 			showHelp();
@@ -338,6 +349,19 @@ AddSongsToSetFragment.OnSongsAddedListener
 		return true;
 	}
 
+	/**
+	 * Check if the AddSongsToSet Fragment is showing - close if it is
+	 * @return true if the fragment was found and removed, otherwise false
+	 */
+	private boolean removeAddSongsIfShowing() {
+		if(getSupportFragmentManager().findFragmentByTag(TAG_ADDSETSONGLIST) != null){
+			// Remove it
+			getSupportFragmentManager().popBackStack();
+			return true;
+		}
+		return false;
+	}
+
 	private void exportSet(long setId, String setName) {
 		SetList mySet = new SetList(getContentResolver(), getString(R.string.authority), setId, setName);
 		mySet.writeSetList();
@@ -345,7 +369,7 @@ AddSongsToSetFragment.OnSongsAddedListener
 	}
 
 	private void deleteSet(long setId, String setName){
-		DialogFragment newFragment = DeleteRenameSetDialog.newInstance(DeleteRenameSetDialog.DIALOG_DELETE, mSetId, mSetName);
+		DialogFragment newFragment = DeleteRenameSetDialog.newInstance(DeleteRenameSetDialog.DIALOG_DELETE, setId, setName);
 		newFragment.show(getSupportFragmentManager(), "dialog");
 	}
 	private void showHelp() {
@@ -402,12 +426,12 @@ AddSongsToSetFragment.OnSongsAddedListener
 
 	/**
 	 * Start new fragment to add songs to the set
-	 * @param setId
-	 * @param setName
+	 * @param setId SET Id
+	 * @param setName SET name
 	 */
 	public void addSongs(long setId, String setName){
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		AddSongsToSetFragment addSongsToSetFragment = AddSongsToSetFragment.newInstance(mSetId, mSetName);
+		AddSongsToSetFragment addSongsToSetFragment = AddSongsToSetFragment.newInstance(setId, setName);
 		// Add the fragment to the activity, pushing this transaction on to the back stack.
 		ft.replace(R.id.list_container, addSongsToSetFragment, TAG_ADDSETSONGLIST);
 		ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
@@ -417,11 +441,11 @@ AddSongsToSetFragment.OnSongsAddedListener
 
 	public void deleteSetFromDB(long set_id, String setName) {
 		// Delete all SET ITEMS for given set first
-		int rows = getContentResolver().delete(
+		getContentResolver().delete(
 				Uri.withAppendedPath(DBUtils.SETITEM(getString(R.string.authority)), String.valueOf(set_id)),
 				null, null);
 		// Now delete the SET record
-		rows = getContentResolver().delete(
+		int rows = getContentResolver().delete(
 				Uri.withAppendedPath(DBUtils.SET(getString(R.string.authority)), String.valueOf(set_id)),
 				null, null);
 		if(rows != 1){
@@ -450,6 +474,11 @@ AddSongsToSetFragment.OnSongsAddedListener
 				values, null, null);
 		if(rows!=1){
 			SongUtils.toast(this, getString(R.string.rename_failed)+" "+oldName);
+		}
+		else{
+			// Use the new name
+			mSetName = newName;
+			getSupportActionBar().setTitle(getString(R.string.set)+":"+mSetName);
 		}
 
 	}

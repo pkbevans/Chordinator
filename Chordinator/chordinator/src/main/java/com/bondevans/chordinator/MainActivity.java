@@ -516,7 +516,7 @@ AddSetDialog.CreateSetListener
 	 * Handle non-menu keyboard events
 	 */
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		Log.d(TAG, "HELLO - onKeyDown");
+//		Log.d(TAG, "HELLO - onKeyDown");
 		switch (keyCode) {
 		case KeyEvent.KEYCODE_BACK:
 			Log.d(TAG, "HELLO - BACK PRESSED");

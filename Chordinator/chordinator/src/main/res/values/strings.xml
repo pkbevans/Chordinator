@@ -202,7 +202,5 @@
 	<string name="folder">Folder: </string>
 	<string name="file">File: </string>
 	<string name="print">Print&#8230;</string>
-    <string name="drag_item">Drag Item</string>
-    <string name="remove_item">Remove Item</string>
 
 </resources>

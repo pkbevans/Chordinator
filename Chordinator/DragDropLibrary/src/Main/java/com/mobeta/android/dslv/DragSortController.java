@@ -28,8 +28,9 @@ public class DragSortController extends SimpleFloatViewManager implements View.O
     public static final int ON_DOWN = 0;
     public static final int ON_DRAG = 1;
     public static final int ON_LONG_PRESS = 2;
+//	private static final String TAG = "DragSortController";
 
-    private int mDragInitMode = ON_DOWN;
+	private int mDragInitMode = ON_DOWN;
 
     private boolean mSortEnabled = true;
 
@@ -397,11 +398,14 @@ public class DragSortController extends SimpleFloatViewManager implements View.O
                     } else if (mDragInitMode != ON_DOWN && Math.abs(x2 - x1) > mTouchSlop
                             && mRemoveEnabled) {
                         mIsRemoving = true;
+//	                    Log.d(TAG,"HELLO onScroll 1");
                         startDrag(mFlingHitPos, deltaX, deltaY);
                     }
                 } else {
-                    if (Math.abs(x2 - x1) > mTouchSlop && mRemoveEnabled) {
-                        mIsRemoving = true;
+//	                Log.d(TAG, "HELLO y2=["+y2+"] y1=["+y1+"] DELTA Y=["+deltaY+"]");
+	                if (Math.abs(x2 - x1) > mTouchSlop && mRemoveEnabled) {
+		                mIsRemoving = true;
+//	                    Log.d(TAG,"HELLO onScroll 2");
                         startDrag(mFlingHitPos, deltaX, deltaY);
                     } else if (Math.abs(y2 - y1) > mTouchSlop) {
                         mCanDrag = false; // if started to scroll the list then
