@@ -176,13 +176,8 @@
     <string name="pref_sum_split_screen_off">"Pantalla dividida no se utilizará en el paisaje"</string>
     <string name="pref_tit_split_screen">"Pantalla dividida en paisaje"</string>
     <string name="sendlog">"Enviar registro de depuración para desarrolladores"</string>
-    <string name="start_grab">"Iniciar agarrar!"</string>
-    <string name="stop_grab">"Detener el acaparamiento!"</string>
-    <string name="trial_finished_title">"Su prueba gratuita ha caducado"</string>
-    <string name="trial_finished_text">"Espero que te guste la versión aumentada del Chordinator. Usted puede comprar la versión completa de https://play.google.com/store/apps/details?id=com.bondevans.chordinator.aug"</string>
     <string name="promote_paid_app_text">"Si te gusta la Chordinator, por favor, con el desarrollo de esta aplicación mediante el pago de una pequeña cantidad para la versión aumentada del Chordinator"</string>
     <string name="promote_paid_app_title">"¿Has probado Chordinator Aumentada?"</string>
-    <string name="paid_url">"https://play.google.com/store/apps/details?id=com.bondevans.chordinator.aug"</string>
     <string name="keywords">"Keywords"</string>
     <string name="no_thanks">"- Tal vez mas tarde?"</string>
     <string name="no_network">"No hay conexión a Internet disponible"</string>

@@ -176,13 +176,8 @@
     <string name="pref_sum_split_screen_off">"Поділ екрана не використовуватиметься в ландшафтному"</string>
     <string name="pref_tit_split_screen">"Розділений екран в ландшафтному"</string>
     <string name="sendlog">"Надіслати журналі налагодження розробнику"</string>
-    <string name="start_grab">"Почати схопити!"</string>
-    <string name="stop_grab">"Зупинити захват!"</string>
-    <string name="trial_finished_title">"Ваша безкоштовна підписка Минув"</string>
-    <string name="trial_finished_text">"Я сподіваюся, що вам подобається з розширеною версією Chordinator. Ви можете купити повну версію з https://play.google.com/store/apps/details?id=com.bondevans.chordinator.aug"</string>
     <string name="promote_paid_app_text">"Якщо ви любите Chordinator, будь ласка підтримати продовження розробки цього додатка, заплативши невелику суму за Доповнена версія Chordinator"</string>
     <string name="promote_paid_app_title">"Чи намагалися ви Chordinator розширеної?"</string>
-    <string name="paid_url">"https://play.google.com/store/apps/details?id=com.bondevans.chordinator.aug"</string>
     <string name="keywords">"Ключові слова"</string>
     <string name="no_thanks">"Може бути, пізніше"</string>
     <string name="no_network">"Немає підключення до Інтернету."</string>

@@ -11,7 +11,5 @@
     <string name="delete_from_disk">"Eliminar archivo de música desde el disco"</string>
     <string name="convert_chopro">"Convertir a formato Chopro"</string>
     <string name="make_download_dir">"Hacer esta carpeta la ubicación de descarga"</string>
-    <string name="feature_disabled">"Esta función no está disponible en la versión gratuita de la Chordinator\n\nEl pantalla de lista de canciones en Chordinator Aumentada muestra todas las canciones de una manera fácil de usar -. Takng el título de la canción y el artista de las etiquetas en el archivo de la canción. No puede abrir archivos desde este punto de vista en la versión gratuita de la aplicación - por favor use la opción Explorador de archivos para encontrar tus canciones. Te recomendamos actualizar a la Chordinator Aumentada para activar esta función.\n\nEl Aumentada aplicación no tiene ningún anuncio o molestos pop mensajes."</string>
     <string name="upgrade_now">"Mejorar Ahora &gt;&gt;"</string>
-    <string name="feature_disabled_title">"Función desactivada."</string>
 </resources>

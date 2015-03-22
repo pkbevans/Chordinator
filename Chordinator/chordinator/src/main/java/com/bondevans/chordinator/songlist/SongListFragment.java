@@ -46,7 +46,6 @@ import com.bondevans.chordinator.EditSong;
 import com.bondevans.chordinator.db.DBUtils;
 import com.bondevans.chordinator.db.SongDB;
 import com.bondevans.chordinator.dialogs.DeleteSongDialog;
-import com.bondevans.chordinator.dialogs.FeatureDisabledDialog;
 import com.bondevans.chordinator.dialogs.SetListDialog;
 import com.bondevans.chordinator.dialogs.SongDetailsDialog;
 import com.bondevans.chordinator.prefs.SongPrefs;
@@ -85,7 +84,6 @@ LoaderManager.LoaderCallbacks<Cursor> {
 	static ListView mLv; 
 	public String mFilter = "";
 	private AdView mAdView;
-	private final static boolean mDiminished = false;
 
 	/* (non-Javadoc)
 	 * @see android.app.Fragment#onActivityCreated(android.os.Bundle)
@@ -197,15 +195,8 @@ LoaderManager.LoaderCallbacks<Cursor> {
 
 	private void viewSong(long id){
 		Log.d(TAG, "HELLO viewSong");
-		if(mDiminished){
-			// Viewing song from SongList is disabled in Diminished
-			DialogFragment newFragment = FeatureDisabledDialog.newInstance();
-			newFragment.show(getFragmentManager(), "dialog");
-		}
-		else{
-			getSongFromId(id);
-			songSelectedListener.onSongSelected( mSongId, Ute.doPath(mFilePath,mFileName) );
-		}
+		getSongFromId(id);
+		songSelectedListener.onSongSelected( mSongId, Ute.doPath(mFilePath,mFileName) );
 	}
 
 	@Override

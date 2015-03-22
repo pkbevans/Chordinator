@@ -182,14 +182,8 @@
     <string name="pref_sum_split_screen_off">"écran partagé ne sera pas utilisé en paysage"</string>
     <string name="pref_tit_split_screen">"Split Screen en paysage"</string>
     <string name="sendlog">"Envoyer un journal de débogage au développeur"</string>
-    <string name="start_grab">"Commencez saisir!"</string>
-    <string name="stop_grab">"STOP à l'accaparement!"</string>
-
-    <string name="trial_finished_title">"Votre essai gratuit a expiré"</string>
-    <string name="trial_finished_text">"J'espère que vous aimez la version augmentée de la Chordinator. Vous pouvez acheter la version complète de https://play.google.com/store/apps/details?id=com.bondevans.chordinator.aug"</string>
     <string name="promote_paid_app_text">"Si vous aimez le Chordinator, s'il vous plaît soutenir la poursuite du développement de cette application en payant une petite somme pour la version augmentée du Chordinator"</string>
     <string name="promote_paid_app_title">"Avez-vous essayé Chordinator augmentée?"</string>
-    <string name="paid_url">"https://play.google.com/store/apps/details?id=com.bondevans.chordinator.aug"</string>
     <string name="keywords">"Mots-clés"</string>
     <string name="no_thanks">"Plus tard ..."</string>
     <string name="no_network">"Aucune connexion Internet n'est disponible."</string>

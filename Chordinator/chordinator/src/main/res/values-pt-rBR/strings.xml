@@ -176,13 +176,8 @@
     <string name="pref_sum_split_screen_off">"Dividir a tela não será utilizado na paisagem"</string>
     <string name="pref_tit_split_screen">"Split Screen na paisagem"</string>
     <string name="sendlog">"Enviar log de depuração para o desenvolvedor"</string>
-    <string name="start_grab">"Comece pegar!"</string>
-    <string name="stop_grab">"Pare de pegar!"</string>
-    <string name="trial_finished_title">"Seu Free Trial Expirou"</string>
-    <string name="trial_finished_text">"Eu espero que você gosta da versão aumentada da Chordinator. Você pode comprar a versão completa de https://play.google.com/store/apps/details?id=com.bondevans.chordinator.aug"</string>
     <string name="promote_paid_app_text">"Se você gosta de The Chordinator, por favor, apoiar o desenvolvimento contínuo deste aplicativo, pagando uma pequena quantia para a versão aumentada do Chordinator"</string>
     <string name="promote_paid_app_title">"Você já tentou Chordinator Aumentada?"</string>
-    <string name="paid_url">"https://play.google.com/store/apps/details?id=com.bondevans.chordinator.aug"</string>
     <string name="keywords">"Palavras Chave"</string>
     <string name="no_thanks">"Talvez mais tarde"</string>
     <string name="no_network">"Sem ligação à Internet disponível."</string>
