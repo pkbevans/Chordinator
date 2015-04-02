@@ -23,6 +23,7 @@ public class LatestFragment extends DialogFragment{
 	private static String mVersion = "";
 	private String[] mStrings = {
 			// TODO - Sort out memory problems
+			"v5.4 - New. Now allows app to be installed/moved to sd card",
 			"v5.3 - New. Swipe to remove song from SET in SET listing",
 			"v5.3 - Improved - Reordering of SETs. Now on main SET listing and works much better",
 			"v5.3 - Improved. Performance improved on lyric-only songs",
