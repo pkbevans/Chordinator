@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.bondevans.chordinator"
-        minSdkVersion 11
+        minSdkVersion 9
         targetSdkVersion 19
     }
 

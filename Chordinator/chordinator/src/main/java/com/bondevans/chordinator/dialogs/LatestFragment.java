@@ -23,10 +23,12 @@ public class LatestFragment extends DialogFragment{
 	private static String mVersion = "";
 	private String[] mStrings = {
 			// TODO - Sort out memory problems
+			"v5.4 - Swipe to remove from Set disabled, following feedback",
 			"v5.4 - New. Now allows app to be installed/moved to sd card",
 			"v5.3 - New. Swipe to remove song from SET in SET listing",
 			"v5.3 - Improved - Reordering of SETs. Now on main SET listing and works much better",
 			"v5.3 - Improved. Performance improved on lyric-only songs",
+			"v5.3 - Improved - German Translation updated - thanks to Roland :)",
 			"v5.2 - New - Migrated to Android Studio",
 			"v5.2 - Fixed - Problem with Adding new Set",
 			"v5.2 - Improved - On Songlist screen - current sort highlighted and reverse order now possible",

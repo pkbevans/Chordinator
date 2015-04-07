@@ -213,7 +213,9 @@ public class EditSetListFragment extends ListFragment {
 		DragSortController controller = new DragSortController(dslv);
 		controller.setDragHandleId(R.id.drag_handle);
 		controller.setClickRemoveId(R.id.click_remove);
-		controller.setRemoveEnabled(true);
+		// Fling to remove disabled - feedback from users is that it's too easy to
+		// remove a song accidentally.
+		controller.setRemoveEnabled(false);
 		controller.setSortEnabled(true);
 		controller.setDragInitMode(DragSortController.ON_LONG_PRESS);
 		controller.setRemoveMode(DragSortController.FLING_REMOVE);
