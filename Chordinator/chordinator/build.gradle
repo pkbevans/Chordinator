@@ -23,10 +23,10 @@ android {
         }
         dim {
             applicationId = "com.bondevans.chordinator"
+            minSdkVersion 12
         }
         augtest{
             applicationId = "com.bondevans.chordinator.augtest"
-            minSdkVersion 12
         }
     }
 }
