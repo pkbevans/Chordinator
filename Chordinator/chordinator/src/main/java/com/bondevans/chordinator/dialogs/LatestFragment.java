@@ -23,6 +23,9 @@ public class LatestFragment extends DialogFragment{
 	private static String mVersion = "";
 	private String[] mStrings = {
 			// TODO - Sort out memory problems
+			"v5.4.2 - New - Added Tenor Banjo Chord shapes",
+			"v5.4.1 - New - Added Portugese translations - obrigado Jorge :)",
+			"v5.4.1 - Fixed - Preferences on Android vs<11",
 			"v5.4 - Swipe to remove from Set disabled, following feedback",
 			"v5.4 - New. Now allows app to be installed/moved to sd card",
 			"v5.3 - New. Swipe to remove song from SET in SET listing",

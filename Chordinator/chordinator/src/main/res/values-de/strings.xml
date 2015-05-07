@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="grids_off">"Keine Akkorddiagramme"</string>
     <string name="set_options">"Voreinstellungen"</string>
     <string name="auto_scroll">"AutoScroll"</string>
     <string name="stop_scroll">"AutoScroll stoppen "</string>
     <string name="ok">"OK"</string>
     <string name="cancel">"Abbrechen"</string>
-    <string name="description">"Song-Chord-Viewer"</string>
     <string name="help">"Hilfe"</string>
     <string name="edit_song">"Bearbeiten"</string>
     <string name="share_song">"Teilen"</string>
-    <string name="song_path">com.bondevans.chordinator.SongPath</string>
-    <string name="transpose_up">"Transponieren nach oben"</string>
-    <string name="transpose_down">"Transponieren nach unten"</string>
     <string name="help_screen_title">"Chordinator Hilfe"</string>
     <string name="open">"Öffnen"</string>
     <string name="add_to_set_list">"Song zur Setliste hinzufügen"</string>
@@ -81,17 +78,6 @@
     <string name="pref_cat_songviewer">"Song-Anzeige"</string>
     <string name="pref_tit_grids_on">"Akkorddiagramme immer zeigen"</string>
     <string name="pref_sum_grids_on">"Die Anzeige der Akkorddiagramme ist in den Voreinstellungen aktiviert"</string>
-
-    <string-array name="colour_schemes">
-        <item>"Schwarzer Text auf weißem Hintergrund"</item>
-        <item>"Weißer Text auf schwarzem Hintergrund"</item>
-    </string-array>
-    <string-array name="grid_instrument_entries">
-        <item>"Gitarre"</item>
-        <item>"Mandoline"</item>
-        <item>"Ukulele"</item>
-    </string-array>
-
     <string name="pref_tit_colour_scheme">"Farbschema"</string>
     <string name="pref_tit_text_files">"Textdateien"</string>
     <string name="pref_tit_encoding">"Standard-Codierung"</string>
@@ -110,7 +96,6 @@
     <string name="pref_sum_honourlfs_off">"Leerzeilen werden nicht angezeigt"</string>
     <string name="pref_sum_honourlfs_on">"Leerzeilen werden angezeigt"</string>
     <string name="pref_tit_honourlfs">"Leerzeilen"</string>
-
     <string name="pref_tit_scroll_delay">"Autoscroll-Verzögerung in Sekunden"</string>
     <string name="pref_sum_scroll_delay">"Scroll-Verzögerung in Sekunden am Beginn"</string>
     <string name="search_for">"Song oder Künstler, nach dem gesucht wird"</string>
@@ -129,7 +114,6 @@
     <string name="banned_file">"Chordinator kann diese Datei nicht öffnen"</string>
     <string name="up_to">"Bis zu "</string>
     <string name="no_song">"Kein Song ausgewählt."</string>
-    <string name="web_url">"www.bondevans.com/chordinator"</string>
     <string name="whats_new">"Was ist neu?"</string>
     <string name="select_set">"Wählen Sie die Setliste"</string>
     <string name="search_instruction">"1.Geben Sie Songtitel und / oder Künstlername ein\n2.Google-Links folgen\n3.App holt sich song\n4.Neuen Dateinamen bestätigen"</string>
@@ -148,13 +132,6 @@
     <string name="are_you_sure_delete_set">"Wollen Sie die Setliste wirklich löschen?"</string>
     <string name="new_set_name">"Neuer Name fur Setliste"</string>
     <string name="rename_failed">"Fehler beim Umbenennen"</string>
-
-    <string-array name="modes">
-        <item>"Normal - Akkorde und Texte"</item>
-        <item>"Nur Akkorde - Text wird nicht angezeigt"</item>
-        <item>"Nur Text - Akkorde werden nicht angezeigt"</item>
-    </string-array>
-
     <string name="pref_tit_mode">"Akkord- und Text-Anzeige"</string>
     <string name="pref_sum_mode">"Anzeigen: Akkorde oder Text oder beides"</string>
     <string name="add_songs_to">"Fügen Sie Songs zu"</string>
@@ -193,4 +170,34 @@
     <string name="folder">"Pfadname"</string>
     <string name="file">"Datei:"</string>
     <string name="print">"Drucken..."</string>
+    <string name="chord_aug_firstrun_heading">"Erster Suchlauf"</string>
+    <string name="alphabet">"ABCDEFGHIJKLMNOPQRSTUVWXYZ"</string>
+    <string name="show_details">"Zeige Details"</string>
+    <string name="song_details">"Songdetails"</string>
+    <string name="browse_to">"Zeige Speicherort"</string>
+    <string name="split_proportions">"Bildschirm Teilungsverhältnis"</string>
+    <string name="pref_sum_split_proportions">"Stellen Sie die Proportionen des im Querformat  geteilten Fensters ein"</string>
+    <string name="delete_from_disk">"Löschen der Songdatei von der Festplatte"</string>
+    <string name="convert_chopro">"Speichern im Chopro-Format"</string>
+    <string name="make_download_dir">"Diesen Pfad für Downloads speichern"</string>
+    <string name="upgrade_now">"Upgraden Sie jetzt!"</string>
+
+    <string-array name="colour_schemes">
+        <item>"Schwarzer Text auf weißem Hintergrund"</item>
+        <item>"Weißer Text auf schwarzem Hintergrund"</item>
+    </string-array>
+
+    <string-array name="grid_instrument_entries">
+        <item>"Gitarre"</item>
+        <item>"Mandoline"</item>
+        <item>"Ukulele"</item>
+        <item>Tenor Banjo/Mandocello/Tenor Guitar</item>
+    </string-array>
+
+    <string-array name="modes">
+        <item>"Normal - Akkorde und Texte"</item>
+        <item>"Nur Akkorde - Text wird nicht angezeigt"</item>
+        <item>"Nur Text - Akkorde werden nicht angezeigt"</item>
+    </string-array>
+
 </resources>

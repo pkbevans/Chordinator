@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="about">Sobre o Chordinator Aug</string>
+    <string name="about">"Acerca do Chordinator Aug"</string>
     <string name="chord_aug_firstrun_text">"Obrigado por descarregar o Chordinator Augmented. A aplicação verificará o seu disco na busca por canções e  importar os seus Alinhamentos."</string>
-    <string name="app_name">Chordinator Augmented</string>
-    <string name="app_label">Chordinator+</string>
-	<string name="feedback">Entrar em contato - Chordinator Aug</string>
+    <string name="app_name">"Chordinator Augmented"</string>
+    <string name="app_label">"Chordinator+"</string>
+    <string name="feedback">"Diga o que pensa"</string>
 
 </resources>

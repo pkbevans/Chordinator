@@ -22,8 +22,8 @@ public class ChordinatorPrefs extends SherlockPreferenceActivity {
 		setTheme(colourScheme == ColourScheme.LIGHT? R.style.Theme_Sherlock_Light: R.style.Theme_Sherlock);
 		super.onCreate(savedInstanceState);
 
-		// Load up fragment
-		setContentView(R.layout.songprefs_fragment);
+		// Load the preferences from an XML resource
+		addPreferencesFromResource(R.xml.preferences);
 
         getSupportActionBar().setLogo(colourScheme == ColourScheme.DARK ? R.drawable.chordinator_aug_logo_dark_bkgrnd : R.drawable.chordinator_aug_logo_light_bkgrnd);
 		getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -35,6 +35,7 @@ public class ChordinatorPrefs extends SherlockPreferenceActivity {
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			Log.d(TAG, "HELLO - HOME PRESSED");
+			finish();
 			break;
 		case EXPORTSETTINGS_ID:
 			SongPrefs.exportSettings(this);

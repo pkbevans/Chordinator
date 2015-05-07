@@ -119,6 +119,7 @@
         <item>1</item>
         <item>2</item>
         <item>3</item>
+        <item>4</item>
     </string-array>
 <!-- IMPORTANT.  THESE VALUES NEED TO BE THE SAME AS VALUES IN SongPrefs.java -->
     <string name="pref_key_textsize">TextSize</string>
@@ -154,5 +155,6 @@
     <string name="app_version">aug</string>
     <string name="target_package">com.bondevans.chordinator</string>
     <string name="paid_url">https://play.google.com/store/apps/details?id=com.bondevans.chordinator.aug</string>
+    <string name="song_path">com.bondevans.chordinator.SongPath</string>
 
 </resources>

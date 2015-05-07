@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="grids_off">"Ocultar gráficos de acordes"</string>
+    <string name="set_options">"Preferências"</string>
+    <string name="auto_scroll">"Rolamento Automático do Ecrã"</string>
+    <string name="stop_scroll">"Parar Auto-rolamento do Ecrã"</string>
+    <string name="ok">"OK"</string>
+    <string name="cancel">"Cancelar"</string>
+    <string name="help">"Ajuda"</string>
+    <string name="edit_song">"Editar"</string>
+    <string name="share_song">"Compartilhar…"</string>
+    <string name="help_screen_title">"Ajuda"</string>
+    <string name="open">"Abrir"</string>
+    <string name="add_to_set_list">"Adicionar Canção ao Alinhamento"</string>
+    <string name="edit_setlist">"Editar Alinhamento"</string>
+    <string name="choose_set">"Seleccionar Alinhamento"</string>
+    <string name="add">"Novo Alinhamento"</string>
+    <string name="no_sets">"Ainda não criou qualquer Alinhamento."</string>
+    <string name="up">"Acima"</string>
+    <string name="down">"Abaixo"</string>
+    <string name="delete">"Apagar"</string>
+    <string name="delete_all">"Apagar Todas as Canções"</string>
+    <string name="save">"Salvar"</string>
+    <string name="add_new_set">"Criar Alinhamento"</string>
+    <string name="autoscroll_summary_on">"Activado Auto-rolamento do ecrã (todas as Canções) "</string>
+    <string name="autoscroll_summary_off">"Auto-rolamento do ecrã desactivado"</string>
+    <string name="chord_grids_summary_on">"Mostrar sempre os gráficos dos acordes"</string>
+    <string name="chord_grids_summary_off">"Não mostrar os gráficos dos acordes"</string>
+    <string name="save_trans">"Salvar a Canção no novo Tom"</string>
+    <string name="grids_on">"Mostrar os gráficos dos acordes"</string>
+    <string name="save_text">"Salvar em ficheiro de texto"</string>
+    <string name="refresh">"Refrescar"</string>
+    <string name="convert">"Converter para ChordPro"</string>
+    <string name="artist">"Artista"</string>
+    <string name="title">"Título da Canção"</string>
+    <string name="composer">"Autor"</string>
+    <string name="set_song_details">"Definir Detalhes da Canção"</string>
+    <string name="empty_set">"Alinhamento vazio. Por favor adicione canções."</string>
+    <string name="save_html">"Salvar em formato HTML"</string>
+    <string name="close">"Fechar"</string>
+    <string name="options">"Opções"</string>
+    <string name="banned_file_type">"O Chordinator não suporta este tipo de ficheiro"</string>
+    <string name="save_as">"Salvar cópia"</string>
+    <string name="copy_failed">"Cópia mal sucedida."</string>
+    <string name="copying">"Copiando…"</string>
+    <string name="file_exists">"O ficheiro já existe. Por favor, escolha outro nome."</string>
+    <string name="new_file_name">"Novo Nome de Ficheiro"</string>
+    <string name="are_you_sure_delete">"Tem certeza que deseja apagar este ficheiro?"</string>
+    <string name="no_todos">"De momento não existem Canções"</string>
+    <string name="menu_insert">"Adicionar Item"</string>
+    <string name="menu_delete">"Apagar Canção"</string>
+    <string name="song_summary">"Sumário"</string>
+    <string name="song_description">"Apagar Canção"</string>
+    <string name="song_edit_summary">"Sumário"</string>
+    <string name="song_edit_description">"Descrição"</string>
+    <string name="song_edit_confirm">"Confirmar"</string>
+    <string name="set_name">"Seleccionar Alinhamento"</string>
+    <string name="menu_delete_set">"Apagar Alinhamento"</string>
+    <string name="search">"Procurar"</string>
+    <string name="tabname_songs">"Minhas Canções"</string>
+    <string name="tabname_sets">"ALINHAMENTOS"</string>
+    <string name="tabname_browse">"Gestor de Ficheiros"</string>
+    <string name="toggle_favs">"Assinalar Favorito"</string>
+    <string name="no_songs">"Não dispõe de canções?  Pode utilizar o Gestor de Ficheiros ou o mecanismo de busca na Internet para procurar canções."</string>
+    <string name="favourites">"Favoritos"</string>
+    <string name="recent">"Recente"</string>
+    <string name="already_chopro">"Esta canção já está no formato ChoPro"</string>
+    <string name="saved">"salvo"</string>
+    <string name="filename">"Novo Nome de Ficheiro"</string>
+    <string name="song_found">"Encontrada uma nova canção"</string>
+    <string name="loading_page">"Carregando a página…"</string>
+    <string name="save_file">"O ficheiro foi alterado. Quer salvá-lo?"</string>
+    <string name="welcome">"Benvindo ao"</string>
+    <string name="scan_for_songs">"Procurar canções"</string>
+    <string name="search_songs">"Procurar canções na Internet"</string>
+    <string name="tabname_welcome">"Benvindo"</string>
+    <string name="pref_cat_songviewer">"Visualizador de Canções"</string>
+    <string name="pref_tit_grids_on">"Mostrar sempre os gráficos dos acordes"</string>
+    <string name="pref_sum_grids_on">"Os gráficos dos acordes serão mostrados por defeito"</string>
+    <string name="pref_tit_colour_scheme">"Esquema de cores"</string>
+    <string name="pref_tit_text_files">"Ficheiros de texto"</string>
+    <string name="pref_tit_encoding">"Codificação por defeito"</string>
+    <string name="pref_sum_encoding">"Codificação utilizada para abrir ficheiros em formato de texto.  Deixe em branco se tiver dúvidas.  Tente \"utf-8\" na Ásia ou \"windows-1251\" para Cirílico."</string>
+    <string name="pref_sum_grids_off">"OS gráficos dos acordes NÂO serão mostrados"</string>
+    <string name="pref_tit_text_size">"Tamanho da Fonte de Texto"</string>
+    <string name="pref_autoscroll">"Auto-rolamento do texto"</string>
+    <string name="pref_turboscroll">"Velocidade de Auto-rolamento"</string>
+    <string name="pref_sum_autoscroll_on">"As canções auto-rolarão automáticamente no ecrã quando visualizadas"</string>
+    <string name="pref_sum_autoscroll_off">"As canções NÃO auto-rolarão automáticamente"</string>
+    <string name="pref_sum_turboscroll_on">"Auto-rolamento Acelerado Ligado"</string>
+    <string name="pref_sum_turboscroll_off">"Auto-rolamento Acecelado Desligado"</string>
+    <string name="pref_sum_adddashes_off">"Travessões NÃO serão utilizados para unir palavras divididas por acordes"</string>
+    <string name="pref_sum_adddashes_on">"Travessões SERÃO utilizados para unir palavras divididas por acordes"</string>
+    <string name="pref_tit_adddashes">"Adicionar Travessões a palavras divididas por acordes"</string>
+    <string name="pref_sum_honourlfs_off">"Linhas em branco não serão exibidas"</string>
+    <string name="pref_sum_honourlfs_on">"Linhas em branco serão exibidas"</string>
+    <string name="pref_tit_honourlfs">"Linhas em branco"</string>
+    <string name="pref_tit_scroll_delay">"Período de tempo (em segundos) que antecede o rolamento do ecrã"</string>
+    <string name="pref_sum_scroll_delay">"O tempo em segundos antes de iniciar o rolamento do texto"</string>
+    <string name="search_for">"Canção ou Autor a pesquisar"</string>
+    <string name="only_chordie">"Pesquisar apenas em Chordie.com"</string>
+    <string name="scanning">"Procurando…"</string>
+    <string name="add_songs">"Adicionar Canções"</string>
+    <string name="done">"Concluído"</string>
+    <string name="already_in_set">"Já existe no Alinhamento."</string>
+    <string name="menu_delete_from_set">"Apagar do Alinhamento"</string>
+    <string name="back_to_sets">"Voltar ao Alinhamento"</string>
+    <string name="set">"Alinhamento"</string>
+    <string name="set_deleted">"Alinhamento Apagado"</string>
+    <string name="failed_to_delete">"Erro ao apagar"</string>
+    <string name="pref_tit_chord_grid_instrument">"Instrumento"</string>
+    <string name="song_browser_title">"Gestor de Canções do Chordinator"</string>
+    <string name="banned_file">"O Chordinator não pode abrir este ficheiro"</string>
+    <string name="up_to">"Acima"</string>
+    <string name="no_song">"Nenhuma Canção seleccionada."</string>
+    <string name="whats_new">"O que há de novo?"</string>
+    <string name="select_set">"Seleccionar Alinhamento"</string>
+    <string name="search_instruction">"Instruções:\n1.Digite o Nome da Canção e/ou o Autor\n2.Seguir as ligações do Google\n3.A aplicação copiará o conteúdo se a canção existir\n4.Confirmar o novo nome do ficheiro"</string>
+    <string name="search_instruction1">"1.Digite o nome da canção e/ou o autor"</string>
+    <string name="search_instruction2">"2.Siga os links do Google"</string>
+    <string name="search_instruction3">"3.A App vai copiará o conteúdo no formato Chopro"</string>
+    <string name="search_instruction4">"4.Confirme o novo nome do ficheiro"</string>
+    <string name="searching">"Procurando…"</string>
+    <string name="search_title">"Busca no Chordinator"</string>
+    <string name="pref_sum_chord_grid_instrument">"Instrumento para o formato dos gráficos dos acordes"</string>
+    <string name="pref_sum_colour_scheme">"Esquema de Cores do Ecrã de Canções"</string>
+    <string name="pref_sum_textsize">"Tamanho da Letra no ecrã de Canções"</string>
+    <string name="home">"Início"</string>
+    <string name="rename">"Renomear…"</string>
+    <string name="rename_set">"Renomear Alinhamento…"</string>
+    <string name="are_you_sure_delete_set">"Tem a certeza que pretende apagar este Alinhamento?"</string>
+    <string name="new_set_name">"Novo Nome de Alinhamento"</string>
+    <string name="rename_failed">"Falha ao renomear"</string>
+    <string name="pref_tit_mode">"Ecrã de Letras e Acordes"</string>
+    <string name="pref_sum_mode">"Deseja mostrar Letra, Acordes, ou ambos?"</string>
+    <string name="add_songs_to">"Adicionar Canções a"</string>
+    <string name="export_settings">"Exportar configuração"</string>
+    <string name="import_settings">"Importar configuração"</string>
+    <string name="settings_exported">"Configuração exportada para"</string>
+    <string name="settings_imported">"Importação da Configuração bem sucedida"</string>
+    <string name="export_failed">"Exportação Falhada"</string>
+    <string name="import_failed">"Ficheiro de configuração não encontrado:"</string>
+    <string name="song_too_big">"Canção demasiado extensa - tente reduzir o tamanho do texto"</string>
+    <string name="orig_trans">"Reverter para o Tom original"</string>
+    <string name="chorus">"Refrão"</string>
+    <string name="import_set">"Importar Alinhamento"</string>
+    <string name="export_set">"Exportar Alinhamento"</string>
+    <string name="exported_to">"Exportado para"</string>
+    <string name="imported">"importado"</string>
+    <string name="added">"Adicionado"</string>
+    <string name="songs">"canções"</string>
+    <string name="no_songs_found">"Não foram encontradas novas canções"</string>
+    <string name="pref_sum_split_screen_on">"Será mostrado o ecrã dividido em modo paisagem"</string>
+    <string name="pref_sum_split_screen_off">"NÃO será mostrado o ecrã dividido em modo paisagem"</string>
+    <string name="pref_tit_split_screen">"Dividir ecrã em modo paisagem"</string>
+    <string name="sendlog">"Enviar log de depuração para o programador"</string>
+    <string name="promote_paid_app_text">"Se gosta da App The Chordinator, por favor, apoie o desenvolvimento contínuo desta aplicação, pagando uma pequena quantia pela versão completa do Chordinator Augmented"</string>
+    <string name="promote_paid_app_title">"Já experimentou o Chordinator Augmented?"</string>
+    <string name="keywords">"Palavras chave"</string>
+    <string name="no_thanks">"Talvez mais tarde"</string>
+    <string name="no_network">"Sem ligação à Internet disponível."</string>
+    <string name="search_hint">"Procurar Canções"</string>
+    <string name="files_scanned">"Ficheiros verificados: %s"</string>
+    <string name="songs_found">"Novas Canções encontradas: %s"</string>
+    <string name="task_started_msg">"Iniciado"</string>
+    <string name="task_cancelled_msg">"Cancelado"</string>
+    <string name="task_complete_msg">"Finalizado"</string>
+    <string name="start">"Iniciar Verificação"</string>
+    <string name="folder">"Pasta:"</string>
+    <string name="file">"Ficheiro:"</string>
+    <string name="print">"Imprimir…"</string>
+    <string name="chord_aug_firstrun_heading">"Primeira Utilização"</string>
+    <string name="alphabet">"ABCDEFGHIJKLMNOPQRSTUVWXYZ"</string>
+    <string name="show_details">"Mostrar detalhes"</string>
+    <string name="song_details">"Detalhes da Canção"</string>
+    <string name="browse_to">"Ir para a localização do ficheiro"</string>
+    <string name="split_proportions">"Proporções das partes do ecrã dividido"</string>
+    <string name="pref_sum_split_proportions">"Definir as proporções do painel duplo em modo paisagem"</string>
+    <string name="delete_from_disk">"Excluir a canção do disco"</string>
+    <string name="convert_chopro">"Converter para o formato ChoPro"</string>
+    <string name="make_download_dir">"Fazer desta pasta repositório para download"</string>
+    <string name="upgrade_now">"Actualizar agora."</string>
+
+    <string-array name="colour_schemes">
+        <item>"Texto preto em fundo branco"</item>
+        <item>"Texto branco em fundo preto"</item>
+    </string-array>
+
+    <string-array name="grid_instrument_entries">
+        <item>"Guitarra"</item>
+        <item>"Bandolim"</item>
+        <item>"Ukulele/Cavaquinho"</item>
+        <item>Tenor Banjo/Mandocello/Tenor Guitar</item>
+    </string-array>
+
+    <string-array name="modes">
+        <item>"Normal - Letra e acordes"</item>
+        <item>"Apenas Acordes - A Letra não será mostrada"</item>
+        <item>"Apenas a Letra - Os Acordes não serão mostrados"</item>
+    </string-array>
+
+</resources>

@@ -37,6 +37,9 @@ public class ChordShapePainter {
 		case ChordShapeProvider.INSTRUMENT_UKELELE:
 			mShapes = (ShapeProvider)new UkeleleChordShapeProvider(songGrids);
 			break;
+		case ChordShapeProvider.INSTRUMENT_BANJO:
+				mShapes = (ShapeProvider)new TenorBanjoChordShapeProvider(songGrids);
+				break;
 		}
 		FRETS = mShapes.FRETS();
 		initGrid(maxWidth);

@@ -3,17 +3,13 @@
 
     <string name="grids_off">No cuadrículas</string>
     <string name="set_options">Preferencias</string>
-    <string name="auto_scroll"></string>
+    <string name="auto_scroll">Desplazamiento automático</string>
     <string name="stop_scroll">Detener desplazamiento</string>
     <string name="ok">Aceptar</string>
     <string name="cancel">Cancelar</string>
-    <string name="description">canción Visor Acordes</string>
     <string name="help">Ayuda</string>
     <string name="edit_song">Editar</string>
     <string name="share_song">Share&#8230;</string>
-    <string name="song_path">com.bondevans.chordinator.SongPath</string>
-    <string name="transpose_up">Transpose Up</string>
-    <string name="transpose_down">transposición de Down</string>
     <string name="help_screen_title">Ayuda</string>
     <string name="open">Abrir</string>
     <string name="add_to_set_list">Añadir al establecer la lista&#8230;</string>
@@ -36,7 +32,7 @@
     <string name="save_text">Guardar en archivo de texto</string>
     <string name="refresh">Actualizar</string>
     <string name="convert">Convertir a ChoPro</string>
-    <string name="artist"></string>
+    <string name="artist">Artiste</string>
     <string name="title">título</string>
     <string name="composer">Compositor</string>
     <string name="set_song_details">Detalles de la canción Set</string>
@@ -82,17 +78,6 @@
     <string name="pref_cat_songviewer">VISUALIZACION DE CANCIONES</string>
     <string name="pref_tit_grids_on">Mostrar Acordes</string>
     <string name="pref_sum_grids_on">Los Acordes se activan de forma predeterminada</string>
-
-    <string-array name="colour_schemes">
-        <item>Negro sobre fondo blanco</item>
-        <item>Blanco sobre Fondo Negro</item>
-    </string-array>
-    <string-array name="grid_instrument_entries">
-        <item>Guitarra</item>
-        <item>Mandolina</item>
-        <item>Ukelele</item>
-    </string-array>
-
     <string name="pref_tit_colour_scheme">Combinación de Colores</string>
     <string name="pref_tit_text_files">Text Files</string>
     <string name="pref_tit_encoding">Codificación Unicode predeterminada (Experto)</string>
@@ -100,8 +85,11 @@
     <string name="pref_sum_grids_off">acorde no se mostrará</string>
     <string name="pref_tit_text_size">Tamaño de Letra</string>
     <string name="pref_autoscroll">Desplazamiento de la Canción</string>
+    <string name="pref_turboscroll">Faster scrolling</string>
     <string name="pref_sum_autoscroll_on">se auto desplazarse automáticamente cuando se ve</string>
     <string name="pref_sum_autoscroll_off">Mostrar Desplazamiento al iniciar la canción?</string>
+    <string name="pref_sum_turboscroll_on">Faster Scrolling is ON</string>
+    <string name="pref_sum_turboscroll_off">Faster Scrolling is OFF</string>
     <string name="pref_sum_adddashes_off">"No Añadir los Guiones"</string>
     <string name="pref_sum_adddashes_on">"Los guiones se agregan a las palabras divididas por una cuerda"</string>
     <string name="pref_tit_adddashes">"Añadir guiones en palabras con Acordes"</string>
@@ -126,7 +114,6 @@
     <string name="banned_file">El Chordinator puede\'t abrir este archivo</string>
     <string name="up_to">Hasta </string>
     <string name="no_song">No hay canciones seleccionadas.</string>
-    <string name="web_url">www.bondevans.com/chordinator</string>
     <string name="whats_new">Lo que s \'nueva?</string>
     <string name="select_set">Seleccione el botón SET</string>
     <string name="search_instruction">1.Introduzca la canción y/o artista\n2.Follow google enlaces\n3.se agarra canciones\n4.Confirm nuevo archivo</string>
@@ -145,16 +132,8 @@
     <string name="are_you_sure_delete_set">Are you sure you want to delete this SET?</string>
     <string name="new_set_name">New SET Name</string>
     <string name="rename_failed">Failed to Rename</string>
-
-    <string-array name="modes">
-        <item>Normal - Chords and Lyrics</item>
-        <item>Chords Only - Lyrics are not displayed</item>
-        <item>Lyrics Only - Chords are not displayed</item>
-    </string-array>
-
     <string name="pref_tit_mode">Acordes y Letras</string>
     <string name="pref_sum_mode">Mostrar Acordes, Letras o Ambos</string>
-    <!-- v1.0 Aug -->
     <string name="add_songs_to">Add Songs to</string>
     <string name="export_settings">Export Settings</string>
     <string name="import_settings">Import Settings</string>
@@ -184,9 +163,6 @@
     <string name="file">File:</string>
     <string name="files_scanned">"Files scanned: %s"</string>
     <string name="folder">Folder:</string>
-    <string name="pref_sum_turboscroll_off">Faster Scrolling is OFF</string>
-    <string name="pref_sum_turboscroll_on">Faster Scrolling is ON</string>
-    <string name="pref_turboscroll">Faster scrolling</string>
     <string name="print">Print&#8230;</string>
     <string name="search_hint">Search Songs</string>
     <string name="songs_found">"New Songs found: %s"</string>
@@ -194,5 +170,34 @@
     <string name="task_cancelled_msg">Cancelled</string>
     <string name="task_complete_msg">Complete</string>
     <string name="task_started_msg">Started</string>
+    <string name="chord_aug_firstrun_heading">First Run</string>
+    <string name="alphabet"> ABCDEFGHIJKLMNÑOPQRSTUVWXYZ</string>
+    <string name="show_details">"Mostrar detalles"</string>
+    <string name="song_details">"Detalles de la Canción"</string>
+    <string name="browse_to">"Goto ubicación del archivo"</string>
+    <string name="split_proportions">"Dividir Proporciones de la pantalla"</string>
+    <string name="pref_sum_split_proportions">"Establecer las proporciones del panel dual en modo horizontal"</string>
+    <string name="delete_from_disk">"Eliminar archivo de música desde el disco"</string>
+    <string name="convert_chopro">"Convertir a formato Chopro"</string>
+    <string name="make_download_dir">"Hacer esta carpeta la ubicación de descarga"</string>
+    <string name="upgrade_now">"Mejorar Ahora &gt;&gt;"</string>
+
+    <string-array name="colour_schemes">
+        <item>Negro sobre fondo blanco</item>
+        <item>Blanco sobre Fondo Negro</item>
+    </string-array>
+
+    <string-array name="grid_instrument_entries">
+        <item>Guitarra</item>
+        <item>Mandolina</item>
+        <item>Ukelele</item>
+        <item>Tenor Banjo/Mandocello/Tenor Guitar</item>
+    </string-array>
+
+    <string-array name="modes">
+        <item>Normal - Chords and Lyrics</item>
+        <item>Chords Only - Lyrics are not displayed</item>
+        <item>Lyrics Only - Chords are not displayed</item>
+    </string-array>
 
 </resources>

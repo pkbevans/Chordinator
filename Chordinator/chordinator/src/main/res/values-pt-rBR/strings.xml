@@ -7,13 +7,9 @@
     <string name="stop_scroll">Parar Rolagem</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancelar</string>
-    <string name="description">Ver acordes</string>
     <string name="help">Ajuda</string>
     <string name="edit_song">Editar</string>
     <string name="share_song">Enviar por&#8230;</string>
-    <string name="song_path">com.bondevans.chordinator.SongPath</string>
-    <string name="transpose_up">&#189; Tom acima</string>
-    <string name="transpose_down">&#189; Tom abaixo</string>
     <string name="help_screen_title">Ajuda</string>
     <string name="open">Abrir</string>
     <string name="add_to_set_list">Adicionar música na LISTA&#8230;</string>
@@ -82,17 +78,6 @@
     <string name="pref_cat_songviewer">Visualizador de músicas</string>
     <string name="pref_tit_grids_on">Sempre mostrar o desenho dos acordes</string>
     <string name="pref_sum_grids_on">Desenho dos acordes será mostrado por default</string>
-
-    <string-array name="colour_schemes">
-        <item>Texto preto em fundo branco</item>
-        <item>Texto branco em fundo preto</item>
-    </string-array>
-    <string-array name="grid_instrument_entries">
-        <item>Violão/Guitarra</item>
-        <item>Bandolim</item>
-        <item>Cavaquinho</item>
-    </string-array>
-
     <string name="pref_tit_colour_scheme">Esquema de cores</string>
     <string name="pref_tit_text_files">Arquivos texto</string>
     <string name="pref_tit_encoding">Codificação</string>
@@ -100,8 +85,11 @@
     <string name="pref_sum_grids_off">Desenho dos acordes NÃO será mostrado</string>
     <string name="pref_tit_text_size">Tamanho da fonte</string>
     <string name="pref_autoscroll">Rolagem automática</string>
+    <string name="pref_turboscroll">Velocidade de Auto-rolamento</string>
     <string name="pref_sum_autoscroll_on">Músicas vão rolar automaticamente quando visualizadas</string>
     <string name="pref_sum_autoscroll_off">Músicas NÃO começarão com rolagem automática</string>
+    <string name="pref_sum_turboscroll_on">Auto-rolamento Acelerado Ligado</string>
+    <string name="pref_sum_turboscroll_off">Auto-rolamento Acecelado Desligado</string>
     <string name="pref_sum_adddashes_off">"Traços não adicionado às palavras divididas por uma corda"</string>
     <string name="pref_sum_adddashes_on">"Traços são adicionados às palavras divididas por uma corda"</string>
     <string name="pref_tit_adddashes">"Adicionar traços de palavras divididas por uma corda"</string>
@@ -126,7 +114,6 @@
     <string name="banned_file">Chordinator não pode abrir esse arquivo</string>
     <string name="up_to">Acima </string>
     <string name="no_song">Nenhuma música selecionada.</string>
-    <string name="web_url">www.bondevans.com/chordinator</string>
     <string name="whats_new">O que há de novo?</string>
     <string name="select_set">Selecione a LISTA</string>
     <string name="search_instruction">1.Digite a música e/ou artista\n2.Siga os links do Google\n3.O app vai trazer no formato música\n4.Confirme novo nome do arquivo</string>
@@ -139,22 +126,14 @@
     <string name="pref_sum_chord_grid_instrument">Instrumento para mostrar os desenhos dos acordes</string>
     <string name="pref_sum_colour_scheme">O esquema de cores da tela de músicas</string>
     <string name="pref_sum_textsize">O tamanho das letras na tela das músicas</string>
-    <string name="home">Home</string>
-    <string name="rename">Rename&#8230;</string>
+    <string name="home">Início</string>
+    <string name="rename">Renomear&#8230;</string>
     <string name="rename_set">"Renomear SET&#8230;"</string>
     <string name="are_you_sure_delete_set">Tem certeza que quer apagar esta LISTA?</string>
     <string name="new_set_name">Novo nome de LISTA</string>
     <string name="rename_failed">Falha em renomear</string>
-
-    <string-array name="modes">
-        <item>Normal - Letra e acordes</item>
-        <item>Só acordes - A letra não será mostrada</item>
-        <item>Só a letra - acordes não serão mostrados</item>
-    </string-array>
-
     <string name="pref_tit_mode">Letra e/ou acordes</string>
     <string name="pref_sum_mode">Para mostrar a letra, os acordes ou ambos</string>
-    <!-- v1.0 Aug -->
     <string name="add_songs_to">Adicionar músicas a</string>
     <string name="export_settings">Exportar configuração</string>
     <string name="import_settings">Importar configuração</string>
@@ -162,16 +141,16 @@
     <string name="settings_imported">Configuração importada com sucesso</string>
     <string name="export_failed">Falha na exportação</string>
     <string name="import_failed">Arquivo de configuração não encontrado: </string>
-    <string name="song_too_big">Song too big - try reducing Text Size</string>
-    <string name="orig_trans">Revert to Original key</string>
-    <string name="chorus">Chorus</string>
-    <string name="import_set">Import Set</string>
-    <string name="export_set">Export Set</string>
-    <string name="exported_to">Exported to</string>
-    <string name="imported">imported</string>
-    <string name="added">Added</string>
-    <string name="songs">songs</string>
-    <string name="no_songs_found">No new songs found</string>
+    <string name="song_too_big">Canção demasiado extensa - tente reduzir o tamanho do texto</string>
+    <string name="orig_trans">Reverter para o Tom original</string>
+    <string name="chorus">Refrão</string>
+    <string name="import_set">Importar Alinhamento</string>
+    <string name="export_set">Exportar Alinhamento</string>
+    <string name="exported_to">Exportado para</string>
+    <string name="imported">importado</string>
+    <string name="added">Adicionado</string>
+    <string name="songs">canções</string>
+    <string name="no_songs_found">Não foram encontradas novas canções</string>
     <string name="pref_sum_split_screen_on">"Dividir a tela será utilizada na paisagem"</string>
     <string name="pref_sum_split_screen_off">"Dividir a tela não será utilizado na paisagem"</string>
     <string name="pref_tit_split_screen">"Split Screen na paisagem"</string>
@@ -181,18 +160,44 @@
     <string name="keywords">"Palavras Chave"</string>
     <string name="no_thanks">"Talvez mais tarde"</string>
     <string name="no_network">"Sem ligação à Internet disponível."</string>
-    <string name="file">File:</string>
-    <string name="files_scanned">"Files scanned: %s"</string>
-    <string name="folder">Folder:</string>
-    <string name="pref_sum_turboscroll_off">Faster Scrolling is OFF</string>
-    <string name="pref_sum_turboscroll_on">Faster Scrolling is ON</string>
-    <string name="pref_turboscroll">Faster scrolling</string>
-    <string name="print">Print&#8230;</string>
-    <string name="search_hint">Search Songs</string>
-    <string name="songs_found">"New Songs found: %s"</string>
-    <string name="start">Start Scan</string>
-    <string name="task_cancelled_msg">Cancelled</string>
-    <string name="task_complete_msg">Complete</string>
-    <string name="task_started_msg">Started</string>
+    <string name="search_hint">"Procurar Canções"</string>
+    <string name="files_scanned">"Ficheiros verificados: %s"</string>
+    <string name="songs_found">"Novas Canções encontradas: %s"</string>
+    <string name="task_started_msg">"Iniciado"</string>
+    <string name="task_cancelled_msg">"Cancelado"</string>
+    <string name="task_complete_msg">"Finalizado"</string>
+    <string name="start">"Iniciar Verificação"</string>
+    <string name="folder">"Pasta:"</string>
+    <string name="file">"Ficheiro:"</string>
+    <string name="print">"Imprimir…"</string>
+    <string name="chord_aug_firstrun_heading">"Primeira Utilização"</string>
+    <string name="alphabet"> ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+    <string name="show_details">"Mostrar detalhes"</string>
+    <string name="song_details">"Detalhes da canção"</string>
+    <string name="browse_to">"Localização do arquivo Goto"</string>
+    <string name="split_proportions">"Dividir Proporções de tela"</string>
+    <string name="pref_sum_split_proportions">"Definir as proporções do painel duplo no modo paisagem"</string>
+    <string name="delete_from_disk">"Excluir arquivo de música do disco"</string>
+    <string name="convert_chopro">"Converter para o formato Chopro"</string>
+    <string name="make_download_dir">"Tornar esta pasta o local de download"</string>
+    <string name="upgrade_now">"Atualizar agora"</string>
+
+    <string-array name="colour_schemes">
+        <item>Texto preto em fundo branco</item>
+        <item>Texto branco em fundo preto</item>
+    </string-array>
+
+    <string-array name="grid_instrument_entries">
+        <item>Violão/Guitarra</item>
+        <item>Bandolim</item>
+        <item>Cavaquinho</item>
+        <item>Tenor Banjo/Mandocello/Tenor Guitar</item>
+    </string-array>
+
+    <string-array name="modes">
+        <item>Normal - Letra e acordes</item>
+        <item>Só acordes - A letra não será mostrada</item>
+        <item>Só a letra - acordes não serão mostrados</item>
+    </string-array>
 
 </resources>

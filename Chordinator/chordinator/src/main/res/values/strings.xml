@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="grids_off">No Grids</string>
     <string name="set_options">Preferences</string>
     <string name="auto_scroll">Auto Scroll</string>
     <string name="stop_scroll">Stop Scroll</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
-    <string name="description">Song Chord Viewer</string>
     <string name="help">Help</string>
     <string name="edit_song">Edit</string>
     <string name="share_song">Share&#8230;</string>
-    <string name="song_path">com.bondevans.chordinator.SongPath</string>
-    <string name="transpose_up">Transpose Up</string>
-    <string name="transpose_down">Transpose Down</string>
     <string name="help_screen_title">Chordinator Help</string>
     <string name="open">Open</string>
     <string name="add_to_set_list">Add Song to SET&#8230;</string>
@@ -81,17 +78,6 @@
     <string name="pref_cat_songviewer">The Song Viewer</string>
     <string name="pref_tit_grids_on">Always show chord grids</string>
     <string name="pref_sum_grids_on">Chord grids will be on by default</string>
-
-    <string-array name="colour_schemes">
-        <item>Black Text on White Background</item>
-        <item>White text on Black Background</item>
-    </string-array>
-    <string-array name="grid_instrument_entries">
-        <item>Guitar</item>
-        <item>Mandolin</item>
-        <item>Ukelele</item>
-    </string-array>
-
     <string name="pref_tit_colour_scheme">Color Scheme</string>
     <string name="pref_tit_text_files">Text Files</string>
     <string name="pref_tit_encoding">Default Encoding</string>
@@ -110,7 +96,6 @@
     <string name="pref_sum_honourlfs_off">Empty lines are NOT displayed</string>
     <string name="pref_sum_honourlfs_on">Empty lines are displayed</string>
     <string name="pref_tit_honourlfs">Empty lines</string>
-    
     <string name="pref_tit_scroll_delay">Scroll Delay in seconds</string>
     <string name="pref_sum_scroll_delay">The delay in seconds before scrolling starts</string>
     <string name="search_for">Song or Artist to search for</string>
@@ -129,7 +114,6 @@
     <string name="banned_file">The Chordinator can\'t open this file</string>
     <string name="up_to">Up to </string>
     <string name="no_song">No Song Selected.</string>
-    <string name="web_url">www.bondevans.com/chordinator</string>
     <string name="whats_new">What\'s new?</string>
     <string name="select_set">Select the SET</string>
     <string name="search_instruction">Instructions:\n1.Enter song and/or artist\n2.Follow google links\n3.App will grab chords if song found\n4.Confirm new file name</string>
@@ -148,13 +132,6 @@
     <string name="are_you_sure_delete_set">Are you sure you want to delete this SET?</string>
     <string name="new_set_name">New SET Name</string>
     <string name="rename_failed">Failed to Rename</string>
-
-    <string-array name="modes">
-        <item>Normal - Chords and Lyrics</item>
-        <item>Chords Only - Lyrics are not displayed</item>
-        <item>Lyrics Only - Chords are not displayed</item>
-    </string-array>
-
     <string name="pref_tit_mode">Chord and Lyric Display</string>
     <string name="pref_sum_mode">Whether to show Chords or Lyrics or Both</string>
 	<string name="add_songs_to">Add Songs to</string>
@@ -193,4 +170,34 @@
 	<string name="folder">Folder: </string>
 	<string name="file">File: </string>
 	<string name="print">Print&#8230;</string>
+    <string name="chord_aug_firstrun_heading">First Run</string>
+    <string name="alphabet"> ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+    <string name="show_details">Show details</string>
+    <string name="song_details">Song Details</string>
+    <string name="browse_to">Goto file location</string>
+    <string name="split_proportions">Split Screen Proportions</string>
+    <string name="pref_sum_split_proportions">Set the proportions of the dual pane in landscape mode</string>
+    <string name="delete_from_disk">Delete song file from disk</string>
+    <string name="convert_chopro">Convert to Chopro format</string>
+    <string name="make_download_dir">Make this folder the download location</string>
+    <string name="upgrade_now">Upgrade now.</string>
+
+    <string-array name="colour_schemes">
+        <item>Black Text on White Background</item>
+        <item>White text on Black Background</item>
+    </string-array>
+
+    <string-array name="grid_instrument_entries">
+        <item>Guitar</item>
+        <item>Mandolin</item>
+        <item>Ukelele</item>
+        <item>Tenor Banjo/Mandocello/Tenor Guitar</item>
+    </string-array>
+
+    <string-array name="modes">
+        <item>Normal - Chords and Lyrics</item>
+        <item>Chords Only - Lyrics are not displayed</item>
+        <item>Lyrics Only - Chords are not displayed</item>
+    </string-array>
+
 </resources>
