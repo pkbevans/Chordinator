@@ -191,7 +191,7 @@
         <item>Guitar</item>
         <item>Mandolin</item>
         <item>Ukelele</item>
-        <item>Tenor Banjo/Mandocello/Tenor Guitar</item>
+        <item>Tenor (C-G-D-A)</item>
     </string-array>
 
     <string-array name="modes">

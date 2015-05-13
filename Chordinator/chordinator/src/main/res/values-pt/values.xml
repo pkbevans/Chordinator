@@ -191,7 +191,7 @@
         <item>"Guitarra"</item>
         <item>"Bandolim"</item>
         <item>"Ukulele/Cavaquinho"</item>
-        <item>Tenor Banjo/Mandocello/Tenor Guitar</item>
+        <item>Tenor (C-G-D-A)</item>
     </string-array>
 
     <string-array name="modes">

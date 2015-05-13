@@ -23,7 +23,7 @@ public class LatestFragment extends DialogFragment{
 	private static String mVersion = "";
 	private String[] mStrings = {
 			// TODO - Sort out memory problems
-			"v5.4.2 - New - Added Tenor Banjo Chord shapes",
+			"v5.4.2 - New - Added Tenor (C-G-D-A) Chord shapes",
 			"v5.4.1 - New - Added Portugese translations - obrigado Jorge :)",
 			"v5.4.1 - Fixed - Preferences on Android vs<11",
 			"v5.4 - Swipe to remove from Set disabled, following feedback",
@@ -48,7 +48,7 @@ public class LatestFragment extends DialogFragment{
 			"v5.0 New - Add Share option to File Browser long press menu", 
 			"v5.0 Fixed - Crash during Scan due to screen orientation change",
 			"v5.0 New - Changed version numbering scheme. Unified Dim/Aug code",
-			"v4.0 New - Free app now has all Aug functionality",
+/*			"v4.0 New - Free app now has all Aug functionality",
 			"v2.4.0 Fixed - Fixed problems caused by hardcoded /sdcard",
 			"v2.4.0 Fixed - App only offers to open .csf .txt and .chopro files",
 			"v2.3.2 New - Added additional text sizes",
@@ -97,7 +97,7 @@ public class LatestFragment extends DialogFragment{
 			"v1.1 New - Send Debug Logs from About screen",
 			"v1.1 New - Send Feedback from About screen",
 			"v1.1 Fixed - duplicate library entries when opening same song twice from dropbox",
-			"v1.0 - Brand new app"
+			"v1.0 - Brand new app" */
 			// DONE Add dialog for delete from song list and add option to delete from disk at the same time
             // DONE - Rename SET action item
 			// DONE - Corrected "Done" button colour on AddSongToSet screen
