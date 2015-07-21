@@ -32,8 +32,9 @@
             android:layout_height="wrap_content"
             android:text="@string/prev"
             android:visibility="invisible"
-            android:background="@drawable/size_bkgrnd"
-            android:src="@drawable/prev_button" />
+            android:background="@drawable/size_bkgrnd_prev_next"
+            android:src="@drawable/prev_button"
+            />
     </LinearLayout>
 
     <LinearLayout
@@ -49,8 +50,9 @@
             android:layout_height="wrap_content"
             android:text="@string/next"
             android:visibility="invisible"
-            android:background="@drawable/size_bkgrnd"
-            android:src="@drawable/next_button" />
+            android:background="@drawable/size_bkgrnd_prev_next"
+            android:src="@drawable/next_button"
+            />
     </LinearLayout>
 
     <LinearLayout

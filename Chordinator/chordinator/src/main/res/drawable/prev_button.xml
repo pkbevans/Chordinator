@@ -4,7 +4,7 @@
  <!-- pressed -->
     <item android:drawable="@drawable/prev_pressed" android:state_pressed="true"/>
  <!-- focused -->
-    <item android:drawable="@drawable/prev_focus" android:state_focused="true"/>
+    <item android:drawable="@drawable/prev_focussed" android:state_focused="true"/>
  <!-- default -->
     <item android:drawable="@drawable/prev_default"/>
 

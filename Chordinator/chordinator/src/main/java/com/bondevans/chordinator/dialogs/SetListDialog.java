@@ -104,7 +104,7 @@ public class SetListDialog extends DialogFragment {
 		String [] projection = {SongDB.COLUMN_ID, SongDB.COLUMN_SET_NAME};
 
 		setCursor = getActivity().getContentResolver().query(
-				DBUtils.SET(getString(R.string.authority)), projection, null, null, null);
+				DBUtils.SET(getString(R.string.authority)), projection, null, null, SongDB.COLUMN_SET_NAME + " ASC");
 
 		if( setCursor.getCount()>0){
 			return new AlertDialog.Builder(getActivity())
