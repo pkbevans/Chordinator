@@ -23,6 +23,8 @@ public class LatestFragment extends DialogFragment{
 	private static String mVersion = "";
 	private String[] mStrings = {
 			// TODO - Sort out memory problems
+            "v5.4.3 - Improved - Sets ordered alphabetically",
+            "v5.4.3 - Improved - Prev/Next buttons bigger and scaled for different screen sizes",
 			"v5.4.2 - New - Added Tenor (C-G-D-A) Chord shapes",
 			"v5.4.1 - New - Added Portugese translations - obrigado Jorge :)",
 			"v5.4.1 - Fixed - Preferences on Android vs<11",
