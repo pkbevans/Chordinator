@@ -10,6 +10,7 @@ ADDED from AndroidManifest.xml:2:1
 	android:versionCode
 		ADDED from AndroidManifest.xml:4:5
 		INJECTED from AndroidManifest.xml:0:0
+		ADDED from AndroidManifest.xml:4:5
 		INJECTED from AndroidManifest.xml:0:0
 uses-sdk
 INJECTED from AndroidManifest.xml:0:0 reason: use-sdk injection requested

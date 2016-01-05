@@ -530,6 +530,21 @@ AddSetDialog.CreateSetListener
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 			Log.d(TAG, "HELLO - onCreateActionMode");
+			menu.add(0,TITLE_ID, 0, getString(R.string.title))
+					.setIcon(mSortOrder == SongListFragment.LIST_MODE_TITLE?R.drawable.title_icon_sel:R.drawable.title_icon)
+					.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+
+			menu.add(0,ARTIST_ID, 0, getString(R.string.artist))
+					.setIcon(mSortOrder == SongListFragment.LIST_MODE_ARTIST?R.drawable.artist_icon_sel:R.drawable.artist_icon)
+					.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+
+			menu.add(0,RECENT_ID, 0, getString(R.string.recent))
+					.setIcon(mSortOrder == SongListFragment.LIST_MODE_RECENT?R.drawable.recent_icon_sel:R.drawable.recent_icon)
+					.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+
+			menu.add(0,FAVOURITES_ID, 0, getString(R.string.favourites))
+					.setIcon(mSortOrder == SongListFragment.LIST_MODE_FAVS?R.drawable.fav_icon_sel:R.drawable.fav_icon)
+					.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 			return true;
 		}
 
