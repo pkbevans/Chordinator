@@ -1,14 +1,9 @@
 package com.bondevans.chordinator.songlist;
 
-import java.io.File;
-
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -16,11 +11,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
-
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -35,14 +30,13 @@ import android.widget.ListView;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.SherlockListFragment;
 import com.bondevans.chordinator.ChordinatorException;
 import com.bondevans.chordinator.ColourScheme;
+import com.bondevans.chordinator.EditSong;
 import com.bondevans.chordinator.Log;
 import com.bondevans.chordinator.R;
 import com.bondevans.chordinator.SongFile;
 import com.bondevans.chordinator.SongUtils;
-import com.bondevans.chordinator.EditSong;
 import com.bondevans.chordinator.db.DBUtils;
 import com.bondevans.chordinator.db.SongDB;
 import com.bondevans.chordinator.dialogs.DeleteSongDialog;
@@ -53,7 +47,9 @@ import com.bondevans.chordinator.utils.Ute;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
-public class SongListFragment extends SherlockListFragment implements
+import java.io.File;
+
+public class SongListFragment extends ListFragment implements
 LoaderManager.LoaderCallbacks<Cursor> {
 
 	private static final String TAG = "SongListFragment";
@@ -83,11 +79,10 @@ LoaderManager.LoaderCallbacks<Cursor> {
 	private static final int DESC=1;
 	static ListView mLv; 
 	public String mFilter = "";
-	private AdView mAdView;
 
-	/* (non-Javadoc)
-	 * @see android.app.Fragment#onActivityCreated(android.os.Bundle)
-	 */
+    /* (non-Javadoc)
+     * @see android.app.Fragment#onActivityCreated(android.os.Bundle)
+     */
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		Log.d(TAG, "HELLO onActivityCreated");
@@ -101,7 +96,7 @@ LoaderManager.LoaderCallbacks<Cursor> {
 			// Diminished Only - Load an ad
 	        // Gets the ad view defined in layout/ad_fragment.xml with ad unit ID set in
 	        // values/strings.xml.
-	        mAdView = (AdView) getView().findViewById(R.id.adView);
+            AdView mAdView = (AdView) getView().findViewById(R.id.adView);
 	        // Create an ad request. 
 	        if(mAdView != null){
 		        // Start loading the ad in the background.
@@ -169,22 +164,21 @@ LoaderManager.LoaderCallbacks<Cursor> {
 		setListAdapter(adapter);    
 	}
 
-	private View mContentView;
-	/* (non-Javadoc)
-	 * @see android.app.ListFragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
-	 */
+    /* (non-Javadoc)
+     * @see android.app.ListFragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
+     */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		Log.d(TAG, "HELLO onCreatView");
-		mContentView = inflater.inflate(R.layout.songlist_layout, container, false);
+        View contentView = inflater.inflate(R.layout.songlist_layout, container, false);
 		Log.d(TAG, "HELLO onCreatView2");
-		return mContentView;
+        return contentView;
 	}
 
 	public interface OnSongSelectedListener {
-		public void onSongSelected(long songId, String songPath);
-		public void browseFiles();
+		void onSongSelected(long songId, String songPath);
+		void browseFiles();
 	}
 
 	@Override
@@ -219,6 +213,7 @@ LoaderManager.LoaderCallbacks<Cursor> {
 				mDirection != LIST_MODE_NONE){
 			// If this is the first load after the app re-starts (but not the very first run)
 			// Then just use the stored direction
+            Log.d(TAG, "Whatever");
 		}
 		else{
 			// everything else use default sort direction
@@ -281,9 +276,8 @@ LoaderManager.LoaderCallbacks<Cursor> {
 			Log.d(TAG, "HELLO - selection=["+selectionClause+"]");
 		}
 		Log.d(TAG, "HELLO onCreateLoader id=["+id+"] listmode=["+mListMode+"]");
-		CursorLoader cursorLoader = new CursorLoader(getActivity(),
-				DBUtils.SONG(getString(R.string.authority)), projection, selectionClause, selectionArgs, orderBy);
-		return cursorLoader;
+        return new CursorLoader(getActivity(),
+                DBUtils.SONG(getString(R.string.authority)), projection, selectionClause, selectionArgs, orderBy);
 	}
 
 	@Override
@@ -334,7 +328,6 @@ LoaderManager.LoaderCallbacks<Cursor> {
 			return true;
 		} else if (item.getItemId() == R.id.delete) {
 			Log.d(TAG, "Delete: "+song_id);
-//			doDelete(song_id);		// This version just gets on with it.
 			doDeleteX(song_id);		// This version asks first.
 			return true;
 		} else if (item.getItemId() == R.id.add_to_set) {
@@ -367,8 +360,7 @@ LoaderManager.LoaderCallbacks<Cursor> {
 
 		SharedPreferences.Editor editor = settings.edit();
 		editor.putString(SongPrefs.PREF_KEY_SONGDIR, mFilePath);
-		// Commit edits!!!
-		editor.commit();
+		editor.apply();
 		// Switch to browse mode
 		songSelectedListener.browseFiles();
 	}
@@ -405,6 +397,7 @@ LoaderManager.LoaderCallbacks<Cursor> {
 			startActivity(Intent.createChooser(theIntent, "Share With...."));
 		}
 		catch (Exception e) {
+            Log.d(TAG, "Oops");
 		}
 	}
 
@@ -419,57 +412,7 @@ LoaderManager.LoaderCallbacks<Cursor> {
 		newFragment.show(getFragmentManager(), "dialog");
 	}
 
-	void showAreYourSureDialog(String text, long song_id) {
-		DialogFragment newFragment = AreYouSure.newInstance(text, song_id);
-		newFragment.show(getFragmentManager(), "dialog");
-	}
-
-	public static class AreYouSure extends DialogFragment {
-		static AreYouSure newInstance(String arg0, long arg1) {
-			AreYouSure frag = new AreYouSure();
-			Bundle args = new Bundle();
-			args.putString("text", arg0);
-			args.putLong("id", arg1);
-			frag.setArguments(args);
-			return frag;
-		}
-
-		@Override
-		public Dialog onCreateDialog(Bundle savedInstanceState) {
-			final String text = getArguments().getString("text");
-			final long song_id = getArguments().getLong("id");
-			return new AlertDialog.Builder(getActivity())
-			.setTitle(getString(R.string.are_you_sure_delete))
-			.setMessage(text)
-			.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int whichButton) {
-					// User clicked OK so get name from trackNameText
-					int rows = getActivity().getContentResolver().delete(
-							Uri.withAppendedPath(DBUtils.SONG(getString(R.string.authority)), String.valueOf(song_id)), 
-							null, null);
-					if(rows != 1){
-						SongUtils.toast(getActivity(), "Failed to Delete - song_id="+song_id);
-					}
-				}
-			})
-			.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int whichButton) {
-					/* User clicked cancel so do nothing */
-				}
-			})
-			.create();
-		}
-	}
-
-	void doDelete(long song_id){
-		int rows = getActivity().getContentResolver().delete(
-				Uri.withAppendedPath(DBUtils.SONG(getString(R.string.authority)), String.valueOf(song_id)), 
-				null, null);
-		if(rows != 1){
-			SongUtils.toast(getActivity(), "Failed to Delete - song_id="+song_id);
-		}
-	}
-	private void doDeleteX(long songId){
+    private void doDeleteX(long songId){
 			Log.d(TAG, "doDelete: "+songId);
 			getSongFromId(songId);
 			DialogFragment newFragment = DeleteSongDialog.newInstance(getString(R.string.authority), songId, mTitle, Ute.doPath(mFilePath, mFileName));
@@ -683,7 +626,7 @@ LoaderManager.LoaderCallbacks<Cursor> {
 		SharedPreferences.Editor editor = settings.edit();
 		editor.putInt(SongPrefs.PREF_KEY_SORTORDER, mListMode);
 		editor.putInt(SongPrefs.PREF_KEY_SORTDIRECTION, mDirection);
-		editor.commit();
+		editor.apply();
 		super.onStop();
 	}
 	private boolean isDim(){

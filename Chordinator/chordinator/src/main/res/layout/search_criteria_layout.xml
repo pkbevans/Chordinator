@@ -6,6 +6,11 @@
     android:gravity="center_horizontal"
     android:orientation="vertical" >
 
+    <include
+        android:id="@+id/tool_bar"
+        layout="@layout/tool_bar">
+    </include>
+
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"

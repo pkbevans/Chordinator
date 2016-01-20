@@ -25,6 +25,7 @@ import android.print.PrintManager;
 import android.print.PrintJob;
 import android.support.v4.app.DialogFragment;
 
+import android.support.v4.app.Fragment;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -41,7 +42,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.actionbarsherlock.app.SherlockFragment;
 import com.bondevans.chordinator.dialogs.PromotePaidAppDialog;
 import com.bondevans.chordinator.chunking.SongHTMLFormatter;
 import com.bondevans.chordinator.chunking.SongTextFormatter;
@@ -51,7 +51,7 @@ import com.bondevans.chordinator.grids.ChordShapeProvider;
 import com.bondevans.chordinator.prefs.SongPrefs;
 import com.bondevans.chordinator.trial.Trial;
 
-public class SongViewerFragment extends SherlockFragment implements OnClickListener{
+public class SongViewerFragment extends Fragment implements OnClickListener{
 	private View mContentView=null;
 
 	private final static String TAG = "SongViewerFragment";
@@ -62,8 +62,6 @@ public class SongViewerFragment extends SherlockFragment implements OnClickListe
 	private static final String KEY_AUTOSCROLL = "AUTOSCROLL";
 	private static final String KEY_TEXTSIZE = "TEXTSIZE";
 	private static final String KEY_TRANSPOSE = "TRANSPOSE";
-	public static final int RESULT_NEXT = 99;
-	public static final int RESULT_PREV = 100;
 	private boolean showGrids=false;
 	private int mGridInstrument=ChordShapeProvider.INSTRUMENT_GUITAR;
 	public int	mScrollSpeed=-1;
@@ -104,10 +102,10 @@ public class SongViewerFragment extends SherlockFragment implements OnClickListe
 	private int mTranspose= NO_TRANSPOSE;
 
 	public interface SongViewerListener{
-		public void onNewFileCreated();
-		public void exitSong(int result);
-		public void nextSong();
-		public void prevSong();
+		void onNewFileCreated();
+		void exitSong(int result);
+		void nextSong();
+		void prevSong();
 	}
 
 	@Override
@@ -143,7 +141,7 @@ public class SongViewerFragment extends SherlockFragment implements OnClickListe
 			mTranspose = savedInstanceState.getInt(KEY_TRANSPOSE, NO_TRANSPOSE);
 		}
 		// Set up scroll handler
-		mFragment=new WeakReference<SongViewerFragment>(this);
+		mFragment=new WeakReference<>(this);
 		mRedrawHandler = new RefreshHandler(mFragment.get());
 
 		super.onCreate(savedInstanceState);
@@ -180,11 +178,11 @@ public class SongViewerFragment extends SherlockFragment implements OnClickListe
 
 		biggerButton = (ImageButton) mContentView.findViewById(R.id.biggerButton);
 		biggerButton.setOnClickListener(this);
-		biggerButton.setEnabled((mCurrentTextSizeIndex==mTextSizes.length-1)?false:true);
+		biggerButton.setEnabled((mCurrentTextSizeIndex != mTextSizes.length - 1));
 
 		smallerButton = (ImageButton) mContentView.findViewById(R.id.smallerButton);
 		smallerButton.setOnClickListener(this);
-		smallerButton.setEnabled((mCurrentTextSizeIndex==0)?false:true);
+		smallerButton.setEnabled((mCurrentTextSizeIndex != 0));
 
 		trupButton = (ImageButton) mContentView.findViewById(R.id.trupButton);
 		trupButton.setOnClickListener(this);
@@ -542,6 +540,7 @@ public class SongViewerFragment extends SherlockFragment implements OnClickListe
 				startActivity(Intent.createChooser(theIntent, "Share With...."));
 			}
 			catch (Exception e) {
+                Log.d(TAG, "Oops");
 			}
 		}
 	}

@@ -6,6 +6,11 @@
     android:gravity="center_horizontal"
     android:orientation="vertical" >
 
+    <include
+        android:id="@+id/tool_bar"
+        layout="@layout/tool_bar">
+    </include>
+
     <ScrollView
         android:id="@+id/EditTextScroller"
         android:layout_width="fill_parent"
@@ -16,7 +21,9 @@
         <com.bondevans.chordinator.CABEditText
             android:id="@+id/song_text"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
 
             <requestFocus />
         </com.bondevans.chordinator.CABEditText>

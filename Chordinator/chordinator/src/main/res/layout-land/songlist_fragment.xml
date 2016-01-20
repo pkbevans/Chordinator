@@ -1,31 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- LANDSCAPE LAYOUT -->
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="horizontal" >
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:orientation="vertical">
+    <include
+        android:id="@+id/tool_bar"
+        layout="@layout/tool_bar">
+    </include>
 
     <LinearLayout
-        android:id="@+id/list_container"
-        android:orientation="vertical" 
-        android:layout_width="0dip"
-        android:layout_height="fill_parent"
-        android:layout_weight="45" >
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- LANDSCAPE LAYOUT -->
+        <LinearLayout
+            android:id="@+id/list_container"
+            android:layout_width="0dip"
+            android:layout_height="fill_parent"
+            android:layout_weight="45"
+            android:orientation="vertical">
+        </LinearLayout>
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="1dip"
+            android:layout_height="fill_parent"
+            android:background="@color/divider_colour"/>
+
+        <LinearLayout
+            android:id="@+id/songview_container"
+            android:layout_width="0dip"
+            android:layout_height="fill_parent"
+            android:layout_weight="55"
+            android:orientation="horizontal">
+        </LinearLayout>
+
     </LinearLayout>
-
-    <View
-        android:id="@+id/line"
-        android:layout_width="1dip"
-        android:layout_height="fill_parent"
-        android:background="@color/divider_colour" />
-
-    <LinearLayout
-        android:id="@+id/songview_container"
-		android:orientation="horizontal"
-        android:layout_width="0dip"
-        android:layout_height="fill_parent"
-        android:layout_weight="55" >
-    </LinearLayout>
-
 </LinearLayout>

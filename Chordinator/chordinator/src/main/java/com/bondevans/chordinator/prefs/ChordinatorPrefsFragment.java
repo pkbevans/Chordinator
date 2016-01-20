@@ -1,17 +1,14 @@
 package com.bondevans.chordinator.prefs;
 
 import android.os.Bundle;
-import android.preference.PreferenceFragment;
+import android.support.v7.preference.PreferenceFragmentCompat;
 
 import com.bondevans.chordinator.R;
 
-public class ChordinatorPrefsFragment extends PreferenceFragment {
-//	private static final String TAG = "ChordinatorPrefsFragment";
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		// Load the preferences from an XML resource
-		addPreferencesFromResource(R.xml.preferences);
-	}
+public class ChordinatorPrefsFragment extends PreferenceFragmentCompat {
+    //	private static final String TAG = "ChordinatorPrefsFragment";
+    @Override
+    public void onCreatePreferences(Bundle bundle, String s) {
+        addPreferencesFromResource(R.xml.preferences);
+    }
 }

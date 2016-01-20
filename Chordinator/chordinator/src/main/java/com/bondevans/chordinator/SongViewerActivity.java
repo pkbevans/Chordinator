@@ -1,25 +1,24 @@
 package com.bondevans.chordinator;
 
 import android.content.ActivityNotFoundException;
-
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 import com.bondevans.chordinator.dialogs.HelpFragment;
-import com.bondevans.chordinator.prefs.ChordinatorPrefs;
+import com.bondevans.chordinator.prefs.ChordinatorPrefsActivity;
 import com.bondevans.chordinator.setlist.SetList;
 import com.bondevans.chordinator.setlist.SetList2;
 import com.bondevans.chordinator.setlist.SetSong;
 import com.bondevans.chordinator.utils.Ute;
 
-public class SongViewerActivity extends SherlockFragmentActivity implements SongViewerFragment.SongViewerListener{
-	private static final int SETOPTIONS_ID = Menu.FIRST + 6; 
+public class SongViewerActivity extends AppCompatActivity implements SongViewerFragment.SongViewerListener{
+	private static final int SETOPTIONS_ID = Menu.FIRST + 6;
 	private static final int SHOWHELP_ID = Menu.FIRST + 7; 
 	private static final int TRANSPOSEUP_ID = Menu.FIRST + 8; 
 	private static final int TRANSPOSEDOWN_ID = Menu.FIRST + 9; 
@@ -40,13 +39,13 @@ public class SongViewerActivity extends SherlockFragmentActivity implements Song
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		mColourScheme = Ute.getColourScheme(this);
-		setTheme(mColourScheme == ColourScheme.LIGHT? R.style.Theme_Sherlock_Light: R.style.Theme_Sherlock);
-		boolean inSetList=false;
+		setTheme(mColourScheme == ColourScheme.LIGHT? R.style.Chordinator_Light_Theme_Theme: R.style.Chordinator_Dark_Theme_Theme);
+		boolean inSetList;
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.songview_fragment);
 
-		Intent myIntent = getIntent();
+        Intent myIntent = getIntent();
 		// See if we are in a set list - if so set up the prev and next buttons
 		inSetList = myIntent.getBooleanExtra(INTENT_INSET, false);
 		long setId = myIntent.getLongExtra(INTENT_SETID, 0);
@@ -87,10 +86,9 @@ public class SongViewerActivity extends SherlockFragmentActivity implements Song
 		Configuration conf = getResources().getConfiguration();
 		int layout = conf.screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
 		Log.d(TAG, "HELLO - layout = ["+layout+"]");
-		if(layout <= Configuration.SCREENLAYOUT_SIZE_LARGE){
-			getSupportActionBar().hide();
-		}
-		else{
+        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
+        if(toolbar != null){
+            setSupportActionBar(toolbar);                   // Setting toolbar as the ActionBar with setSupportActionBar() call
 			// Set up the ActionBar correctly
 			setUpActionBar();
 		}
@@ -160,11 +158,11 @@ public class SongViewerActivity extends SherlockFragmentActivity implements Song
 		newFragment.show(getSupportFragmentManager(), "dialog");
 	}
 	private void setPreferences(){
-		Intent myIntent = new Intent(this, ChordinatorPrefs.class);
+		Intent myIntent = new Intent(this, ChordinatorPrefsActivity.class);
 		try {
 			startActivityForResult(myIntent, SongUtils.SETOPTIONS_REQUEST);
 		} catch (ActivityNotFoundException e) {
-			SongUtils.toast(this, "ChordinatorPrefs not found");
+			SongUtils.toast(this, "ChordinatorPrefsActivity not found");
 		}
 	}
 
@@ -175,7 +173,6 @@ public class SongViewerActivity extends SherlockFragmentActivity implements Song
 	 */
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		Log.d(TAG, "HELLO onKeyDown ["+keyCode+"]");
-		boolean keyHandled = false;
 		switch (keyCode) {
 		case KeyEvent.KEYCODE_PAGE_DOWN:
 			Log.d(TAG, "HELLO PAGEDOWN");
@@ -205,7 +202,7 @@ public class SongViewerActivity extends SherlockFragmentActivity implements Song
 			Log.d(TAG, "HELLO - BACK PRESSED");
 			exitSong(RESULT_OK);
 		}
-		return keyHandled;
+		return false;
 	}
 
 	public void exitSong(int result) {
@@ -230,8 +227,7 @@ public class SongViewerActivity extends SherlockFragmentActivity implements Song
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		Log.d(TAG, "HELLO onActivityResult 1["+requestCode+"]");
 		mViewer.onActivityResult(requestCode, resultCode, data);
-		return;
-	}
+    }
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onRestart()
 	 */

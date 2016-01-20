@@ -11,23 +11,24 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 
 import android.view.ActionMode;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
-
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 
 import com.bondevans.chordinator.prefs.SongPrefs;
 import com.bondevans.chordinator.utils.Ute;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
-public class EditSong extends SherlockFragmentActivity {
+public class EditSong extends AppCompatActivity {
 	private final static String TAG = "EditSong";
 	//	private static final int DIALOG_ID_SAVE = 1;
 	private static final int ADDTAG_ID = Menu.FIRST+1;
@@ -47,21 +48,26 @@ public class EditSong extends SherlockFragmentActivity {
 	String mFilePath;
 	private boolean mTextChanged = false;
 	private TextWatcher textWatcher = new myTextWatcher();
-	private AdView mAdView;
 
 	@TargetApi(11)
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		setTheme(Ute.getColourScheme(this) == ColourScheme.LIGHT? R.style.Theme_Sherlock_Light: R.style.Theme_Sherlock);
+		setTheme(Ute.getColourScheme(this) == ColourScheme.LIGHT? R.style.Chordinator_Light_Theme_Theme: R.style.Chordinator_Dark_Theme_Theme);
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.edit_song);
-		mSongText = (CABEditText) findViewById(R.id.song_text);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
+        setSupportActionBar(toolbar);                   // Setting toolbar as the ActionBar with setSupportActionBar() call
+
+        getSupportActionBar().setTitle(R.string.edit_song);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        mSongText = (CABEditText) findViewById(R.id.song_text);
 		if(isDim()){
 			// Diminished Only  - Load an ad
 	        // Gets the ad view defined in layout/ad_fragment.xml with ad unit ID set in
 	        // values/strings.xml.
-	        mAdView = (AdView) findViewById(R.id.adView);
+			AdView mAdView = (AdView) findViewById(R.id.adView);
 	        if(mAdView != null){
 		        // Start loading the ad in the background.
 		        mAdView.loadAd(new AdRequest.Builder().build());
@@ -102,11 +108,7 @@ public class EditSong extends SherlockFragmentActivity {
 		try {
 			Log.d(TAG,"saving file:"+mFilePath);
 			SongUtils.writeFile(mFilePath, mSongText.getText().toString());
-		}
-		catch (SecurityException e){
-			errMsgToast(e.getMessage());
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			errMsgToast(e.getMessage());
 		}
 	}
@@ -276,16 +278,17 @@ public class EditSong extends SherlockFragmentActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// This is the MENU button menu
+		MenuItem menuItem;
 		if((Build.VERSION.SDK_INT>=Build.VERSION_CODES.HONEYCOMB)){
-			menu.add(0, ADDTAG_ID, 1, "Tags..")
-			.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+			menuItem = menu.add(0, ADDTAG_ID, 1, "Tags..");
+			MenuItemCompat.setShowAsAction(menuItem, MenuItem.SHOW_AS_ACTION_ALWAYS);
 		}
 
-		menu.add(0, ADDCOMMENT_ID, 1, "{c:}")
-		.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+		menuItem = menu.add(0, ADDCOMMENT_ID, 1, "{c:}");
+		MenuItemCompat.setShowAsAction(menuItem, MenuItem.SHOW_AS_ACTION_ALWAYS);
 
-		menu.add(0, ADDCHORD_ID, 2, "[]")
-		.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+		menuItem = menu.add(0, ADDCHORD_ID, 2, "[]");
+		MenuItemCompat.setShowAsAction(menuItem, MenuItem.SHOW_AS_ACTION_ALWAYS);
 		return super.onCreateOptionsMenu(menu);
 	}
 	

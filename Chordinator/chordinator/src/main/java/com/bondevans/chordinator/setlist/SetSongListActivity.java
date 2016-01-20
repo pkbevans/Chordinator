@@ -1,7 +1,5 @@
 package com.bondevans.chordinator.setlist;
 
-import java.io.File;
-
 import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -10,18 +8,19 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.widget.SearchView;
 import com.bondevans.chordinator.ChordinatorException;
 import com.bondevans.chordinator.ColourScheme;
 import com.bondevans.chordinator.Log;
@@ -36,12 +35,14 @@ import com.bondevans.chordinator.dialogs.DeleteRenameSetDialog;
 import com.bondevans.chordinator.dialogs.HelpFragment;
 import com.bondevans.chordinator.dialogs.LatestFragment;
 import com.bondevans.chordinator.dialogs.SetListDialog;
-import com.bondevans.chordinator.prefs.ChordinatorPrefs;
+import com.bondevans.chordinator.prefs.ChordinatorPrefsActivity;
 import com.bondevans.chordinator.prefs.SongPrefs;
 import com.bondevans.chordinator.songlist.SongListFragment;
 import com.bondevans.chordinator.utils.Ute;
 
-public class SetSongListActivity extends SherlockFragmentActivity
+import java.io.File;
+
+public class SetSongListActivity extends AppCompatActivity
 implements SongListFragment.OnSongSelectedListener, 
 SongViewerFragment.SongViewerListener, 
 SetListDialog.OnSetSelectedListener,
@@ -64,7 +65,7 @@ AddSongsToSetFragment.OnSongsAddedListener
 	public static final String INTENT_SETNAME = "com.bondevans.chordinator.setName";
 
 	private static int mColourScheme;
-	private static int LIGHT=ColourScheme.LIGHT;
+	private static int LIGHT= ColourScheme.LIGHT;
 	private static final String TAG_SETSONGLIST = "TAG_SETSONGLIST";
 	private static final String TAG_ADDSETSONGLIST = "TAG_ADDSETSONGLIST";
 	public static final String TAG_SONGVIEWER = "TAG_SONGVIEWER";
@@ -83,7 +84,7 @@ AddSongsToSetFragment.OnSongsAddedListener
 		LinearLayout songFrame=null;
 		Log.d(TAG, "HELLO onCreate");
 		mColourScheme = Ute.getColourScheme(this);
-		setTheme(mColourScheme == LIGHT? R.style.Theme_Sherlock_Light: R.style.Theme_Sherlock);
+		setTheme(mColourScheme == LIGHT? R.style.Chordinator_Light_Theme_Theme: R.style.Chordinator_Dark_Theme_Theme);
 
 		super.onCreate(savedInstanceState);
 
@@ -135,7 +136,10 @@ AddSongsToSetFragment.OnSongsAddedListener
 			}
 		}
 
-		searchSetView = new SearchView(getSupportActionBar().getThemedContext());
+        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
+        setSupportActionBar(toolbar);                   // Setting toolbar as the ActionBar with setSupportActionBar() call
+
+        searchSetView = new SearchView(getSupportActionBar().getThemedContext());
 		searchSetView.setQueryHint("Search songs");
 		searchSetView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
@@ -201,7 +205,7 @@ AddSongsToSetFragment.OnSongsAddedListener
 				mEditSetListFragment = EditSetListFragment.newInstance(setId, setName);
 				// Add the fragment to the activity, pushing this transaction on to the back stack.
 				ft.replace(R.id.list_container, mEditSetListFragment, TAG_SETSONGLIST);
-				ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+				ft.setTransition(FragmentTransaction.TRANSIT_NONE);
 				ft.addToBackStack(null);
 				ft.commit();
 			}
@@ -244,17 +248,17 @@ AddSongsToSetFragment.OnSongsAddedListener
 	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-
 		mMenu = menu;
-		
-		menu.add(0,SELECTSET_ID, 0, getString(R.string.tabname_sets))
-		.setIcon(mColourScheme == LIGHT ? R.drawable.ic_setlists_light : R.drawable.ic_setlists_dark)
-		.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);//|MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+		MenuItem menuItem;
 
-		menu.add(0,SEARCH_LOCAL_ID, 0, getString(R.string.search_songs))
-		.setIcon(mColourScheme == LIGHT ? R.drawable.ai_search_light : R.drawable.ai_search_dark)
-		.setActionView(searchSetView)
-		.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+		menuItem = menu.add(0,SELECTSET_ID, 0, getString(R.string.tabname_sets))
+		.setIcon(mColourScheme == LIGHT ? R.drawable.ic_setlists_light : R.drawable.ic_setlists_dark);
+		MenuItemCompat.setShowAsAction(menuItem, MenuItemCompat.SHOW_AS_ACTION_ALWAYS);//|MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+
+		menuItem = menu.add(0,SEARCH_LOCAL_ID, 0, getString(R.string.search_songs))
+		.setIcon(mColourScheme == LIGHT ? R.drawable.ai_search_light : R.drawable.ai_search_dark);
+		MenuItemCompat.setActionView(menuItem, searchSetView);
+		MenuItemCompat.setOnActionExpandListener(menuItem, new MenuItemCompat.OnActionExpandListener() {
 			@Override
 			public boolean onMenuItemActionCollapse(MenuItem item) {
 				// Do something when collapsed
@@ -273,16 +277,16 @@ AddSongsToSetFragment.OnSongsAddedListener
 				// Do something when expanded
 				return true;  // Return true to expand action view
 			}
-		})
-		.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+		});
+		MenuItemCompat.setShowAsAction(menuItem, MenuItemCompat.SHOW_AS_ACTION_ALWAYS | MenuItemCompat.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
 
-		menu.add(0,ADDSONGS_ID, 0, getString(R.string.add_songs))
-		.setIcon(mColourScheme == LIGHT ? R.drawable.ic_add_songs_light : R.drawable.ic_add_songs_dark)
-		.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);//|MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+		menuItem = menu.add(0,ADDSONGS_ID, 0, getString(R.string.add_songs))
+		.setIcon(mColourScheme == LIGHT ? R.drawable.ic_add_songs_light : R.drawable.ic_add_songs_dark);
+		MenuItemCompat.setShowAsAction(menuItem, MenuItemCompat.SHOW_AS_ACTION_ALWAYS);//|MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 
-		menu.add(0,DELETESET_ID, 0, getString(R.string.menu_delete_set))
-		.setIcon(mColourScheme == LIGHT ? R.drawable.ic_delete_set_light : R.drawable.ic_delete_set_dark)
-		.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);//|MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+		menuItem = menu.add(0,DELETESET_ID, 0, getString(R.string.menu_delete_set))
+		.setIcon(mColourScheme == LIGHT ? R.drawable.ic_delete_set_light : R.drawable.ic_delete_set_dark);
+		MenuItemCompat.setShowAsAction(menuItem, MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);//|MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 
 		menu.add(0,EXPORTSET_ID, 0, getString(R.string.export_set));
 
@@ -300,9 +304,9 @@ AddSongsToSetFragment.OnSongsAddedListener
 	}
 
 	void addShareButton(){
-		mMenu.add(0,SHARESONG_ID, 0, getString(R.string.share_song))
-		.setIcon(R.drawable.ic_menu_share)
-		.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+		MenuItem menuItem = mMenu.add(0, SHARESONG_ID, 0, getString(R.string.share_song))
+		.setIcon(R.drawable.ic_menu_share);
+		MenuItemCompat.setShowAsAction(menuItem, MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
 		mSongInView=true;
 	}
 
@@ -397,12 +401,12 @@ AddSongsToSetFragment.OnSongsAddedListener
 		// Do Nothing - not applicable to songlist activity
 	}
 	private void setPreferences(){
-		Intent myIntent = new Intent(this, ChordinatorPrefs.class);
+		Intent myIntent = new Intent(this, ChordinatorPrefsActivity.class);
 		try {
 			//  Need to know when set prefs is finished so start for result
 			startActivityForResult(myIntent, SongUtils.SETOPTIONS_REQUEST);
 		} catch (ActivityNotFoundException e) {
-			SongUtils.toast(this, "ChordinatorPrefs not found");
+			SongUtils.toast(this, "ChordinatorPrefsActivity not found");
 		}
 	}
 	public void addNewSet(long songId, String songName){
@@ -434,7 +438,7 @@ AddSongsToSetFragment.OnSongsAddedListener
 		AddSongsToSetFragment addSongsToSetFragment = AddSongsToSetFragment.newInstance(setId, setName);
 		// Add the fragment to the activity, pushing this transaction on to the back stack.
 		ft.replace(R.id.list_container, addSongsToSetFragment, TAG_ADDSETSONGLIST);
-		ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+		ft.setTransition(FragmentTransaction.TRANSIT_NONE);
 		ft.addToBackStack(null);
 		ft.commit();
 	}
@@ -463,7 +467,7 @@ AddSongsToSetFragment.OnSongsAddedListener
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setDisplayShowTitleEnabled(true);
 		getSupportActionBar().setDisplayShowHomeEnabled(false);
-		getSupportActionBar().setTitle(getString(R.string.set)+":"+mSetName);
+		getSupportActionBar().setTitle(getString(R.string.set) + ":" + mSetName);
 	}
 	public void renameSet(long setId, String oldName, String newName) {
 		// rename set

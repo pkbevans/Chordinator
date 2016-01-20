@@ -17,5 +17,6 @@
     <dimen name="section_div_height">20dp</dimen>
     <dimen name="list_text_size">18dp</dimen>
     <dimen name="list_item_height">48dip</dimen>
+    <dimen name="songlist_textsize">18dp</dimen>
 
 </resources>

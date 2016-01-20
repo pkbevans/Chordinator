@@ -12,9 +12,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bondevans.chordinator.ColourScheme;
 import com.bondevans.chordinator.Log;
 import com.bondevans.chordinator.R;
 import com.bondevans.chordinator.utils.SdCardFactory;
+import com.bondevans.chordinator.utils.Ute;
 
 /**
  * MainActivity displays the screen's UI and starts a TaskFragment which will
@@ -43,6 +45,8 @@ public class ScanSongsActivity extends FragmentActivity implements ScanSongsFrag
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		Log.d(TAG, "onCreate(Bundle)");
+        int colourScheme = Ute.getColourScheme(this);
+        setTheme(colourScheme == ColourScheme.LIGHT ? R.style.Chordinator_Light_Theme_Theme : R.style.Chordinator_Dark_Theme_Theme);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.scan_songs_layout);
 

@@ -1,9 +1,5 @@
 package com.bondevans.chordinator.search;
 
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -16,11 +12,15 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ContextThemeWrapper;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.TextUtils;
-
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
@@ -28,28 +28,27 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.CheckBox;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.Window;
 import com.bondevans.chordinator.ChordinatorException;
 import com.bondevans.chordinator.ColourScheme;
 import com.bondevans.chordinator.Log;
-import com.bondevans.chordinator.SongUtils;
 import com.bondevans.chordinator.R;
+import com.bondevans.chordinator.SongUtils;
 import com.bondevans.chordinator.Statics;
 import com.bondevans.chordinator.conversion.SongConverter;
+import com.bondevans.chordinator.conversion.SongConverterFragment;
 import com.bondevans.chordinator.db.DBUtils;
 import com.bondevans.chordinator.prefs.SongPrefs;
 import com.bondevans.chordinator.utils.Ute;
-import com.bondevans.chordinator.conversion.SongConverterFragment;
 
-public class SearchActivity extends SherlockFragmentActivity {
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class SearchActivity extends AppCompatActivity {
 	public static final String TAG = "SearchActivity";
 	public static final String SEARCH_CRITERIA = "CRITERIA";
-	public static final String CHORDIE_ONLY = "CHORDIE_ONLY";
 	private static final String KEY_SONGTEXT = "KEY1";
 	private static final String KEY_SONGFILE = "KEY2";
 	private static final String KEY_CHOPRO = "KEY3";
@@ -57,13 +56,12 @@ public class SearchActivity extends SherlockFragmentActivity {
 	private static final int GRABCHORDS_ID = Menu.FIRST + 1;
 	public static final int MAX_LINES_TO_CHECK = 40;//2.4.0 Up'd to 40
 	private WebView searcher;
-	private String ua = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.7 (KHTML, like Gecko) Chrome/16.0.912.77 Safari/535.7	";
-	String mFoundSongText;
+    String mFoundSongText;
 	String mUrl;	// Current URL
 	SearchPage mTask;
-	private int mColourScheme;
+    ProgressBar mProgressBar;
 
-	// Chord Reader stuff - START
+    // Chord Reader stuff - START
 	// html tag or html escaped character
 	private static Pattern htmlObjectPattern = Pattern.compile(
 			"(" +
@@ -95,17 +93,15 @@ public class SearchActivity extends SherlockFragmentActivity {
 	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		mColourScheme = Ute.getColourScheme(this);
-		setTheme(mColourScheme == ColourScheme.LIGHT? R.style.Theme_Sherlock_Light: R.style.Theme_Sherlock);
+		int colourScheme = Ute.getColourScheme(this);
+		setTheme(colourScheme == ColourScheme.LIGHT? R.style.Chordinator_Light_Theme_Theme: R.style.Chordinator_Dark_Theme_Theme);
 		super.onCreate(savedInstanceState);
-        //This has to be called before setContentView and you must use the
-        //class in com.actionbarsherlock.view and NOT android.view
-        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setContentView(R.layout.song_search_layout);
 		searcher = (WebView) findViewById(R.id.searcher);
 
 		WebSettings settings = searcher.getSettings();
-		settings.setUserAgentString(ua);
+        String ua = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.7 (KHTML, like Gecko) Chrome/16.0.912.77 Safari/535.7	";
+        settings.setUserAgentString(ua);
 		settings.setBuiltInZoomControls(true);
 
 		// JavaScript must be enabled if you want it to work, obviously
@@ -124,8 +120,16 @@ public class SearchActivity extends SherlockFragmentActivity {
 			DialogFragment newFragment = new NoNetworkDialog();
 			newFragment.show(getSupportFragmentManager(), "dialog");
 		}
-        getSupportActionBar().setLogo(mColourScheme == ColourScheme.DARK? R.drawable.chordinator_aug_logo_dark_bkgrnd: R.drawable.chordinator_aug_logo_light_bkgrnd);
-		getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
+        setSupportActionBar(toolbar);                   // Setting toolbar as the ActionBar with setSupportActionBar() call
+        mProgressBar = (ProgressBar) findViewById(R.id.progress_bar); // Attaching the layout to the toolbar object
+
+
+//        getSupportActionBar().setLogo(/*mColourScheme == ColourScheme.DARK? */R.drawable.chordinator_aug_logo_dark_bkgrnd/*: R.drawable.chordinator_aug_logo_light_bkgrnd*/);
+        getSupportActionBar().setTitle(R.string.search_title);
+        getSupportActionBar().getThemedContext();
+		getSupportActionBar().setDisplayShowTitleEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // Set download folder
         mDownloadFolder = getDownloadFolder();
@@ -140,22 +144,18 @@ public class SearchActivity extends SherlockFragmentActivity {
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if ((keyCode == KeyEvent.KEYCODE_BACK) && searcher.canGoBack()) {
 			Log.d(TAG, "HELLO - BACK PRESSED");
-			cancelSearch();
+			cancelOldSearch();
 			searcher.goBack();
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);
 	}
 
-	private void cancelSearch(){
+	private void cancelOldSearch(){
 		if(mTask != null){
 			mTask.cancel(true);
-			Log.d(TAG, "HELLO - cancellign task");
+			Log.d(TAG, "HELLO - cancelling task");
 		}
-	}
-	public void exitSearch(View v){
-		// Get outta here
-		finish();
 	}
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.FragmentActivity#onSaveInstanceState(android.os.Bundle)
@@ -163,7 +163,7 @@ public class SearchActivity extends SherlockFragmentActivity {
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		Log.d(TAG, "onSaveInstanceState");
-		cancelSearch();
+		cancelOldSearch();
 		super.onSaveInstanceState(outState);
 	}
 
@@ -171,11 +171,8 @@ public class SearchActivity extends SherlockFragmentActivity {
 		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo networkInfo = cm.getActiveNetworkInfo();
 		// if no network is available networkInfo will be null, otherwise check if we are connected
-		if (networkInfo != null && networkInfo.isConnected()) {
-			return true;
-		}
-		return false;
-	}
+        return networkInfo != null && networkInfo.isConnected();
+    }
 
 	public static String cleanSong(String songText) {
 		Log.d(TAG, "HELLO cleanSong- IN:"+songText);
@@ -223,23 +220,24 @@ public class SearchActivity extends SherlockFragmentActivity {
 		Log.d(TAG, "HELLO searchPageForSong");
 		// Don't bother if we are on a known non-song site - i.e. google
 		if(mUrl.contains(GOOGLE)){
+            cancelOldSearch();
 			Log.d(TAG, "HELLO Ignoring page");
 			return;
 		}
 		// Do all this on a new thread
-		cancelSearch();
+		cancelOldSearch();
 		mTask = new SearchPage();
-		mTask.execute(new String[] {html});
+		mTask.execute(html);
 	}
 
 	public class SearchPage extends AsyncTask<String, Void, String>{
 		String songText;
-		@Override
+        @Override
 		protected String doInBackground(String... params) {
-			Log.d(TAG, "HELLO searchPage1");
+            Log.d(TAG, "HELLO searchPage1");
 			// Look for start of song (i.e. {title:
-			int start = -1;
-			int end = -1;
+			int start;
+			int end;
 			// See if there is a Chopro song in there
 			if( (start=findChoproStart(params[0]))>-1){
 				songText = params[0].substring(start);
@@ -253,7 +251,7 @@ public class SearchActivity extends SherlockFragmentActivity {
 					// Assume its all part of the song if no end is found
 					mFoundSongText = songText;
 				}
-				Log.d(TAG, "HELLO searchPage got["+mFoundSongText+"]");
+				Log.d(TAG, "HELLO searchPage got[" + mFoundSongText + "]");
 				// and show dialog
 				showGotSongDialog(mFoundSongText, true);
 				Log.d(TAG, "HELLO searchPage4");
@@ -301,7 +299,7 @@ public class SearchActivity extends SherlockFragmentActivity {
 			// IF any of the "end" tags are found then we have found the end
 			String [] endTags={"\"<", "<a href=","</form>", "<input", "</pre>","</body>"};// MUST BE LOWERCASE
 			int ret=-1;
-			int index=0;
+			int index;
 			for( String tag: endTags){
 				if( (index=line.toLowerCase().indexOf(tag))>-1 ){
 					if(ret == -1 || index < ret){
@@ -317,8 +315,8 @@ public class SearchActivity extends SherlockFragmentActivity {
 		/**
 		 * Try to find a likely chord chart from the "pre" section of a page
 		 * Returns null if it doesn't find anything likely to be a chord chart
-		 * @param html
-		 * @return
+		 * @param html HTML to sesarch
+		 * @return Returns song if found
 		 */
 		public String findUGSong(String html) {
 			Log.d(TAG, "HELLO findUGSong");
@@ -398,7 +396,7 @@ public class SearchActivity extends SherlockFragmentActivity {
 
 			return plainText.toString();
 		}
-	}
+    }
 
 	public class MyJavaScriptInterface{
 
@@ -417,8 +415,8 @@ public class SearchActivity extends SherlockFragmentActivity {
 		 */
 		@Override
 		public void onPageStarted(WebView view, String url, Bitmap favicon) {
-			setSupportProgressBarIndeterminateVisibility(true);
-			mUrl = url;
+            mProgressBar.setVisibility(View.VISIBLE);
+            mUrl = url;
 			Log.d(TAG, "HELLO loading page:"+mUrl);
 			super.onPageStarted(view, url, favicon);
 		}
@@ -426,13 +424,13 @@ public class SearchActivity extends SherlockFragmentActivity {
 		@Override
 		public void onPageFinished(WebView view, String url) {
 			// This call injects JavaScript into the page which just finished loading.
-			searcher.loadUrl( "javascript:window.HTMLOUT.showHTML('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');");
-			setSupportProgressBarIndeterminateVisibility(false);
+			searcher.loadUrl("javascript:window.HTMLOUT.showHTML('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');");
+            mProgressBar.setVisibility(View.INVISIBLE);
 		}
 	}
 
 	private void showGotSongDialog(String songText, boolean choPro) {
-		String title = SongUtils.tagValue(songText, "title","t","newSong");
+        String title = SongUtils.tagValue(songText, "title","t","newSong");
 		String artist = SongUtils.tagValue(songText, "subtitle","st","unknown");
 		DialogFragment newFragment = GotSongDialog.newInstance(
 				choPro,
@@ -482,7 +480,7 @@ public class SearchActivity extends SherlockFragmentActivity {
 			mSongTextView.setText(songText);
 			mFileName.setText(getArguments().getString(KEY_SONGFILE));
 
-			return new AlertDialog.Builder(getActivity())
+			return new AlertDialog.Builder(new ContextThemeWrapper(getActivity(),R.style.Theme_AppCompat))
 			.setView(layout)
 			.setTitle(R.string.set_song_details)
 			.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
@@ -545,7 +543,7 @@ public class SearchActivity extends SherlockFragmentActivity {
 	 */
 	@Override
 	protected void onDestroy() {
-		cancelSearch();
+		cancelOldSearch();
 		super.onDestroy();
 	}
 	@Override

@@ -181,6 +181,7 @@
     <string name="convert_chopro">Convert to Chopro format</string>
     <string name="make_download_dir">Make this folder the download location</string>
     <string name="upgrade_now">Upgrade now.</string>
+    <string name="buffering_msg">Working…</string>
 
     <string-array name="colour_schemes">
         <item>Black Text on White Background</item>

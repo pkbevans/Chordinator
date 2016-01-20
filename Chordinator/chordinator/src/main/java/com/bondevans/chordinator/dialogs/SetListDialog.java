@@ -21,8 +21,8 @@ public class SetListDialog extends DialogFragment {
 
 	
 	public interface OnSetSelectedListener{
-		public void addNewSet(long songId, String songName);
-		public void setNameClicked(long setId, long songId, String setName, String songName);
+		void addNewSet(long songId, String songName);
+		void setNameClicked(long setId, long songId, String setName, String songName);
 	}
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.DialogFragment#onAttach(android.app.Activity)

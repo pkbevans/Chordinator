@@ -13,33 +13,35 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.widget.SearchView;
 import com.bondevans.chordinator.conversion.SongConverter;
 import com.bondevans.chordinator.db.DBUtils;
 import com.bondevans.chordinator.dialogs.AddSetDialog;
 import com.bondevans.chordinator.dialogs.BrowserSetListDialog;
 import com.bondevans.chordinator.dialogs.HelpFragment;
 import com.bondevans.chordinator.dialogs.LatestFragment;
-import com.bondevans.chordinator.prefs.ChordinatorPrefs;
+import com.bondevans.chordinator.prefs.ChordinatorPrefsActivity;
 import com.bondevans.chordinator.prefs.SongPrefs;
 import com.bondevans.chordinator.search.SearchCriteria;
 import com.bondevans.chordinator.setlist.SetList;
 import com.bondevans.chordinator.utils.Ute;
 
-public class SongBrowserActivity extends SherlockFragmentActivity
+public class SongBrowserActivity extends AppCompatActivity
 implements SongViewerFragment.SongViewerListener,
 SongBrowserFragment.OnSongFileSelectedListener,
 BrowserSetListDialog.OnSetSelectedListener,
@@ -57,7 +59,6 @@ AddSetDialog.CreateSetListener
 	private static final int SEARCH_LOCAL_ID = Menu.FIRST + 25;
 
 	private static int mColourScheme;
-	private static int DARK=ColourScheme.DARK;
 	private static int LIGHT=ColourScheme.LIGHT;
 	public static final String TAG_SONGBROWSER = "TAG_SONGBROWSER";
 	public static final String TAG_SONGVIEWER = "TAG_SONGVIEWER";
@@ -74,7 +75,7 @@ AddSetDialog.CreateSetListener
 		LinearLayout songFrame=null;
 		Log.d(TAG, "HELLO onCreate");
 		mColourScheme = Ute.getColourScheme(this);
-		setTheme(mColourScheme == ColourScheme.LIGHT? R.style.Theme_Sherlock_Light: R.style.Theme_Sherlock);
+		setTheme(mColourScheme == ColourScheme.LIGHT? R.style.Chordinator_Light_Theme_Theme: R.style.Chordinator_Dark_Theme_Theme);
 
 		super.onCreate(savedInstanceState);
 		// See if they want split screen mode in Landscape
@@ -116,6 +117,9 @@ AddSetDialog.CreateSetListener
 				ft.commit();
 			}
 		}
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
+        setSupportActionBar(toolbar);                   // Setting toolbar as the ActionBar with setSupportActionBar() call
 
 		searchFileView = new SearchView(getSupportActionBar().getThemedContext());
 		searchFileView.setQueryHint(getString(R.string.search_hint));
@@ -159,17 +163,19 @@ AddSetDialog.CreateSetListener
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		mMenu = menu;
+		MenuItem menuItem;
 
 		if(mUpEnabled){
-			menu.add(0, UP_ID, 1, getString(R.string.up))
-			.setIcon(R.drawable.ic_up_sel)
-			.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+			menuItem = menu.add(0, UP_ID, 1, getString(R.string.up))
+					.setIcon(R.drawable.ic_up_sel);
+			MenuItemCompat.setShowAsAction(menuItem, MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
 		}
 
-		menu.add(0,SEARCH_LOCAL_ID, 0, getString(R.string.search_songs))
-		.setIcon(mColourScheme == LIGHT ? R.drawable.ai_search_light:R.drawable.ai_search_dark)
-		.setActionView(searchFileView)
-		.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+		menuItem = menu.add(0,SEARCH_LOCAL_ID, 0, getString(R.string.search_songs))
+		.setIcon(mColourScheme == LIGHT ? R.drawable.ai_search_light:R.drawable.ai_search_dark);
+
+		MenuItemCompat.setActionView(menuItem, searchFileView);
+		MenuItemCompat.setOnActionExpandListener(menuItem, new MenuItemCompat.OnActionExpandListener() {
 			@Override
 			public boolean onMenuItemActionCollapse(MenuItem item) {
 				Log.d(TAG, "HELLO onMenuItemActionCollapse");
@@ -181,16 +187,16 @@ AddSetDialog.CreateSetListener
 			public boolean onMenuItemActionExpand(MenuItem item) {
 				return true;  // Return true to expand action view
 			}
-		})
-		.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS| MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+		});
+		MenuItemCompat.setShowAsAction(menuItem, MenuItemCompat.SHOW_AS_ACTION_ALWAYS | MenuItemCompat.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
 
-		menu.add(0, REFRESH_ID, 0, getString(R.string.refresh))
-		.setIcon(R.drawable.ai_refresh)
-		.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS);
+		menuItem = menu.add(0, REFRESH_ID, 0, getString(R.string.refresh))
+		.setIcon(R.drawable.ai_refresh);
+		MenuItemCompat.setShowAsAction(menuItem, MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
 
-		menu.add(0,SEARCH_INTERNET_ID, 0, getString(R.string.search_songs))
-		.setIcon(mColourScheme == LIGHT ? R.drawable.ic_download_light:R.drawable.ic_download_dark)
-		.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+		menuItem = menu.add(0,SEARCH_INTERNET_ID, 0, getString(R.string.search_songs))
+		.setIcon(mColourScheme == LIGHT ? R.drawable.ic_download_light:R.drawable.ic_download_dark);
+		MenuItemCompat.setShowAsAction(menuItem, MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
 
 		menu.add(0, DOWNLOAD_ID, 0, getString(R.string.make_download_dir));
 
@@ -206,9 +212,9 @@ AddSetDialog.CreateSetListener
 	}
 
 	void addShareButton(){
-		mMenu.add(0,SHARESONG_ID, 0, getString(R.string.share_song))
-		.setIcon(R.drawable.ic_menu_share)
-		.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+		MenuItem menuItem = mMenu.add(0, SHARESONG_ID, 0, getString(R.string.share_song))
+		.setIcon(R.drawable.ic_menu_share);
+		MenuItemCompat.setShowAsAction(menuItem, MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
 		mSongInView = true;
 	}
 
@@ -257,7 +263,7 @@ AddSetDialog.CreateSetListener
 			songBrowserFragment = new SongBrowserFragment();
 			// Add the fragment to the activity, pushing this transaction on to the back stack.
 			ft.replace(R.id.list_container, songBrowserFragment, TAG_SONGBROWSER);
-			ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+			ft.setTransition(FragmentTransaction.TRANSIT_NONE);
 			ft.addToBackStack(null);
 			ft.commit();
 		}
@@ -303,20 +309,20 @@ AddSetDialog.CreateSetListener
 		// Do Nothing - not applicable to songlist activity
 	}
 	private void setPreferences(){
-		Intent myIntent = new Intent(this, ChordinatorPrefs.class);
+		Intent myIntent = new Intent(this, ChordinatorPrefsActivity.class);
 		try {
 			//  Need to know when set prefs is finished so start for result
 			startActivityForResult(myIntent, SongUtils.SETOPTIONS_REQUEST);
 		} catch (ActivityNotFoundException e) {
-			SongUtils.toast(this, "ChordinatorPrefs not found");
+			SongUtils.toast(this, "ChordinatorPrefsActivity not found");
 		}
 	}
 
 	private void setupActionBar(){
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 		getSupportActionBar().setDisplayShowTitleEnabled(false);
 		getSupportActionBar().setDisplayShowHomeEnabled(true);
-		getSupportActionBar().setLogo(mColourScheme == DARK? R.drawable.chordinator_aug_logo_dark_bkgrnd: R.drawable.chordinator_aug_logo_light_bkgrnd);
+//		getSupportActionBar().setLogo(/*mColourScheme == DARK? */R.drawable.chordinator_aug_logo_dark_bkgrnd/*: R.drawable.chordinator_aug_logo_light_bkgrnd*/);
 	}
 
 	@Override
@@ -490,9 +496,9 @@ AddSetDialog.CreateSetListener
 		if(mMenu != null){
 			// If not already enabled, enable the UP button
 			if(enable && !mUpEnabled){
-				mMenu.add(0, UP_ID, 1, getString(R.string.up))
-				.setIcon(R.drawable.ic_up_sel)
-				.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+				MenuItem menuItem = mMenu.add(0, UP_ID, 1, getString(R.string.up))
+				.setIcon(R.drawable.ic_up_sel);
+                MenuItemCompat.setShowAsAction(menuItem, MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
 			}
 			//Remove the button if we are disabling it
 			else if (!enable){

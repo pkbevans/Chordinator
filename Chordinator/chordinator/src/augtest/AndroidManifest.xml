@@ -12,6 +12,7 @@
     <application
         android:allowBackup="true"
         android:hardwareAccelerated="true"
+        android:theme="@style/Chordinator_Dark_Theme.Theme"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_label" >
         <activity
@@ -86,7 +87,7 @@
         <activity android:name="com.bondevans.chordinator.EditSong" >
         </activity>
         <activity
-            android:name=".prefs.ChordinatorPrefs">
+            android:name=".prefs.ChordinatorPrefsActivity">
         </activity>
         <activity android:name="com.bondevans.chordinator.prefs.EncodingPrefs" >
         </activity>

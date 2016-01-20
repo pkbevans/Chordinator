@@ -6,20 +6,21 @@ import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.view.MenuItem;
 import com.bondevans.chordinator.ColourScheme;
 import com.bondevans.chordinator.Log;
 import com.bondevans.chordinator.R;
 import com.bondevans.chordinator.prefs.SongPrefs;
 import com.bondevans.chordinator.utils.Ute;
 
-public class SearchCriteria extends SherlockActivity {
+public class SearchCriteria extends AppCompatActivity {
 	public static final String TAG = "SearchCriteria";
 	private CheckBox chordieOnly;
 	private EditText keywords;
@@ -32,16 +33,19 @@ public class SearchCriteria extends SherlockActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		mColourScheme = Ute.getColourScheme(this);
-		setTheme(mColourScheme == ColourScheme.LIGHT? R.style.Theme_Sherlock_Light: R.style.Theme_Sherlock);
+		setTheme(mColourScheme == ColourScheme.LIGHT? R.style.Chordinator_Light_Theme_Theme: R.style.Chordinator_Dark_Theme_Theme);
 		super.onCreate(savedInstanceState);
 		Log.d(TAG, "HELLO onCreate");
 		setContentView(R.layout.search_criteria_layout);
 		chordieOnly = (CheckBox) findViewById(R.id.chordie_only);
 		keywords = (EditText) findViewById(R.id.keywords);
 		keywords.setText(getKeywords());
-        getSupportActionBar().setLogo(mColourScheme == ColourScheme.DARK? R.drawable.chordinator_aug_logo_dark_bkgrnd: R.drawable.chordinator_aug_logo_light_bkgrnd);
-//		getSupportActionBar().setTitle(R.string.search_title);
-		getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
+        setSupportActionBar(toolbar);                   // Setting toolbar as the ActionBar with setSupportActionBar() call
+//      getSupportActionBar().setLogo(mColourScheme == ColourScheme.DARK? R.drawable.chordinator_aug_logo_dark_bkgrnd: R.drawable.chordinator_aug_logo_light_bkgrnd);
+		getSupportActionBar().setTitle(R.string.search_title);
+		getSupportActionBar().setDisplayShowTitleEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 

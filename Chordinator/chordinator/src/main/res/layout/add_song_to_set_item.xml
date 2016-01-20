@@ -4,6 +4,13 @@
     android:layout_height="fill_parent"
     android:orientation="horizontal" >
 
+    <CheckBox
+        android:id="@+id/checkBox1"
+        android:paddingRight="24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="" />
+
     <LinearLayout
         android:layout_width="0dip"
         android:layout_height="wrap_content"
@@ -29,13 +36,5 @@
                 android:textSize="12dp" />
 
     </LinearLayout>
-
-    <CheckBox
-        android:id="@+id/checkBox1"
-        android:paddingRight="24dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="" />
-
 
 </LinearLayout>

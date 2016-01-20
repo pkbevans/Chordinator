@@ -17,17 +17,19 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ActionMode;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.ActionMode;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.widget.SearchView;
 import com.bondevans.chordinator.asynctask.ScanSongsActivity;
 import com.bondevans.chordinator.asynctask.SortOutFilePathsTask;
 import com.bondevans.chordinator.db.DBUtils;
@@ -36,14 +38,14 @@ import com.bondevans.chordinator.dialogs.FirstRunFragment;
 import com.bondevans.chordinator.dialogs.HelpFragment;
 import com.bondevans.chordinator.dialogs.LatestFragment;
 import com.bondevans.chordinator.dialogs.SetListDialog;
-import com.bondevans.chordinator.prefs.ChordinatorPrefs;
+import com.bondevans.chordinator.prefs.ChordinatorPrefsActivity;
 import com.bondevans.chordinator.prefs.SongPrefs;
 import com.bondevans.chordinator.search.SearchCriteria;
 import com.bondevans.chordinator.setlist.SetSongListActivity;
 import com.bondevans.chordinator.songlist.SongListFragment;
 import com.bondevans.chordinator.utils.Ute;
 
-public class MainActivity extends SherlockFragmentActivity
+public class MainActivity extends AppCompatActivity
 implements SongListFragment.OnSongSelectedListener,
 SongViewerFragment.SongViewerListener,
 SetListDialog.OnSetSelectedListener,
@@ -82,7 +84,7 @@ AddSetDialog.CreateSetListener
 		LinearLayout songFrame=null;
 		Log.d(TAG, "HELLO onCreate");
 		mColourScheme = Ute.getColourScheme(this);
-		setTheme(mColourScheme == ColourScheme.LIGHT? R.style.Theme_Sherlock_Light: R.style.Theme_Sherlock);
+		setTheme(mColourScheme == ColourScheme.LIGHT? R.style.Chordinator_Light_Theme_Theme: R.style.Chordinator_Dark_Theme_Theme);
 
 		logOsDetails();
 		super.onCreate(savedInstanceState);
@@ -132,6 +134,9 @@ AddSetDialog.CreateSetListener
 				ft.commit();
 			}
 		}
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
+        setSupportActionBar(toolbar);                   // Setting toolbar as the ActionBar with setSupportActionBar() call
 
 		searchDBView = new SearchView(getSupportActionBar().getThemedContext());
         searchDBView.setQueryHint(getString(R.string.search_hint));
@@ -309,25 +314,25 @@ AddSetDialog.CreateSetListener
 	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-
 		mMenu  = menu;
+		MenuItem menuItem;
 
-		menu.add(0, SORTSONGS_ID, 0,"Sort By")
-		.setIcon(mColourScheme == LIGHT ? R.drawable.ic_sort_light : R.drawable.ic_sort_dark)
-		.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);//|MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+		menuItem = menu.add(0, SORTSONGS_ID, 0,"Sort By")
+		.setIcon(mColourScheme == LIGHT ? R.drawable.ic_sort_light : R.drawable.ic_sort_dark);
+		MenuItemCompat.setShowAsAction(menuItem, MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
 
-		menu.add(0,BROWSE_ID, 0, getString(R.string.tabname_browse))
-		.setIcon(mColourScheme == LIGHT ? R.drawable.ai_browser_light : R.drawable.ai_browser_dark)
-		.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);//|MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+		menuItem = menu.add(0,BROWSE_ID, 0, getString(R.string.tabname_browse))
+		.setIcon(mColourScheme == LIGHT ? R.drawable.ai_browser_light : R.drawable.ai_browser_dark);
+		MenuItemCompat.setShowAsAction(menuItem, MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
 
-		menu.add(0,SELECTSET_ID, 0, getString(R.string.tabname_sets))
-		.setIcon(mColourScheme == LIGHT ? R.drawable.ic_setlists_light : R.drawable.ic_setlists_dark)
-		.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);//|MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+		menuItem = menu.add(0,SELECTSET_ID, 0, getString(R.string.tabname_sets))
+		.setIcon(mColourScheme == LIGHT ? R.drawable.ic_setlists_light : R.drawable.ic_setlists_dark);
+		MenuItemCompat.setShowAsAction(menuItem, MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
 
-		menu.add(0,SEARCH_LOCAL_ID, 0, getString(R.string.search_songs))
-		.setIcon(mColourScheme == LIGHT ? R.drawable.ai_search_light:R.drawable.ai_search_dark)
-		.setActionView(searchDBView)
-		.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+		menuItem = menu.add(0,SEARCH_LOCAL_ID, 0, getString(R.string.search_songs))
+		.setIcon(mColourScheme == LIGHT ? R.drawable.ai_search_light:R.drawable.ai_search_dark);
+		MenuItemCompat.setActionView(menuItem, searchDBView);
+		MenuItemCompat.setOnActionExpandListener(menuItem, new MenuItemCompat.OnActionExpandListener() {
 			@Override
 			public boolean onMenuItemActionCollapse(MenuItem item) {
 				// Do something when collapsed
@@ -341,12 +346,12 @@ AddSetDialog.CreateSetListener
 				// Do something when expanded
 				return true;  // Return true to expand action view
 			}
-		})
-		.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS| MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+		});
+		MenuItemCompat.setShowAsAction(menuItem, MenuItemCompat.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
 
-		menu.add(0,SEARCH_INTERNET_ID, 0, getString(R.string.search_songs))
-		.setIcon(mColourScheme == LIGHT ? R.drawable.ic_download_light:R.drawable.ic_download_dark)
-		.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);//|MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+		menuItem = menu.add(0,SEARCH_INTERNET_ID, 0, getString(R.string.search_songs))
+		.setIcon(mColourScheme == LIGHT ? R.drawable.ic_download_light:R.drawable.ic_download_dark);
+		MenuItemCompat.setShowAsAction(menuItem, MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
 
 		menu.add(0, SCANSONGS_ID, 0, getString(R.string.scan_for_songs))
 		.setIcon(R.drawable.ic_menu_scan);
@@ -366,9 +371,9 @@ AddSetDialog.CreateSetListener
 	}
 
 	void addShareButton(){
-		mMenu.add(0,SHARESONG_ID, 0, getString(R.string.share_song))
-		.setIcon(R.drawable.ic_menu_share)
-		.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+		MenuItem menuItem = mMenu.add(0, SHARESONG_ID, 0, getString(R.string.share_song))
+		.setIcon(R.drawable.ic_menu_share);
+		MenuItemCompat.setShowAsAction(menuItem, MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
 		mSongInView = true;
 	}
 
@@ -397,7 +402,7 @@ AddSetDialog.CreateSetListener
 			newFragment1.show(getSupportFragmentManager(), "dialog");
 			break;
 		case SORTSONGS_ID:
-			startActionMode(new SongActionMode());
+			startSupportActionMode(new SongActionMode());
 			break;
 		case BROWSE_ID:
 			browseFiles();
@@ -429,7 +434,7 @@ AddSetDialog.CreateSetListener
 	private void deleteSongs() {
 		Log.d(TAG, "HELLO deleteSongs");
 		// Delete all Sets
-		getContentResolver().delete(DBUtils.SET(getString(R.string.authority)), null, null);
+        getContentResolver().delete(DBUtils.SET(getString(R.string.authority)), null, null);
 		// Delete all Songs
 		int rows = getContentResolver().delete(DBUtils.SONG(getString(R.string.authority)), null, null);
 		SongUtils.toast(this, rows+" Songs Deleted");
@@ -451,12 +456,12 @@ AddSetDialog.CreateSetListener
 
 		LatestFragment newFragment = LatestFragment.newInstance(vers);
 		newFragment.show(getSupportFragmentManager(), "dialog");
-	}
+    }
 
-	public void scanForSongs(){
+    public void scanForSongs(){
 		Log.d(TAG, "HELLO scanForSongs");
 		Intent myIntent = new Intent(this, ScanSongsActivity.class);
-		myIntent.putExtra(ScanSongsActivity.INTENT_DOSETS, false);// Don't do sets
+        myIntent.putExtra(ScanSongsActivity.INTENT_DOSETS, false);// Don't do sets
 		try {
 			// Put the SET iD in the intent
 			startActivity(myIntent);
@@ -471,19 +476,19 @@ AddSetDialog.CreateSetListener
 		// Do Nothing - not applicable to songlist activity
 	}
 	private void setPreferences(){
-		Intent myIntent = new Intent(this, ChordinatorPrefs.class);
+		Intent myIntent = new Intent(this, ChordinatorPrefsActivity.class);
 		try {
 			//  Need to know when set prefs is finished so start for result
 			startActivityForResult(myIntent, SongUtils.SETOPTIONS_REQUEST);
 		} catch (ActivityNotFoundException e) {
-			SongUtils.toast(this, "ChordinatorPrefs not found");
+			SongUtils.toast(this, "ChordinatorPrefsActivity not found");
 		}
 	}
 	public void addNewSet(long songId, String songName){
 		// Pop up a dialog asking for file name
 		Log.d(TAG, "Adding new Set");
 		DialogFragment newFragment = AddSetDialog.newInstance(true, songId, songName);
-		newFragment.show(getSupportFragmentManager(), "dialog");
+        newFragment.show(getSupportFragmentManager(), "dialog");
 	}
 
 	public void createSet(String setName, long songId, String songName){
@@ -530,42 +535,28 @@ AddSetDialog.CreateSetListener
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 			Log.d(TAG, "HELLO - onCreateActionMode");
-			menu.add(0,TITLE_ID, 0, getString(R.string.title))
-					.setIcon(mSortOrder == SongListFragment.LIST_MODE_TITLE?R.drawable.title_icon_sel:R.drawable.title_icon)
-					.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+			MenuItem menuItem;
+			menuItem = menu.add(0,TITLE_ID, 0, getString(R.string.title))
+					.setIcon(mSortOrder == SongListFragment.LIST_MODE_TITLE?R.drawable.title_icon_sel:R.drawable.title_icon);
+			MenuItemCompat.setShowAsAction(menuItem, MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
 
-			menu.add(0,ARTIST_ID, 0, getString(R.string.artist))
-					.setIcon(mSortOrder == SongListFragment.LIST_MODE_ARTIST?R.drawable.artist_icon_sel:R.drawable.artist_icon)
-					.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+			menuItem = menu.add(0,ARTIST_ID, 0, getString(R.string.artist))
+					.setIcon(mSortOrder == SongListFragment.LIST_MODE_ARTIST?R.drawable.artist_icon_sel:R.drawable.artist_icon);
+			MenuItemCompat.setShowAsAction(menuItem, MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
 
-			menu.add(0,RECENT_ID, 0, getString(R.string.recent))
-					.setIcon(mSortOrder == SongListFragment.LIST_MODE_RECENT?R.drawable.recent_icon_sel:R.drawable.recent_icon)
-					.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+			menuItem = menu.add(0,RECENT_ID, 0, getString(R.string.recent))
+					.setIcon(mSortOrder == SongListFragment.LIST_MODE_RECENT?R.drawable.recent_icon_sel:R.drawable.recent_icon);
+			MenuItemCompat.setShowAsAction(menuItem, MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
 
-			menu.add(0,FAVOURITES_ID, 0, getString(R.string.favourites))
-					.setIcon(mSortOrder == SongListFragment.LIST_MODE_FAVS?R.drawable.fav_icon_sel:R.drawable.fav_icon)
-					.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+			menuItem = menu.add(0,FAVOURITES_ID, 0, getString(R.string.favourites))
+					.setIcon(mSortOrder == SongListFragment.LIST_MODE_FAVS?R.drawable.fav_icon_sel:R.drawable.fav_icon);
+			MenuItemCompat.setShowAsAction(menuItem, MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
 			return true;
 		}
 
 		@Override
 		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
 			Log.d(TAG, "HELLO - onPrepareActionMode");
-			menu.add(0,TITLE_ID, 0, getString(R.string.title))
-			.setIcon(mSortOrder == SongListFragment.LIST_MODE_TITLE?R.drawable.title_icon_sel:R.drawable.title_icon)
-			.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-
-			menu.add(0,ARTIST_ID, 0, getString(R.string.artist))
-			.setIcon(mSortOrder == SongListFragment.LIST_MODE_ARTIST?R.drawable.artist_icon_sel:R.drawable.artist_icon)
-			.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-
-			menu.add(0,RECENT_ID, 0, getString(R.string.recent))
-			.setIcon(mSortOrder == SongListFragment.LIST_MODE_RECENT?R.drawable.recent_icon_sel:R.drawable.recent_icon)
-			.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-
-			menu.add(0,FAVOURITES_ID, 0, getString(R.string.favourites))
-			.setIcon(mSortOrder == SongListFragment.LIST_MODE_FAVS?R.drawable.fav_icon_sel:R.drawable.fav_icon)
-			.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 			return true;
 		}
 

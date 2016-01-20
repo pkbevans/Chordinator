@@ -56,10 +56,10 @@ LoaderManager.LoaderCallbacks<Cursor> {
 	 * List of songs to be added to the Set - only songs that have been selected
 	 * are added to the list
 	 */
-	private static List<CheckedSetSong> mChecked = new ArrayList<CheckedSetSong>();
+	private static List<CheckedSetSong> mChecked = new ArrayList<>();
 
 	public interface OnSongsAddedListener {
-		public void songsAdded();
+		void songsAdded();
 	}
 
 	@Override

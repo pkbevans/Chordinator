@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    tools:ignore="OnClick" >
+    tools:ignore="OnClick">
 
     <LinearLayout
         android:id="@+id/layout5"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/layout4"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal|right" >
+            android:gravity="center_horizontal|right">
 
             <TextView
                 android:id="@+id/currentFolder"
@@ -33,7 +33,7 @@
                 android:scrollHorizontally="true"
                 android:singleLine="true"
                 android:text="Current Folder"
-                android:textSize="18dp" />
+                android:textSize="18dp"/>
         </LinearLayout>
         <!-- Dividing Line -->
 
@@ -41,7 +41,7 @@
             android:id="@+id/divider"
             android:layout_width="fill_parent"
             android:layout_height="1dip"
-            android:background="@color/divider_colour" />
+            android:background="@color/divider_colour"/>
     </LinearLayout>
 
     <ListView
@@ -50,6 +50,6 @@
         android:layout_height="256dp"
         android:layout_alignParentBottom="true"
         android:layout_below="@+id/layout5"
-        android:textSize="18dp" />
+        android:textSize="18dp"/>
 
 </RelativeLayout>

@@ -1,13 +1,5 @@
 package com.bondevans.chordinator;
 
-import java.io.File;
-
-import java.io.FilenameFilter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -25,7 +17,6 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.ListFragment;
 import android.text.InputType;
-
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -47,9 +38,15 @@ import com.bondevans.chordinator.setlist.EditSetList;
 import com.bondevans.chordinator.setlist.SetList;
 import com.bondevans.chordinator.utils.SdCardFactory;
 import com.bondevans.chordinator.utils.SdCardFactory.SdCard;
-import com.bondevans.chordinator.utils.Ute;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+
+import java.io.File;
+import java.io.FilenameFilter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 public class SongBrowserFragment extends ListFragment 
 {
@@ -62,17 +59,14 @@ public class SongBrowserFragment extends ListFragment
 	public static final String KEY_FOLDER = "KEY6";
 	private static final String KEY_CURDIR = "KEY7";
 	public static final String KEY_RENAMEFLAG = "KEY7";
-	private List<String> directoryEntries = new ArrayList<String>();
-	public File mCurrentDirectory;	
-	private String mSelectedItem;
-	// Song Conversion
+	private List<String> directoryEntries = new ArrayList<>();
+	public File mCurrentDirectory;
+    // Song Conversion
 	private static SongConverter mSc;
 	private static String mFilePath;
 	private int mPosition=0;
 	private OnSongFileSelectedListener songFileSelectedListener;
-	private boolean mDualPane;
-	private View mContentView;
-	private TextView	mCurrentFolder;
+    private TextView	mCurrentFolder;
 	private SongArrayAdapter songArrayAdapter;
 	private String mSdCardRoot;
 	private String mFilter="";
@@ -80,12 +74,12 @@ public class SongBrowserFragment extends ListFragment
 	private SdCardFactory mCards;
 
 	public interface OnSongFileSelectedListener{
-		public void onSongFileSelected(boolean inSet, File songFile);
-		public void convertChoPro(SongConverter mSc, String newFileName);
-		public void doDelete(String filePath);
-		public void copyFile(String oldPath, String newPath, boolean deleteOldFile);
-		public void upOneLevel(View v);
-		public void enableUp(boolean enabled);
+		void onSongFileSelected(boolean inSet, File songFile);
+		void convertChoPro(SongConverter mSc, String newFileName);
+		void doDelete(String filePath);
+		void copyFile(String oldPath, String newPath, boolean deleteOldFile);
+		void upOneLevel(View v);
+		void enableUp(boolean enabled);
 	}
 
 	@Override
@@ -105,14 +99,14 @@ public class SongBrowserFragment extends ListFragment
 		// Check to see if we have a frame in which to embed the details
 		// fragment directly in the containing UI.
 		View songFrame = getActivity().findViewById(R.id.songview_fragment);
-		mDualPane = songFrame != null && songFrame.getVisibility() == View.VISIBLE;
+        boolean dualPane = songFrame != null && songFrame.getVisibility() == View.VISIBLE;
 
 		if (savedInstanceState != null) {
 			// Restore last state for checked position.
 			mPosition = savedInstanceState.getInt("curChoice", 0);
 		}
 
-		if (mDualPane) {
+		if (dualPane) {
 			Log.d(TAG, "HELLO - dual pane");
 			// In dual-pane mode, the list view highlights the selected item.
 			getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
@@ -171,10 +165,10 @@ public class SongBrowserFragment extends ListFragment
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		mContentView = inflater.inflate(R.layout.songbrowser_layout, container, false);
-		mCurrentFolder = (TextView)mContentView.findViewById(R.id.currentFolder);
+        View contentView = inflater.inflate(R.layout.songbrowser_layout, container, false);
+		mCurrentFolder = (TextView) contentView.findViewById(R.id.currentFolder);
 		Log.d(TAG, "HELLO onCreatView");
-		return mContentView;
+		return contentView;
 	}
 
 	/* (non-Javadoc)
@@ -487,42 +481,42 @@ public class SongBrowserFragment extends ListFragment
 		}
 		Log.d(TAG,"HELLO onContextItemSelected");
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-		mSelectedItem = (String) getListView().getItemAtPosition(info.position);
-		Log.d(TAG, "HELLO selectedItem=["+mSelectedItem+"]");
+        String selectedItem = (String) getListView().getItemAtPosition(info.position);
+		Log.d(TAG, "HELLO selectedItem=["+ selectedItem +"]");
 		mPosition = info.position;
 		if (item.getItemId() == R.id.edit) {
 			//				Log.d(TAG,"HELLO edit Selected");
-			if( mSelectedItem.startsWith(SetList.SETLIST_PREFIX)){
-				editSetList(mSelectedItem);
+			if( selectedItem.startsWith(SetList.SETLIST_PREFIX)){
+				editSetList(selectedItem);
 			}
 			else{
-				editSong(mSelectedItem);
+				editSong(selectedItem);
 			}
 			return true;
 		} else if (item.getItemId() == R.id.share) {
-			shareSong(addDir(mSelectedItem));
+			shareSong(addDir(selectedItem));
 			return true;
 		} else if (item.getItemId() == R.id.convert) {
-			convertTextToChopro(addDir(mSelectedItem));
+			convertTextToChopro(addDir(selectedItem));
 			return true;
 		} else if (item.getItemId() == R.id.delete) {
-			showDoDeleteDialog(addDir(mSelectedItem), mSelectedItem );
+			showDoDeleteDialog(addDir(selectedItem), selectedItem);
 			return true;
 		} else if (item.getItemId() == R.id.save_as) {
-			showSaveAsDialog(mCurrentDirectory.getPath(), mSelectedItem);
+			showSaveAsDialog(mCurrentDirectory.getPath(), selectedItem);
 			return true;
 		}
 		else if (item.getItemId() == R.id.rename) {
-			showRenameDialog(mCurrentDirectory.getPath(), mSelectedItem);
+			showRenameDialog(mCurrentDirectory.getPath(), selectedItem);
 			return true;
 		} else if (item.getItemId() == R.id.open) {
-			openItem(mSelectedItem);
+			openItem(selectedItem);
 			return true;
 		} else if( item.getItemId() == R.id.import_set){
-			importSet(mSelectedItem);
+			importSet(selectedItem);
 			return true;
 		} else if (item.getItemId() == R.id.add_to_set) {
-			showSetListDialog(addDir(mSelectedItem));
+			showSetListDialog(addDir(selectedItem));
 			return true;
 		} else {
 			return super.onContextItemSelected(item);
