@@ -199,5 +199,6 @@
         <item>Chords Only - Lyrics are not displayed</item>
         <item>Lyrics Only - Chords are not displayed</item>
     </string-array>
+    <string name="buffering_msg">"робоча…"</string>
 
 </resources>

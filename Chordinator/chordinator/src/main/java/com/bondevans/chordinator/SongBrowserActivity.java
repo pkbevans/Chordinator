@@ -319,10 +319,10 @@ AddSetDialog.CreateSetListener
 	}
 
 	private void setupActionBar(){
-		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setDisplayShowTitleEnabled(false);
 		getSupportActionBar().setDisplayShowHomeEnabled(true);
-//		getSupportActionBar().setLogo(/*mColourScheme == DARK? */R.drawable.chordinator_aug_logo_dark_bkgrnd/*: R.drawable.chordinator_aug_logo_light_bkgrnd*/);
+        getSupportActionBar().setLogo(mColourScheme == LIGHT? R.drawable.chordinator_aug_logo_light_bkgrnd: R.drawable.chordinator_aug_logo_dark_bkgrnd);
 	}
 
 	@Override

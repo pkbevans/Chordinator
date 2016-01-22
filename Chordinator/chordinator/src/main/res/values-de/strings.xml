@@ -199,5 +199,6 @@
         <item>"Nur Akkorde - Text wird nicht angezeigt"</item>
         <item>"Nur Text - Akkorde werden nicht angezeigt"</item>
     </string-array>
+    <string name="buffering_msg">"Arbeiten…"</string>
 
 </resources>

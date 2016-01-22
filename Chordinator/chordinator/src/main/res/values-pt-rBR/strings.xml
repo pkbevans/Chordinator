@@ -199,5 +199,6 @@
         <item>Só acordes - A letra não será mostrada</item>
         <item>Só a letra - acordes não serão mostrados</item>
     </string-array>
+    <string name="buffering_msg">"Trabalhando…"</string>
 
 </resources>
