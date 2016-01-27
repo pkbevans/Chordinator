@@ -2,11 +2,13 @@ package com.bondevans.chordinator;
 
 import java.io.File;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.os.Build;
@@ -67,8 +69,10 @@ AddSetDialog.CreateSetListener
 	private static final int SEARCH_INTERNET_ID = Menu.FIRST + 18;
 	private static final int ABOUT_ID = Menu.FIRST + 19;
 	private static final int SEARCH_LOCAL_ID = Menu.FIRST + 25;
+    private static final int REQUEST_CODE_READ_STORAGE_PERMISSION = 4523;
 
-	private static int mColourScheme;
+
+    private static int mColourScheme;
 	private static int LIGHT=ColourScheme.LIGHT;
 	private static final String TAG_SONGLIST = "TAG_SONGLIST";
 	public static final String TAG_SONGVIEWER = "TAG_SONGVIEWER";
@@ -88,7 +92,7 @@ AddSetDialog.CreateSetListener
 
 		logOsDetails();
 		super.onCreate(savedInstanceState);
-
+        checkFileAccessPermission();
 		// See if they want split screen mode in Landscape
 		int listPaneSize;
 		if((listPaneSize = useSplitScreenMode())>0){
@@ -205,7 +209,7 @@ AddSetDialog.CreateSetListener
 			e.printStackTrace();
 		}
 		int prevVersion = settings.getInt(SongPrefs.PREF_KEY_FIRSTRUN_VERSION, 0);
-		Log.d(TAG, "HELLO This version["+thisVersion+"] Previous Version["+prevVersion+"]");
+		Log.d(TAG, "HELLO This version[" + thisVersion + "] Previous Version[" + prevVersion + "]");
 		if( prevVersion < thisVersion){
 			if( thisVersion >= 23 && prevVersion < 23){	// 2.4.0. 
 				Log.d(TAG, "HELLO Upating song file paths");
@@ -507,7 +511,7 @@ AddSetDialog.CreateSetListener
 		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 		getSupportActionBar().setDisplayShowTitleEnabled(false);
 		getSupportActionBar().setDisplayShowHomeEnabled(true);
-		getSupportActionBar().setLogo(mColourScheme == LIGHT? R.drawable.chordinator_aug_logo_light_bkgrnd: R.drawable.chordinator_aug_logo_dark_bkgrnd);
+		getSupportActionBar().setLogo(mColourScheme == LIGHT ? R.drawable.chordinator_aug_logo_light_bkgrnd : R.drawable.chordinator_aug_logo_dark_bkgrnd);
 	}
 
 	@Override
@@ -657,4 +661,24 @@ AddSetDialog.CreateSetListener
 		// SHOULD NEVER BE CALLED
 		Log.d(TAG, "HELLO createBrowserSet - WHY HAS THIS BEEN CALLED");
 	}
+    private void checkFileAccessPermission() {
+        // Required for API version 23 and above
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            android.util.Log.d(TAG, "checkFileAccessPermission 1");
+            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                android.util.Log.d(TAG, "checkFileAccessPermission 2");
+                // Need to request permission from the user
+                String[] perms = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE};
+                requestPermissions(perms, REQUEST_CODE_READ_STORAGE_PERMISSION);
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        // TODO need to handle user not allowing access.
+        Log.d(TAG, "onRequestPermissionsResult");
+    }
+
 }

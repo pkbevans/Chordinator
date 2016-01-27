@@ -13,23 +13,17 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.CheckBox;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.bondevans.chordinator.ChordinatorException;
 import com.bondevans.chordinator.ColourScheme;
@@ -40,22 +34,22 @@ import com.bondevans.chordinator.Statics;
 import com.bondevans.chordinator.conversion.SongConverter;
 import com.bondevans.chordinator.conversion.SongConverterFragment;
 import com.bondevans.chordinator.db.DBUtils;
+import com.bondevans.chordinator.dialogs.GotSongDialog;
 import com.bondevans.chordinator.prefs.SongPrefs;
 import com.bondevans.chordinator.utils.Ute;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class SearchActivity extends AppCompatActivity {
+public class SearchActivity extends AppCompatActivity implements GotSongDialog.GotSongListener {
 	public static final String TAG = "SearchActivity";
 	public static final String SEARCH_CRITERIA = "CRITERIA";
-	private static final String KEY_SONGTEXT = "KEY1";
-	private static final String KEY_SONGFILE = "KEY2";
-	private static final String KEY_CHOPRO = "KEY3";
 	private static final CharSequence GOOGLE = "google";
-	private static final int GRABCHORDS_ID = Menu.FIRST + 1;
 	public static final int MAX_LINES_TO_CHECK = 40;//2.4.0 Up'd to 40
-	private WebView searcher;
+    private static final String GOTSONG_TAG = "GotSonG";
+    private static final String KEY_TITLE = "101";
+    private static final String KEY_ARTIST = "102";
+    private WebView searcher;
     String mFoundSongText;
 	String mUrl;	// Current URL
 	SearchPage mTask;
@@ -85,7 +79,6 @@ public class SearchActivity extends AppCompatActivity {
 			Pattern.DOTALL|Pattern.CASE_INSENSITIVE);
 	private static Pattern multipleNewlinePattern = Pattern.compile("([ \t\r]*\n[\t\r ]*){2,}");
 	// Chord Reader stuff - END
-
 	private static String mDownloadFolder;
 
 	/* (non-Javadoc)
@@ -128,11 +121,15 @@ public class SearchActivity extends AppCompatActivity {
 
 //        getSupportActionBar().setLogo(/*mColourScheme == ColourScheme.DARK? */R.drawable.chordinator_aug_logo_dark_bkgrnd/*: R.drawable.chordinator_aug_logo_light_bkgrnd*/);
         getSupportActionBar().setTitle(R.string.search_title);
-        getSupportActionBar().getThemedContext();
 		getSupportActionBar().setDisplayShowTitleEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // Set download folder
         mDownloadFolder = getDownloadFolder();
+        if(savedInstanceState!=null){
+            mTitle = savedInstanceState.getString(KEY_TITLE);
+            mArtist = savedInstanceState.getString(KEY_ARTIST);
+            Log.d(TAG, "savedInstanceState: "+mTitle);
+        }
 	}
 
 	private String getDownloadFolder() {
@@ -162,10 +159,12 @@ public class SearchActivity extends AppCompatActivity {
 	 */
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
-		Log.d(TAG, "onSaveInstanceState");
+		Log.d(TAG, "onSaveInstanceState: "+mTitle);
 		cancelOldSearch();
 		super.onSaveInstanceState(outState);
-	}
+        outState.putString(KEY_TITLE, mTitle);
+        outState.putString(KEY_ARTIST, mArtist);
+    }
 
 	public boolean isNetworkAvailable() {
 		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -194,27 +193,6 @@ public class SearchActivity extends AppCompatActivity {
 		return songText;
 	}
 
-/*
-	@Override
-	protected Dialog onCreateDialog(int id) {
-		AlertDialog.Builder builder;
-		AlertDialog alertDialog = null;
-
-		switch(id){
-		case DIALOG_ID_NO_NETWORK:
-			builder = new AlertDialog.Builder(SearchActivity.this);
-			builder.setMessage("No Network connection");
-			builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int whichButton) {
-					// Do nothing....
-				}
-			});
-			alertDialog = builder.create();
-		}
-		return alertDialog;
-	}
-*/
-
 	@JavascriptInterface
 	public void searchPageForSong(String html){
 		Log.d(TAG, "HELLO searchPageForSong");
@@ -230,8 +208,34 @@ public class SearchActivity extends AppCompatActivity {
 		mTask.execute(html);
 	}
 
-	public class SearchPage extends AsyncTask<String, Void, String>{
+    @Override
+    public void onGotSong(String fileName, String songText, boolean isChoPro, boolean convertChopro) {
+        // Save new song in chordinator folder...
+        String fullPath = mDownloadFolder + fileName;
+        try {
+            SongUtils.writeFile(fullPath, songText);
+            Log.d(TAG, "HELLO fileName=[" + fileName + "]");
+            SongUtils.toast( SearchActivity.this, fullPath + " "+ getString(R.string.saved));
+            // Create DB entry if its already in chopro format, otherwise convert to choPro if
+            // required and then add to DB
+            if(isChoPro){
+                DBUtils.addSong(getContentResolver(), getString(R.string.authority), mDownloadFolder,
+                        fileName, mTitle, mArtist, "");
+            }
+            else{
+                if(convertChopro){
+                    convertFileToChoPro(fileName);
+                }
+            }
+        } catch (ChordinatorException e) {
+            SongUtils.toast( SearchActivity.this, e.getMessage());
+        }
+    }
+
+    public class SearchPage extends AsyncTask<String, Void, String>{
 		String songText;
+        private boolean mChopro;
+
         @Override
 		protected String doInBackground(String... params) {
             Log.d(TAG, "HELLO searchPage1");
@@ -252,27 +256,34 @@ public class SearchActivity extends AppCompatActivity {
 					mFoundSongText = songText;
 				}
 				Log.d(TAG, "HELLO searchPage got[" + mFoundSongText + "]");
-				// and show dialog
-				showGotSongDialog(mFoundSongText, true);
-				Log.d(TAG, "HELLO searchPage4");
+                mChopro=true;
+				return "OK";
 			}
-			// If not see if there is a UG-style song
 			else{
+                // If not see if there is a UG-style song
 				// Extract the contents of the <pre> </pre> tag if there is one
 				mFoundSongText=findUGSong(params[0]);
 				if( mFoundSongText != null){
-					showGotSongDialog(mFoundSongText, false);
+                    mChopro = false;
+                    return "OK";
 				}
 			}
 			Log.d(TAG, "HELLO searchPage5");
-			return null;
+			return "";
 		}
 
-		/*
-		 * {t:{start:(new Date).getTime()},bfr:!(!b)}};window.google.tick=function(a,b,c){if(!window.google.timers[a])google.startTick(a);window.google.timers[a].t[b]=c||(new Date).getTime()};google.startTick("load",true);try{window.google.pt=window.chrome&&window.chrome.csi&&Math.floor(window.chrome.csi().pageT);}catch(u){}
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if( s.equalsIgnoreCase("OK")){
+                showGotSongDialog(mFoundSongText, mChopro);
+            }
+        }
 
-		 * */
+        /*
+                 * {t:{start:(new Date).getTime()},bfr:!(!b)}};window.google.tick=function(a,b,c){if(!window.google.timers[a])google.startTick(a);window.google.timers[a].t[b]=c||(new Date).getTime()};google.startTick("load",true);try{window.google.pt=window.chrome&&window.chrome.csi&&Math.floor(window.chrome.csi().pageT);}catch(u){}
 
+                 * */
 		public int findChoproStart(String line) {
 			String [] startTags = {"{title:", "{t:"};// MUST BE LOWERCASE
 			String [] badTags = {"{t:{start:"};
@@ -337,7 +348,7 @@ public class SearchActivity extends AppCompatActivity {
 		public String cleanUpText(String text) {
 
 			if (text == null) {
-				return text;
+				return null;
 			}
 
 			text = text.trim();
@@ -403,7 +414,7 @@ public class SearchActivity extends AppCompatActivity {
 		@JavascriptInterface
 		public void showHTML(String html)
 		{
-			Log.d(TAG, "HELLO got ["+html.substring(0, 10)+"..."+html.substring(html.length()-10, html.length()));
+			Log.d(TAG, "HELLO got [" + html.substring(0, 10) + "..." + html.substring(html.length() - 10, html.length()));
 			searchPageForSong(html);
 		}
 	}
@@ -417,7 +428,7 @@ public class SearchActivity extends AppCompatActivity {
 		public void onPageStarted(WebView view, String url, Bitmap favicon) {
             mProgressBar.setVisibility(View.VISIBLE);
             mUrl = url;
-			Log.d(TAG, "HELLO loading page:"+mUrl);
+			Log.d(TAG, "HELLO loading page:" + mUrl);
 			super.onPageStarted(view, url, favicon);
 		}
 
@@ -429,111 +440,41 @@ public class SearchActivity extends AppCompatActivity {
 		}
 	}
 
-	private void showGotSongDialog(String songText, boolean choPro) {
-        String title = SongUtils.tagValue(songText, "title","t","newSong");
-		String artist = SongUtils.tagValue(songText, "subtitle","st","unknown");
-		DialogFragment newFragment = GotSongDialog.newInstance(
-				choPro,
-				cleanSong(songText),
-				title,
-				artist,
-				title + (choPro?Statics.SONGFILEEXT:Statics.TEXTFILEEXT));	// Default file name
-		newFragment.show(getSupportFragmentManager(), "dialog");
+    String mTitle;
+    String mArtist;
+    private void showGotSongDialog(final String songText, final boolean choPro) {
+        // Make sure we hafven't already got one going
+        GotSongDialog mDialogFragment = (GotSongDialog) getSupportFragmentManager().findFragmentByTag(GOTSONG_TAG);
+        if(mDialogFragment != null){
+            mDialogFragment.dismiss();
+        }
+
+        mTitle = SongUtils.tagValue(songText, "title","t","newSong");
+		mArtist= SongUtils.tagValue(songText, "subtitle","st","unknown");
+		GotSongDialog dialog = new GotSongDialog();
+        Bundle args = new Bundle();
+        args.putBoolean(GotSongDialog.KEY_CHOPRO, choPro);
+        args.putString(GotSongDialog.KEY_SONGTEXT, cleanSong(songText));
+        args.putString(GotSongDialog.KEY_SONGFILE, mTitle + (choPro?Statics.SONGFILEEXT : Statics.TEXTFILEEXT));
+        dialog.setArguments(args);
+        dialog.setGotSongListener(this);
+		dialog.show(getSupportFragmentManager(), GOTSONG_TAG);
 	}
 
-	public static class GotSongDialog extends DialogFragment{
-		private static TextView mSongTextView;
-		private static TextView mFileName;
-		static String mTitle;
-		static String mArtist;
-
-		static GotSongDialog newInstance(boolean choPro, String songText, String title, String artist, String songFile) {
-			GotSongDialog frag = new GotSongDialog();
-			Bundle args = new Bundle();
-			mArtist = artist;
-			mTitle = title;
-			args.putString(KEY_SONGTEXT, songText);
-			args.putString(KEY_SONGFILE, songFile);
-			args.putBoolean(KEY_CHOPRO, choPro);
-			frag.setArguments(args);
-			return frag;
-		}
-		/* (non-Javadoc)
-		 * @see android.support.v4.app.DialogFragment#onCreateDialog(android.os.Bundle)
-		 */
-		@Override
-		public Dialog onCreateDialog(Bundle savedInstanceState) {
-			final String songText;
-			final boolean choPro = getArguments().getBoolean(KEY_CHOPRO);
-			LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			View layout = inflater.inflate(R.layout.song_found_dialog,
-					(ViewGroup) getActivity().findViewById(R.id.layout_root));
-
-			// Only show the "Convert to Chopro checkbox if the file is NOT already in chopro
-			final CheckBox convertChopro = (CheckBox) layout.findViewById(R.id.convertChopro);
-			convertChopro.setVisibility(choPro?View.INVISIBLE:View.VISIBLE);
-
-			mSongTextView = (TextView) layout.findViewById(R.id.song);
-			mFileName = (TextView) layout.findViewById(R.id.file_name);
-
-			songText = getArguments().getString(KEY_SONGTEXT);
-			mSongTextView.setText(songText);
-			mFileName.setText(getArguments().getString(KEY_SONGFILE));
-
-			return new AlertDialog.Builder(new ContextThemeWrapper(getActivity(),R.style.Theme_AppCompat))
-			.setView(layout)
-			.setTitle(R.string.set_song_details)
-			.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int whichButton) {
-					// Save new song in chordinator folder...
-					String fileName = mFileName.getText().toString();
-					String fullPath = mDownloadFolder + fileName;
-					try {
-//						File x = new File(mDownloadFolder + newFileName);
-						SongUtils.writeFile(fullPath, songText);
-						Log.d(TAG, "HELLO fileName=["+fileName+"]");
-						SongUtils.toast( getActivity(), fullPath + " "+ getString(R.string.saved));
-						// Create DB entry if its already in chopro format, otherwise convert to choPro if
-						// required and then add to DB
-						if(choPro){
-							DBUtils.addSong(getActivity().getContentResolver(), getString(R.string.authority), mDownloadFolder,
-								fileName, mTitle, mArtist, "");
-						}
-						else{
-							if(convertChopro.isChecked()){
-								((SearchActivity)getActivity()).convertFileToChoPro(mDownloadFolder, fileName);
-							}
-						}
-
-					} catch (ChordinatorException e) {
-						SongUtils.toast( getActivity(), e.getMessage());
-					}
-				}
-			})
-			.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					// Cancel pressed so do nothing
-				}
-			}).create();
-		}
-	}
-
-	private void convertFileToChoPro(String folder, String fileName) {
+	private void convertFileToChoPro(String fileName) {
 		Log.d(TAG, "HELLO - converting ["+fileName+"]");
-		SongConverterFragment newFragment = SongConverterFragment.newInstance(getString(R.string.authority), folder, fileName);
+		SongConverterFragment newFragment = SongConverterFragment.newInstance(getString(R.string.authority),
+                mDownloadFolder, fileName);
 		newFragment.show(getSupportFragmentManager(), "dialog");
-	}
+    }
 
-	@Override
+    @Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		Log.d(TAG, "onOptionsItemSelected");
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			// Back to Songs
 			finish();
-			break;
-		case GRABCHORDS_ID:
 			break;
 		}
 		return false;
@@ -545,13 +486,6 @@ public class SearchActivity extends AppCompatActivity {
 	protected void onDestroy() {
 		cancelOldSearch();
 		super.onDestroy();
-	}
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		//		menu.add(0,GRABCHORDS_ID, 0, getString(R.string.start_grab))
-		//		.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS|MenuItem.SHOW_AS_ACTION_WITH_TEXT);
-
-		return super.onCreateOptionsMenu(menu);
 	}
 
 	public static class NoNetworkDialog extends DialogFragment{
@@ -572,4 +506,14 @@ public class SearchActivity extends AppCompatActivity {
 			.create();
 		}
 	}
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // See if GotSongDialog is already up and running, if so, set this activity as the GotSongListener
+        GotSongDialog mDialogFragment = (GotSongDialog) getSupportFragmentManager().findFragmentByTag(GOTSONG_TAG);
+        if(mDialogFragment  != null){
+            mDialogFragment.setGotSongListener(this);
+        }
+    }
 }

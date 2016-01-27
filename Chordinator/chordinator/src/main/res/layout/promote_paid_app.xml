@@ -10,6 +10,6 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dip"
         android:text="@string/promote_paid_app_text"
-        android:textColor="@color/white" />
+        />
 
 </LinearLayout>

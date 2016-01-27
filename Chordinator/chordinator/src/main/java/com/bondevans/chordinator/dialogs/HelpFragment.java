@@ -7,6 +7,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.webkit.WebView;
 
@@ -15,17 +16,17 @@ public class HelpFragment extends DialogFragment{
 //	public static final int HELP_PAGE_MAIN = 1; // NO LONGER USED
 	public static final int HELP_PAGE_FILEBROWSER = 2;
 	public static final int HELP_PAGE_SONGVIEWER = 3;
-	public static final int HELP_PAGE_EDIT = 4;
-	public static final int HELP_PAGE_SEARCH = 5;
+//	public static final int HELP_PAGE_EDIT = 4;
+//	public static final int HELP_PAGE_SEARCH = 5;
 	public static final int HELP_PAGE_SETOPTIONS = 6;
 	public static final int HELP_PAGE_MYSONGS = 7;
 	public static final int HELP_PAGE_EDITSET = 8;
 	public static final int HELP_PAGE_SETLIST = 9;
 
-	private final static String bold(String in){
+	private static String bold(String in){
 		return BR+"<big><span style=\"font-weight: bold;\">"+in+"</span></big>"+BR;
 	}
-	private final static String big(String in){
+	private static String big(String in){
 		return "<big>"+in+"</big>";
 	}
 	private final static String BR = "<br>";
@@ -211,7 +212,7 @@ public class HelpFragment extends DialogFragment{
 		return frag;
 	}
 
-	@Override
+	@Override @NonNull
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		webview = new WebView(getActivity());
 
