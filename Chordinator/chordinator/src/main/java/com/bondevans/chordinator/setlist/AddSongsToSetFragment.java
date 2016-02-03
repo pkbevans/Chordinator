@@ -254,7 +254,7 @@ LoaderManager.LoaderCallbacks<Cursor> {
 						Log.d(TAG,"Changed ["+(isChecked?"ON":"OFF")+"] title=["+holder.title.getText()+"] pos=["+holder.pos+"]");
 						CheckedSetSong song = new CheckedSetSong();
 						song.id = holder.songId;
-						song.title = (String) holder.title.getText();
+						song.title = holder.title.getText().toString();
 						song.selected = isChecked;
 						setSelected(song);
 					}

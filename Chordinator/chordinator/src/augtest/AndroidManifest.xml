@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.bondevans.chordinator"
     android:installLocation="auto"
-    android:versionName="v6.0.0AugTest">
+    android:versionName="v6.0.1AugTest">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
