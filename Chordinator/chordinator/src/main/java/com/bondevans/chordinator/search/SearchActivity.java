@@ -287,7 +287,7 @@ public class SearchActivity extends AppCompatActivity implements GotSongDialog.G
 		public int findChoproStart(String line) {
 			String [] startTags = {"{title:", "{t:"};// MUST BE LOWERCASE
 			String [] badTags = {"{t:{start:"};
-			int ret=-1;
+ 			int ret=-1;
 			for( String tag: startTags){
 				if( (ret=line.toLowerCase().indexOf(tag))>-1){
 					int ret2=-1;
@@ -308,7 +308,7 @@ public class SearchActivity extends AppCompatActivity implements GotSongDialog.G
 		}
 		public int findChoproEnd(String line) {
 			// IF any of the "end" tags are found then we have found the end
-			String [] endTags={"\"<", "<a href=","</form>", "<input", "</pre>","</body>"};// MUST BE LOWERCASE
+			String [] endTags={"\"<", "<a href=","</textarea>","</form>", "<input", "</pre>","</body>"};// MUST BE LOWERCASE
 			int ret=-1;
 			int index;
 			for( String tag: endTags){

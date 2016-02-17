@@ -24,6 +24,7 @@ public class LatestFragment extends DialogFragment{
 	private String[] mStrings = {
 			// TODO - Sort out memory problems
             "v6.0.1 - Fixed - Crash on adding songs to Set on some devices",
+            "v6.0.1 - New - Inline chord mode - switch on for all songs from Preferences OR with {inline} tag in your song file",
             "v6 - Removed dependency on ActionBarSherlock",
             "v5.4.3 - Fixed - Sort options not displayed correctly",
             "v5.4.3 - Improved - Sets ordered alphabetically",

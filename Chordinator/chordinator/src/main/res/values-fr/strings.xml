@@ -200,5 +200,11 @@
         <item>Lyrics Only - Chords are not displayed</item>
     </string-array>
     <string name="buffering_msg">"Travailler…"</string>
+    <string name="pref_sum_inline_mode">" Choisissez Lorsque Accords sont affichés en ligne"</string>
+    <string name="pref_tit_inline_mode">"En ligne Chords"</string>
+    <string-array name="inline_mode_entries">
+        <item>"Seulement quand {inline} tag utilisé dans le fichier chanson"</item>
+        <item>Toujours afficher accords en ligne</item>
+    </string-array>
 
 </resources>

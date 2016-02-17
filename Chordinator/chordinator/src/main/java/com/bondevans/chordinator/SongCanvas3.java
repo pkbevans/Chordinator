@@ -33,7 +33,9 @@ import android.widget.Toast;
 @SuppressLint("DefaultLocale")
 public class SongCanvas3 extends View {
 	private final static String TAG = "SongCanvas";
-	public Bitmap mBitmap=null;
+    private static final String INLINE_CHAR_LHS = "";
+    private static final String INLINE_CHAR_RHS = "-";
+    public Bitmap mBitmap=null;
 	private Canvas mCanvas=null;
 	private Paint mPaint=new Paint(Paint.ANTI_ALIAS_FLAG);
 	private Paint mFixedPaint=null;// = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -94,8 +96,11 @@ public class SongCanvas3 extends View {
 	// apart from the first one or do we honour all?
 	private boolean mHonourLFs = false;
 	private boolean mIgnoreSpaces = false;
-	
-	/**
+    private boolean mInLineMode=false;
+    private Bitmap mLyricBitmap;
+    private Canvas mLyricCanvas;
+
+    /**
 	 * Constructor
 	 */
 	public SongCanvas3(Context context, AttributeSet attrs) {
@@ -135,6 +140,7 @@ public class SongCanvas3 extends View {
 			mAddDashes = preferences.AddDashes();
 		}
 		mHonourLFs = preferences.HonourLFs();
+		mInLineMode = preferences.getInlineMode()==1;
 		if(inval){
 			initDone = false;
 			//			redraw = true;
@@ -173,7 +179,7 @@ public class SongCanvas3 extends View {
 //		Log.d(TAG,"HELLO onDraw1: [" + mSongHeight + "]");
 		// Paint song onto temporary canvas and then copy it to the screen
 		if (redraw ) {
-			if(mSongHeight==0 || mTooBig){
+            if(mSongHeight==0 || mTooBig){
 				Log.d(TAG,"HELLO onDraw2: [" + mSongHeight + "]");
 				// 1st time Paint song on supplied canvas to get songheight
 				try{
@@ -206,7 +212,6 @@ public class SongCanvas3 extends View {
 					Toast.makeText(getContext(), getResources().getString(R.string.song_too_big), Toast.LENGTH_LONG).show();
 					mTooBig=true;// force complete redraw
 					paintSong(gReal);
-					return;
 				}
 			}
 		}
@@ -249,7 +254,7 @@ public class SongCanvas3 extends View {
 		mCanvas = new Canvas(mBitmap);
 	}
 
-	// Various Initialisation
+    // Various Initialisation
 	// - work out font sizes, margins, etc,
 	// - set current positions for Title, Chords and Lyrics
 	// every repaint
@@ -289,6 +294,7 @@ public class SongCanvas3 extends View {
 			verticalSpace = lyricHeight / 3;
 			// When using arrow keys scroll by the font height
 			//			scrollHeight = lyricHeight + verticalSpace;
+            setupLyricCanvas(lyricHeight);
 			initDone = true;
 		}
 		// This stuff gets done once every repaint
@@ -301,9 +307,15 @@ public class SongCanvas3 extends View {
 		chordsPainted = false;
 		mChorus = false;
 		g.drawColor(col.background()); // Paint canvas with background colour
+		mLyricCanvas.drawColor(col.background()); // Paint canvas with background colour
 	}
 
-	/**
+    private void setupLyricCanvas(int lyricHeight) {
+        mLyricBitmap = Bitmap.createBitmap(getWidth(), lyricHeight*2, Bitmap.Config.RGB_565);
+        mLyricCanvas = new Canvas(mLyricBitmap);
+    }
+
+    /**
 	 * Paints Song to given canvas
 	 *
 	 * @param g Canvas
@@ -366,6 +378,12 @@ public class SongCanvas3 extends View {
 					// End of block - draw a line under the preceding block
 					//					paintFreeText(g, addDashes(""), true);
 				}
+                else if(cs.substring(i).toLowerCase().startsWith("{inline"))
+                {
+                    // Switch to inline mode where the Chord sysmbols are printed in line
+                    // with the lyrics, rather than on the line above.
+                    mInLineMode = true;
+                }
 				else if(cs.substring(i).toLowerCase().startsWith("{rc") ||
 						cs.substring(i).toLowerCase().startsWith("{repeat_chorus"))
 				{
@@ -491,7 +509,13 @@ public class SongCanvas3 extends View {
 					 String wordAfterChord = cs.substring(start, end);
 
 					 if(MODE_LYRICS_ONLY != mMode){
-						 paintChords(g, Transpose.chord(chord, transposeBy), wordAfterChord);
+                         if(mInLineMode){
+                             // Put a dash between the chord and the following word - if there is one - otherwise just print the chord
+                             paintLyrics(g,INLINE_CHAR_LHS+Transpose.chord(chord, transposeBy)+(wordAfterChord.isEmpty()? "":INLINE_CHAR_RHS),wordAfterChord,"", true);
+                         }
+                         else {
+                             paintChords(g, Transpose.chord(chord, transposeBy), wordAfterChord);
+                         }
 					 }
 					 break;
 				 case '\n':// LF
@@ -532,7 +556,7 @@ public class SongCanvas3 extends View {
 						 lyricsAfterChord = cs.substring(y, x);
 					 }
 					 if(MODE_CHORDS_ONLY != mMode){
-						 paintLyrics(g, cs.substring(start, end)+((!mAddDashes||lyricsAfterChord.equalsIgnoreCase(""))?"":" - "), lyricsAfterChord, removeSpaces(chordInWord));
+						 paintLyrics(g, cs.substring(start, end)+((!mAddDashes||lyricsAfterChord.equalsIgnoreCase(""))?"":" - "), lyricsAfterChord, removeSpaces(chordInWord), false);
 					 }
 					 break;
 			}
@@ -553,7 +577,7 @@ public class SongCanvas3 extends View {
 	final String eot="{eot}";
 	final String startOfTab="{start_of_tab}";
 	final String endOfTab="{end_of_tab}";
-	ArrayList<String> mTabLines = new ArrayList<String>();
+	ArrayList<String> mTabLines = new ArrayList<>();
 
 	/**
 	 * 
@@ -727,7 +751,7 @@ public class SongCanvas3 extends View {
 	void doTitle(Canvas g, String titleText){
 		//		Log.d(TAG, "HELLO doTitle:"+titleText);
 		String tmp = titleText;
-		int i=0, loop=0;
+		int i, loop=0;
 		float availableSpace = getWidth()- (sideMargin*2);
 		while (mPaint.measureText(tmp) > availableSpace) {
 			Log.d(TAG, "HELLO b4 findlongestword:"+tmp);
@@ -849,7 +873,7 @@ public class SongCanvas3 extends View {
 		// lyrics, chords or another
 		// freeText text.
 		// 1st work out what was lowest printed previously.
-		int y = 0;
+		int y;
 		if (lastPainted == LP_TITLE) {
 			// Title last thing to be written - or this is the first thing .
 			// Set current FreeText Y value to current Title Y +
@@ -944,11 +968,17 @@ public class SongCanvas3 extends View {
 	private String removeSpaces(String in){
 		return in.replaceAll(" ", "");
 	}
-	private void paintLyrics(Canvas g, String text, String textAfterChord, String chord) {
+	private void paintLyrics(Canvas g, String text, String textAfterChord, String chord, boolean isChord) {
 		if (mIgnoreSpaces && text.trim().equalsIgnoreCase("")) {
-			return;
+            return;
 		}
-		mPaint.setColor(col.lyrics());
+        if(isChord){
+            // InLineMode and this is actually a chord
+            mPaint.setColor(col.chords());
+        }
+        else{
+		    mPaint.setColor(col.lyrics());
+        }
 		if(mChorus){
 			// If its the chorus - switch on special font style
 			mPaint.setFakeBoldText(true);
@@ -966,7 +996,7 @@ public class SongCanvas3 extends View {
 			tmp = text + chord;
 		}
 
-		int i = 0, loop = 0;
+		int i, loop = 0;
 		// Work out how much space available on the line
 		float availableSpace = getWidth() - sideMargin - lyricX;
 		while (mPaint.measureText(tmp) > availableSpace) {
@@ -976,7 +1006,7 @@ public class SongCanvas3 extends View {
 				// fit on the line
 				// so call this function recursively with this bit...
 				tmp = tmp.substring(0, i);
-				paintLyrics(g, tmp, "", "");
+				paintLyrics(g, tmp, "", "", isChord);
 				// and then chop the 1st bit out of text (and remove the
 				// leading space)...
 				text = text.substring(i + 1);
@@ -997,7 +1027,7 @@ public class SongCanvas3 extends View {
 				}
 
 				tmp = tmp.substring(0, x);
-				paintLyrics(g, tmp, "", "");
+				paintLyrics(g, tmp, "", "", isChord);
 				// and then chop the 1st bit out of text...
 				text = text.substring(x);
 				// ...start a new line, then go round again.
@@ -1018,7 +1048,11 @@ public class SongCanvas3 extends View {
 		// Cludge to get round problems with copyArea()! - keep the lyrics
 		// in case we need them later
 		lyricsBuffer = lyricsBuffer.concat(text);
-		drawSongString(g, text, lyricX, lyricY, mPaint);
+        // Paint to special Lyric canvas - because we may need to copy the lyric line
+        // up, if there are no chords. mLyricBitmap is only the height of lyrics so
+        // yCoord = lyricHeight.
+//		drawSongString(g, text, lyricX, lyricY, mPaint);
+		drawSongString(mLyricCanvas, text, lyricX, lyricHeight, mPaint);
 
 		// Update X positions for lyrics and chords
 		lyricX += mPaint.measureText(text);
@@ -1122,8 +1156,13 @@ public class SongCanvas3 extends View {
 	 * positions based on the moved lyrics
 	 */
 	private void startNewLine(Canvas g) {
+        boolean newWay = true;
 		if( chordsPainted ){
 			if( lyricsPainted ){
+                // Copy contents of mLyricsBitmap over the lyric line
+                if(newWay){
+                    g.drawBitmap(mLyricBitmap,0,lyricY-lyricHeight, mPaint);
+                }
 				// Normal - both chords and lyrics painted
 				chordY += chordHeight + verticalSpace + lyricHeight
 						+ verticalSpace;
@@ -1138,20 +1177,26 @@ public class SongCanvas3 extends View {
 			if( lyricsPainted ){
 				// No chords
 				// re-draw current lyric line up to empty chord line....
-				int c = mPaint.getColor();
-				mPaint.setColor(col.lyrics());
+                if(newWay){
+                    // Copy contents of mLyricsBitmap up over the chord line
+//                    Log.d(TAG, "startNewLine2: chordY="+lyricY);
+                    g.drawBitmap(mLyricBitmap,0,chordY-lyricHeight, mPaint);
+                }
+                else {
+                    int c = mPaint.getColor();
+                    mPaint.setColor(col.lyrics());
 
-				//				Log.d(TAG,"Re-drawing [" + lyricsBuffer + "] at y=[" + chordY+ "]");
-				drawSongString(g, lyricsBuffer, sideMargin, chordY, mPaint);
-				// ... then blank out old lyrics
-				mPaint.setColor(col.background());
-				// left, top, right, bottom, paint
-				//				Log.d(TAG,"drawRect left=[0], top=[" + (lyricY - lyricHeight)
-				//						+ "] right=[" + getWidth() + "] bottom=[" + lyricY	+ "]");
-				g.drawRect(0, lyricY - lyricHeight, getWidth(), lyricY
-						+ verticalSpace, mPaint);
-				mPaint.setColor(c);
-
+                    //				Log.d(TAG,"Re-drawing [" + lyricsBuffer + "] at y=[" + chordY+ "]");
+                    drawSongString(g, lyricsBuffer, sideMargin, chordY, mPaint);
+                    // ... then blank out old lyrics
+                    mPaint.setColor(col.background());
+                    // left, top, right, bottom, paint
+                    //				Log.d(TAG,"drawRect left=[0], top=[" + (lyricY - lyricHeight)
+                    //						+ "] right=[" + getWidth() + "] bottom=[" + lyricY	+ "]");
+                    g.drawRect(0, lyricY - lyricHeight, getWidth(), lyricY
+                            + verticalSpace, mPaint);
+                    mPaint.setColor(c);
+                }
 				// Adjust new Chord Y position
 				chordY += lyricHeight + verticalSpace;
 			}
@@ -1178,7 +1223,10 @@ public class SongCanvas3 extends View {
 		lyricsBuffer = "";
 		chordsPainted = false;
 		tabPainted = false;
-	}
+        if(newWay) {
+            mLyricCanvas.drawColor(col.background()); // Paint Lyric canvas with background colour
+        }
+    }
 
 	/**
 	 * Calls drawString after checking whether canvas needs to be re-sized

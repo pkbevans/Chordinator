@@ -136,6 +136,7 @@
 	<string name="pref_key_adddashes">"addDashes"</string>
 	<string name="pref_key_honourlfs">"honourLFs"</string>
 	<string name="pref_key_mode">Mode</string>
+    <string name="pref_key_inline_mode">iNline</string>
     <string-array name="mode_values">
         <item>0</item>
         <item>1</item>
@@ -156,5 +157,11 @@
     <string name="target_package">com.bondevans.chordinator</string>
     <string name="paid_url">https://play.google.com/store/apps/details?id=com.bondevans.chordinator.aug</string>
     <string name="song_path">com.bondevans.chordinator.SongPath</string>
+
+    <string name="default_inline_mode">0</string>
+    <string-array name="inline_mode_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
 
 </resources>

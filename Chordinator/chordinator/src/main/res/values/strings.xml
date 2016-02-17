@@ -154,7 +154,7 @@
 	<string name="pref_sum_split_screen_on">Split screen will be used in Landscape</string>
 	<string name="pref_sum_split_screen_off">Split screen will NOT be used in Landscape</string>
 	<string name="pref_tit_split_screen">Split Screen in Landscape</string>
-	<string name="sendlog">Send Debug Log to developer</string>
+	<string name="sendlog">Send Debug Log</string>
 	<string name="promote_paid_app_text">If you like The Chordinator, please support the continued development of this app by paying a small amount for the Augmented version of the Chordinator</string>
 	<string name="promote_paid_app_title">Have you tried Chordinator Augmented?</string>
 	<string name="keywords">Keywords</string>
@@ -182,6 +182,8 @@
     <string name="make_download_dir">Make this folder the download location</string>
     <string name="upgrade_now">Upgrade now.</string>
     <string name="buffering_msg">Working…</string>
+    <string name="pref_tit_inline_mode">In-line Chords</string>
+    <string name="pref_sum_inline_mode">Choose When Chords are displayed In-line</string>
 
     <string-array name="colour_schemes">
         <item>Black Text on White Background</item>
@@ -199,6 +201,11 @@
         <item>Normal - Chords and Lyrics</item>
         <item>Chords Only - Lyrics are not displayed</item>
         <item>Lyrics Only - Chords are not displayed</item>
+    </string-array>
+
+    <string-array name="inline_mode_entries">
+        <item>Only when {inline} tag used in song file</item>
+        <item>Always show chords In-line</item>
     </string-array>
 
 </resources>
