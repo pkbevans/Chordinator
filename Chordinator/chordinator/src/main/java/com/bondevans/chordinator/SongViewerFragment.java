@@ -449,6 +449,7 @@ public class SongViewerFragment extends Fragment implements OnClickListener{
 		mPrefs.setDefaultEncoding(settings.getString(SongPrefs.PREF_KEY_DEFAULT_ENCODING, ""));
 		mPrefs.setAddDashes(settings.getBoolean(SongPrefs.PREF_KEY_ADDDASHES, false));
 		mPrefs.setHonourLFs(settings.getBoolean(SongPrefs.PREF_KEY_HONOURLFS, false));
+		mPrefs.setInlineMode(Integer.parseInt(settings.getString(SongPrefs.PREF_KEY_INLINEMODE, "0")));
 
 		loadTextSizes();
 	}

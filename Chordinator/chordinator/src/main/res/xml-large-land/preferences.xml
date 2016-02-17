@@ -31,6 +31,14 @@
             android:summary="@string/pref_sum_chord_grid_instrument"
             android:title="@string/pref_tit_chord_grid_instrument" />
 
+        <ListPreference
+            android:defaultValue="@string/default_inline_mode"
+            android:entries="@array/inline_mode_entries"
+            android:entryValues="@array/inline_mode_values"
+            android:key="@string/pref_key_inline_mode"
+            android:summary="@string/pref_sum_inline_mode"
+            android:title="@string/pref_tit_inline_mode" />
+
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="@string/pref_key_showgrids"
@@ -83,7 +91,9 @@
             android:key="@string/pref_key_split_proportions"
             android:summary="@string/pref_sum_split_proportions"
             android:title="@string/split_proportions" />
-        >
+        >
+
+
         <!-- LARGE LANDSCAPE ONLY -->
 
     </PreferenceCategory>

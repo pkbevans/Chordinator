@@ -22,8 +22,7 @@ public class LatestFragment extends DialogFragment{
 	private static final String TAG = "LatestFragment";
 	private static String mVersion = "";
 	private String[] mStrings = {
-			// TODO - Sort out memory problems
-            "v6.0.0 - New - Inline chord mode - switch on with {inline_mode} tag in your song file",
+            "v6.0.0 - New - Inline chord mode - switch on for all songs from Preferences OR with {inline} tag in your song file",
             "v6 - Removed dependency on ActionBarSherlock",
             "v5.4.3 - Fixed - Sort options not displayed correctly",
             "v5.4.3 - Improved - Sets ordered alphabetically",

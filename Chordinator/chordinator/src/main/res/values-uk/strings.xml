@@ -195,10 +195,16 @@
     </string-array>
 
     <string-array name="modes">
-        <item>Normal - Chords and Lyrics</item>
-        <item>Chords Only - Lyrics are not displayed</item>
-        <item>Lyrics Only - Chords are not displayed</item>
+        <item>"Нормальний - акорди та тексти"</item>
+            <item>"Акорди тільки - тексти пісень не відображаються"</item>
+        <item>"Тексти тільки - акорди не відображаються"</item>
     </string-array>
     <string name="buffering_msg">"робоча…"</string>
+    <string name="pref_sum_inline_mode">"Виберіть Коли Акорди відображаються в лінію"</string>
+    <string name="pref_tit_inline_mode">"В он- лайн акорди"</string>
+    <string-array name="inline_mode_entries">
+        <item>"Тільки тоді , коли {inline} тег використовується в пісні файл"</item>
+        <item>"Завжди показувати акорди в лінію"</item>
+    </string-array>
 
 </resources>

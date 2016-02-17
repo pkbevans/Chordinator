@@ -5,6 +5,6 @@
 	<string name="chord_aug_firstrun_text">Thank you for downloading Chordinator Test. The app will now scan your disk for songs and import you SETLISTs.</string>
     <string name="app_name">Chordinator Test</string>
     <string name="app_label">ChordinatorTest</string>
-	<string name="feedback">Chordinator Test Feedback</string>
+	<string name="feedback">Send Feedback</string>
 
 </resources>

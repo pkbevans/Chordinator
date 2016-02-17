@@ -33,7 +33,9 @@ import android.widget.Toast;
 @SuppressLint("DefaultLocale")
 public class SongCanvas3 extends View {
 	private final static String TAG = "SongCanvas";
-	public Bitmap mBitmap=null;
+    private static final String INLINE_CHAR_LHS = "";
+    private static final String INLINE_CHAR_RHS = "-";
+    public Bitmap mBitmap=null;
 	private Canvas mCanvas=null;
 	private Paint mPaint=new Paint(Paint.ANTI_ALIAS_FLAG);
 	private Paint mFixedPaint=null;// = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -138,6 +140,7 @@ public class SongCanvas3 extends View {
 			mAddDashes = preferences.AddDashes();
 		}
 		mHonourLFs = preferences.HonourLFs();
+		mInLineMode = preferences.getInlineMode()==1;
 		if(inval){
 			initDone = false;
 			//			redraw = true;
@@ -375,7 +378,7 @@ public class SongCanvas3 extends View {
 					// End of block - draw a line under the preceding block
 					//					paintFreeText(g, addDashes(""), true);
 				}
-                else if(cs.substring(i).toLowerCase().startsWith("{inline_mode"))
+                else if(cs.substring(i).toLowerCase().startsWith("{inline"))
                 {
                     // Switch to inline mode where the Chord sysmbols are printed in line
                     // with the lyrics, rather than on the line above.
@@ -507,7 +510,8 @@ public class SongCanvas3 extends View {
 
 					 if(MODE_LYRICS_ONLY != mMode){
                          if(mInLineMode){
-                             paintLyrics(g,"["+Transpose.chord(chord, transposeBy)+"]",wordAfterChord,"", true);
+                             // Put a dash between the chord and the following word - if there is one - otherwise just print the chord
+                             paintLyrics(g,INLINE_CHAR_LHS+Transpose.chord(chord, transposeBy)+(wordAfterChord.isEmpty()? "":INLINE_CHAR_RHS),wordAfterChord,"", true);
                          }
                          else {
                              paintChords(g, Transpose.chord(chord, transposeBy), wordAfterChord);

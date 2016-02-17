@@ -200,5 +200,11 @@
         <item>"Nur Text - Akkorde werden nicht angezeigt"</item>
     </string-array>
     <string name="buffering_msg">"Arbeiten…"</string>
+    <string name="pref_sum_inline_mode">"Wählen Wenn Akkorde angezeigt werden In-line"</string>
+    <string name="pref_tit_inline_mode">"In-Line- Akkorde"</string>
+    <string-array name="inline_mode_entries">
+        <item>Nur wenn {inline} tag in Song-Datei verwendet</item>
+        <item>Immer zeigen Akkorde In-line</item>
+    </string-array>
 
 </resources>

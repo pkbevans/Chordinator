@@ -200,5 +200,11 @@
         <item>"Apenas a Letra - Os Acordes não serão mostrados"</item>
     </string-array>
     <string name="buffering_msg">"Trabalhando…"</string>
+    <string name="pref_sum_inline_mode">"Escolha quando os acordes são exibidos In-line"</string>
+    <string name="pref_tit_inline_mode">"Em linha Chords"</string>
+    <string-array name="inline_mode_entries">
+        <item>"Somente quando {inline} tag usada em arquivo de música"</item>
+        <item>Sempre mostrar acordes em linha</item>
+    </string-array>
 
 </resources>

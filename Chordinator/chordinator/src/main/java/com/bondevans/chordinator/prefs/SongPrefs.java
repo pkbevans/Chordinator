@@ -6,7 +6,6 @@ import java.util.Map.Entry;
 import com.bondevans.chordinator.ChordinatorException;
 import com.bondevans.chordinator.Log;
 import com.bondevans.chordinator.R;
-import com.bondevans.chordinator.SongFile;
 import com.bondevans.chordinator.SongUtils;
 import com.bondevans.chordinator.Statics;
 
@@ -26,9 +25,10 @@ public class SongPrefs {
 	private String mDefaultEncoding="";
 	private boolean mAddDashes = false;
 	private boolean mHonourLFs = false;
+	private int mInlineMode = 0;
 
 	//----------------STRINGS-------------------------------//
-	public static final String PREFS_NAME = "MyPrefsFile";	// Name of preferences file for this application
+//	public static final String PREFS_NAME = "MyPrefsFile";	// Name of preferences file for this application
 	public static final String PREF_KEY_TEXTSIZE = "TextSize";
 	public static final String PREF_KEY_SONGDIR = "SongDir";
 	public static final String PREF_KEY_DEFAULT_ENCODING = "DefaultEncoding";
@@ -53,6 +53,7 @@ public class SongPrefs {
 	public static final String PREF_KEY_FREEVIEWCOUNT = "freeViEwCnt";
 	public static final String PREF_KEY_SPLIT_PROPORTION = "splitProps";
 	public static final String PREF_KEY_FIRSTRUN_VERSION = "firstRunnVers";
+    public static final String PREF_KEY_INLINEMODE = "iNline";
 	//----------------INTEGERS - STORED AS STRINGS-----------//
 	public static final String PREF_KEY_CHORDLYRIC_MODE="Mode";
 	public static final String PREF_KEY_SCROLL_DELAY="scrollDelay";
@@ -130,29 +131,40 @@ public class SongPrefs {
 		this.mMode = mode;
 	}
 	/**
-	 * @return the mAddDashes
+	 * @return mAddDashes
 	 */
 	public boolean AddDashes() {
 		return mAddDashes;
 	}
 	/**
-	 * @param mAddDashes the mAddDashes to set
+	 * @param addDashes the mAddDashes to set
 	 */
 	public void setAddDashes(boolean addDashes) {
 		this.mAddDashes = addDashes;
 	}
 	/**
-	 * @return the mHonourLFs
+	 * @return mHonourLFs
 	 */
 	public boolean HonourLFs() {
 		return mHonourLFs;
 	}
-	/**
-	 * @param mHonourLFs the mHonourLFs to set
-	 */
-	public void setHonourLFs(boolean honourLFs) {
-		this.mHonourLFs = honourLFs;
+    /**
+     * @param honourLFs the mHonourLFs to set
+     */
+    public void setHonourLFs(boolean honourLFs) {
+        this.mHonourLFs = honourLFs;
+    }
+    /**
+     * @param inlineMode in line mode
+     */
+	public void setInlineMode(int inlineMode) {
+		Log.d(TAG, "Setting inline mode="+inlineMode);
+        this.mInlineMode = inlineMode;
 	}
+    /**
+     * @return mInlineMode
+     */
+    public int getInlineMode() {return this.mInlineMode;}
 	public static void exportSettings(Context context){
 		Log.d(TAG, "HELLO exportPrefs1");
 		// Delete any scroll-speed entries with the default value
@@ -180,6 +192,7 @@ public class SongPrefs {
 					x.getKey().equalsIgnoreCase(PREF_KEY_FIRSTRUN_VERSION)||
 					x.getKey().equalsIgnoreCase(PREF_KEY_SHOWHELPONSTART)){
 				// IGNORE
+                Log.d(TAG, "HELLO Ignoring");
 			}
 			else{
 				Log.d(TAG, "Exporting: ["+x.getKey()+"]["+x.getValue()+"]");
