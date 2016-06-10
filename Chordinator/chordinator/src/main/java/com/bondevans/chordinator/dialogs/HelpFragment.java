@@ -1,23 +1,19 @@
 package com.bondevans.chordinator.dialogs;
 
-import com.bondevans.chordinator.R;
-import com.bondevans.chordinator.SongUtils;
-
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.webkit.WebView;
 
+import com.bondevans.chordinator.R;
+import com.bondevans.chordinator.SongUtils;
+
 public class HelpFragment extends DialogFragment{
 	private static final String KEY_PAGE = "KEY_PAGE";
-//	public static final int HELP_PAGE_MAIN = 1; // NO LONGER USED
 	public static final int HELP_PAGE_FILEBROWSER = 2;
 	public static final int HELP_PAGE_SONGVIEWER = 3;
-//	public static final int HELP_PAGE_EDIT = 4;
-//	public static final int HELP_PAGE_SEARCH = 5;
 	public static final int HELP_PAGE_SETOPTIONS = 6;
 	public static final int HELP_PAGE_MYSONGS = 7;
 	public static final int HELP_PAGE_EDITSET = 8;
@@ -32,36 +28,6 @@ public class HelpFragment extends DialogFragment{
 	private final static String BR = "<br>";
 
 	WebView webview;
-/*
-	private final static String helpTextMain=""+
-			big(bold("The Chordinator"))+BR+
-			"<p align=\"left\">The Chordinator lets you view, <b>organise</b>, <b>edit</b>,"+
-			"<b>share</b> and <b>transpose</b> chords/tab sheets. Use the <b>auto"+
-			"scroll</b> to leave your hands free to focus on the music. All "+
-			"songs are stored on the phone so <b>no Internet Connection</b>"+
-			"required, and means that the app is very <b>fast</b>. The <b>SetList</b>"+
-			"feature let you organise your songs into Sets for even quicker "+
-			"access to the song you want. Transpose instantly and the key is "+
-			"remembered the next time you view the song. There is an option to "+
-			"save the transposed song to disk."+BR+
-			BR+
-			"The Chordinator supports ordinary text files as well as the "+
-			"popular ChordPro/chopro song format. The app lets you convert "+
-			"between the two formats. <a href=\"http://www.chordie.com\">chordie.com</a>"+
-			" is a great source for songs in ChoPro format. An example chopro "+
-			"song is supplied for those not familiar with the format.</p>"+
-			"<p align=\"left\">There are two colour schemes - Black on White and "+
-			"White on black. The font size is easily changed to suit your eyes "+
-			"and your device. The app automatically wraps the song to fit the "+
-			"width of the screen so you don't have to scroll left and right as "+
-			"well as up and down.</p>"+
-			"<p align=\"left\">Please be fair and contact me at <a"+
-			"href=\"mailto:pkbevans@gmail.com\">pkbevans@gmail.com</a> before "+
-			"giving me a low rating. I always try to fix problems "+
-			"straight away and am open to suggestions for improving the app. I"+
-			"am continually working to make this the best chord viewer app on "+
-			"the Market.</p>";
-*/
 	@SuppressLint("SdCardPath")
 	private final static String helpTextFileBrowser="" +
 			big(bold("The File Browser"))+BR+
@@ -212,7 +178,7 @@ public class HelpFragment extends DialogFragment{
 		return frag;
 	}
 
-	@Override @NonNull
+	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		webview = new WebView(getActivity());
 

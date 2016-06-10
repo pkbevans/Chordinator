@@ -1,12 +1,6 @@
 package com.bondevans.chordinator.dialogs;
 
 
-import java.io.File;
-
-import com.bondevans.chordinator.Log;
-import com.bondevans.chordinator.R;
-import com.bondevans.chordinator.SongUtils;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -18,11 +12,18 @@ import android.support.v4.app.DialogFragment;
 import android.view.View;
 import android.widget.ArrayAdapter;
 
+import com.bondevans.chordinator.Log;
+import com.bondevans.chordinator.R;
+import com.bondevans.chordinator.SongUtils;
+
+import java.io.File;
+
 public class LatestFragment extends DialogFragment{
 	private static final String TAG = "LatestFragment";
 	private static String mVersion = "";
 	private String[] mStrings = {
 			// TODO - Sort out memory problems
+            "v6.0.1 - Fixed - Corrected various chord shapes",
             "v6.0.1 - Fixed - Crash on adding songs to Set on some devices",
             "v6.0.1 - New - Inline chord mode - switch on for all songs from Preferences OR with {inline} tag in your song file",
             "v6 - Removed dependency on ActionBarSherlock",

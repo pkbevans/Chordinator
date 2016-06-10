@@ -15,16 +15,18 @@ public class ChordShapeProvider {
 	public static final int INSTRUMENT_UKELELE = 3;
 	public static final int INSTRUMENT_BANJO = 4;
 
-	//declare and initialise two dimensional array
+    //declare and initialise two dimensional array
 	// set of chords for each root
 	private static String chordShape[][]=null;
 	private ExtraShapeFactory extraShapes;
-	/**
-	 * Constructor takes height in points of grid
-	 * @param maxHeight
+
+    /**
+	 * Constructor takes an array of additional chord shapes and number of strings
+	 * @param extraShapes Array of additional chord shapes
+     * @param strings Number of strings on this instrument
 	 */
-	public ChordShapeProvider(String chordShapes, int strings){
-		extraShapes = new ExtraShapeFactory(chordShapes, strings);
+	public ChordShapeProvider(String extraShapes, int strings){
+		this.extraShapes = new ExtraShapeFactory(extraShapes, strings);
 		chordShape = getShapes();
 	}
 	protected String[][] getShapes() {
@@ -37,11 +39,13 @@ public class ChordShapeProvider {
 	protected int FRETS(){
 		return 0;
 	}
+    protected int[] openNotes(){return new int[0];}
 
 	public interface ShapeProvider{
-		public int FRETS();
-		public int STRINGS();
-		public String findShape(String chord);
+		int FRETS();
+		int STRINGS();
+		String findShape(String chord);
+        int[] openNotes();
 	}
 	/**
 	 * Finds chord shape matching given chord name - sets shapeIndex

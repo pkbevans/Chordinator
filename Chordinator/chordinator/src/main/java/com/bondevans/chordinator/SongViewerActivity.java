@@ -172,7 +172,7 @@ public class SongViewerActivity extends AppCompatActivity implements SongViewerF
 	 * Handle non-menu keyboard events
 	 */
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		Log.d(TAG, "HELLO onKeyDown ["+keyCode+"]");
+//		Log.d(TAG, "HELLO onKeyDown ["+keyCode+"]");
 		switch (keyCode) {
 		case KeyEvent.KEYCODE_PAGE_DOWN:
 			Log.d(TAG, "HELLO PAGEDOWN");

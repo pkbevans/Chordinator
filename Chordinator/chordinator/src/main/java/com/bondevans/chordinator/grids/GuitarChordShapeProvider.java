@@ -11,9 +11,9 @@ public class GuitarChordShapeProvider extends ChordShapeProvider implements Chor
 		{"A5",		"x022xx_1"},
 		{"A6",		"xx2222_1"},
 		{"A7",		"x02020_1"},
-		{"A9",		"x02100_1"},
+		{"A9",		"x02423_1"},
 		{"Aaug",	"x03221_1"},
-		{"Adim",	"xx1212_1"},
+		{"Adim",	"x0121x_1"},
 		{"Adim7",	"x01212_1"},
 		{"Am",		"002210_1"},
 		{"Am6",		"x02212_1"},
@@ -31,8 +31,8 @@ public class GuitarChordShapeProvider extends ChordShapeProvider implements Chor
 		{"Bb7",		"xx1112_3"},
 		{"Bb9",		"131213_6"},
 		{"Bbaug",	"xx0332_1"},
-		{"Bbdim",	"xx2323_1"},
-		{"Bbdim7",	"012020_1"},
+		{"Bbdim",	"x12320_1"},
+		{"Bbdim7",	"xx2323_1"},
 		{"Bbm",		"x13321_1"},
 		{"Bbm6",	"133131_6"},
 		{"Bbm7",	"x13121_1"},
@@ -46,15 +46,15 @@ public class GuitarChordShapeProvider extends ChordShapeProvider implements Chor
 		{"B13",		"x21204_1"},
 		{"B5",		"x244xx_1"},
 		{"B6",		"22110x_1"},
-		{"B7",		"021202_1"},
+		{"B7",		"x21202_1"},
 		{"B9",		"131213_7"},
-		{"Baug",	"xx1004_1"},
+		{"Baug",	"x21003_1"},
 		{"Bdim",	"12343x_1"},
-		{"Bdim7",	"120101_1"},
+		{"Bdim7",	"x23131_1"},
 		{"Bm",		"x24432_1"},
 		{"Bm6",		"xx4434_1"},
 		{"Bm7",		"x13121_2"},
-		{"Bm7b5",	"124231_1"},
+		{"Bm7b5",	"x20201_1"},
 		{"Bm9",		"x2022x_1"},
 		{"Bmaj7",	"x24342_1"},
 		{"Bsus2",	"224422_1"},
@@ -68,7 +68,7 @@ public class GuitarChordShapeProvider extends ChordShapeProvider implements Chor
 		{"C9",		"131213_8"},
 		{"Caug",	"032110_1"},
 		{"Cdim",	"12343x_2"},
-		{"Cdim7",	"231212_1"},
+		{"Cdim7",	"xx1212_1"},
 		{"Cm",		"x13321_3"},
 		{"Cm6",		"x3121x_1"},
 		{"Cm7",		"x13121_3"},
@@ -79,12 +79,12 @@ public class GuitarChordShapeProvider extends ChordShapeProvider implements Chor
 		{"Csus4",	"333013_1"},
 		{"C#",		"xx3121_1"},
 		{"C#11",	"x44444_1"},
-		{"C#13",	"x21224_2"},
+		{"C#13",	"x2332x_1"},
 		{"C#5",		"113xxx_4"},
 		{"C#6",		"113333_4"},
 		{"C#7",		"xx3424_1"},
 		{"C#9",		"x4344x_1"},
-		{"C#aug",	"xx3122_1"},
+		{"C#aug",	"x4322x_1"},
 		{"C#dim",	"123430_3"},
 		{"C#dim7",	"123131_3"},
 		{"C#m",		"xx2120_1"},
@@ -93,7 +93,7 @@ public class GuitarChordShapeProvider extends ChordShapeProvider implements Chor
 		{"C#m7b5",	"342423_1"},
 		{"C#m9",	"x4244x_1"},
 		{"C#maj7",	"x43111_1"},
-		{"C#sus2",	"112211_4"},
+		{"C#sus2",	"x13311_4"},
 		{"C#sus4",	"444122_1"},
 		{"D",		"x00232_1"},
 		{"D11",		"300210_1"},
@@ -102,13 +102,13 @@ public class GuitarChordShapeProvider extends ChordShapeProvider implements Chor
 		{"D6",		"x00202_1"},
 		{"D7",		"x00212_1"},
 		{"D9",		"011112_7"},
-		{"Daug",	"x10233_1"},
+		{"Daug",	"xx0332_1"},
 		{"Ddim",	"xx0131_1"},
 		{"Ddim7",	"x20101_1"},
 		{"Dm",		"xx0231_1"},
 		{"Dm6",		"xx0201_1"},
 		{"Dm7",		"xx0211_1"},
-		{"Dm7b5",	"x20111_1"},
+		{"Dm7b5",	"xx0111_1"},
 		{"Dm9",		"xx3210_1"},
 		{"Dmaj7",	"xx0222_1"},
 		{"Dsus2",	"000230_1"},
@@ -120,7 +120,7 @@ public class GuitarChordShapeProvider extends ChordShapeProvider implements Chor
 		{"Eb6",		"x11313_1"},
 		{"Eb7",		"xx1323_1"},
 		{"Eb9",		"x2122x_5"},
-		{"Ebaug",	"x1x233_2"},
+		{"Ebaug",	"xx1003_1"},
 		{"Ebdim",	"x01242_1"},
 		{"Ebdim7",	"x01212_1"},
 		{"Ebm",		"xx4342_1"},
@@ -132,12 +132,12 @@ public class GuitarChordShapeProvider extends ChordShapeProvider implements Chor
 		{"Ebsus2",	"x11341_1"},
 		{"Ebsus4",	"x11344_1"},
 		{"E",		"022100_1"},
-		{"E11",		"111122_1"},
+		{"E11",		"002132_1"},
 		{"E13",		"0x0122_1"},
 		{"E5",		"022xxx_1"},
-		{"E6",		"xx3333_9"},
+		{"E6",		"022120_1"},
 		{"E7",		"022130_1"},
-		{"E9",		"131213_1"},
+		{"E9",		"020102_1"},
 		{"Eaug",	"032110_1"},
 		{"Edim",	"0120x0_1"},
 		{"Edim7",	"012020_1"},
@@ -155,7 +155,7 @@ public class GuitarChordShapeProvider extends ChordShapeProvider implements Chor
 		{"F5",		"133xxx_1"},
 		{"F6",		"x3323x_1"},
 		{"F7",		"131211_1"},
-		{"F9",		"242324_1"},
+		{"F9",		"131213_1"},
 		{"Faug",	"143221_1"},
 		{"Fdim",	"123101_1"},
 		{"Fdim7",	"123131_1"},
@@ -202,7 +202,7 @@ public class GuitarChordShapeProvider extends ChordShapeProvider implements Chor
 		{"Gm9",		"131113_3"},
 		{"Gmaj7",	"xx4321_2"},
 		{"Gsus2",	"300033_1"},
-		{"Gsus4",	"xx0011_1"},
+		{"Gsus4",	"xx0013_1"},
 		{"Ab",		"133211_4"},
 		{"Ab11",	"131311_4"},
 		{"Ab13",	"4x4311_1"},
@@ -211,7 +211,7 @@ public class GuitarChordShapeProvider extends ChordShapeProvider implements Chor
 		{"Ab7",		"xx1112_1"},
 		{"Ab9",		"4x4344_1"},
 		{"Abaug",	"xx2110_1"},
-		{"Abdim",	"xx0101_1"},
+		{"Abdim",	"xx0134_1"},
 		{"Abdim7",	"123131_4"},
 		{"Abm",		"133111_4"},
 		{"Abm6",	"xx1101_1"},
@@ -222,12 +222,14 @@ public class GuitarChordShapeProvider extends ChordShapeProvider implements Chor
 		{"Absus2",	"x11144_1"},
 		{"Absus4",	"113311_4"},
 	};
-	/**
+    private int[] openNotes = {40,45,50,55,59,64};
+
+    /**
 	 * Constructor takes height in points of grid
-	 * @param maxHeight
+	 * @param extraShapes Additional shapes
 	 */
-	public GuitarChordShapeProvider(String songGrids){
-		super(songGrids, strings);
+	public GuitarChordShapeProvider(String extraShapes){
+		super(extraShapes, strings);
 	}
 	/* (non-Javadoc)
 	 * @see com.bondevans.chordinator.grids.ChordShapeProvider#getShapes()
@@ -251,6 +253,11 @@ public class GuitarChordShapeProvider extends ChordShapeProvider implements Chor
 		// Need 5 frets (actually 4) for Guitar
 		return 5;
 	}
+
+    @Override
+    public int[] openNotes() {
+        return openNotes;
+    }
 }
 
 

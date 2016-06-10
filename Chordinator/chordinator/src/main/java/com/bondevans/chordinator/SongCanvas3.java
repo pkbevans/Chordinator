@@ -11,12 +11,6 @@
 //	2.0.7
 package com.bondevans.chordinator;
 
-import java.util.ArrayList;
-
-import com.bondevans.chordinator.grids.ChordShapePainter;
-import com.bondevans.chordinator.grids.ChordShapeProvider;
-import com.bondevans.chordinator.prefs.SongPrefs;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -26,15 +20,19 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-
 import android.view.View;
 import android.widget.Toast;
+
+import com.bondevans.chordinator.grids.ChordShapePainter;
+import com.bondevans.chordinator.grids.ChordShapeProvider;
+import com.bondevans.chordinator.prefs.SongPrefs;
+
+import java.util.ArrayList;
 
 @SuppressLint("DefaultLocale")
 public class SongCanvas3 extends View {
 	private final static String TAG = "SongCanvas";
-    private static final String INLINE_CHAR_LHS = "";
-    private static final String INLINE_CHAR_RHS = "-";
+    private static final String INLINE_CHAR_RHS = "";
     public Bitmap mBitmap=null;
 	private Canvas mCanvas=null;
 	private Paint mPaint=new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -510,8 +508,8 @@ public class SongCanvas3 extends View {
 
 					 if(MODE_LYRICS_ONLY != mMode){
                          if(mInLineMode){
-                             // Put a dash between the chord and the following word - if there is one - otherwise just print the chord
-                             paintLyrics(g,INLINE_CHAR_LHS+Transpose.chord(chord, transposeBy)+(wordAfterChord.isEmpty()? "":INLINE_CHAR_RHS),wordAfterChord,"", true);
+                             // Put a spaace between the chord and the following word - if there is one - otherwise just print the chord
+                             paintLyrics(g,Transpose.chord(chord, transposeBy)+(wordAfterChord.isEmpty()? " ":INLINE_CHAR_RHS),wordAfterChord,"", true);
                          }
                          else {
                              paintChords(g, Transpose.chord(chord, transposeBy), wordAfterChord);
@@ -989,7 +987,11 @@ public class SongCanvas3 extends View {
 		// X COORD - Make sure that we've got room on the line. If not work out
 		// how much we can fit on the line.
 		String tmp;
-		if(mPaint.measureText(textAfterChord) > mPaint.measureText(chord)){
+        if(mInLineMode && !isChord){
+            // If we are in inline_mode then need to fit chords in the middle of words together on a line
+            tmp = text+chord+textAfterChord;
+        }
+        else if(mPaint.measureText(textAfterChord) > mPaint.measureText(chord)){
 			tmp = text + textAfterChord;
 		}
 		else{
@@ -1235,8 +1237,8 @@ public class SongCanvas3 extends View {
 	 * @param text text to paint
 	 * @param x x coordinate
 	 * @param y y coordinate
-	 */
-	private void drawSongString(Canvas g, String text, float x, float y, Paint paint){
+     */
+    private void drawSongString(Canvas g, String text, float x, float y, Paint paint){
 		g.drawText(text, x, y, paint);
 	}
 

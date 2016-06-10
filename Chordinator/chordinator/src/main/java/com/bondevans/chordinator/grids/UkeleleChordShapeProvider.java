@@ -12,18 +12,18 @@ public class UkeleleChordShapeProvider extends ChordShapeProvider implements Cho
 		{"A6",		"2424_1"},
 		{"A7",		"0100_1"},
 		{"A9",		"0102_1"},
-		{"Aaug",	"2111_1"},
-		{"Adim",	"2323_1"},
+		{"Aaug",	"2114_1"},
+		{"Adim",	"2353_1"},
 		{"Adim7",	"2323_1"},
 		{"Am",		"2000_1"},
-		{"Am6",		"0201_1"},
+		{"Am6",		"2423_1"},
 		{"Am7",		"0433_1"},
 		{"Am7b5",	"1222_2"},
-		{"Am9",		"2231_1"},
+		{"Am9",		"2032_1"},
 		{"Amaj7",	"1100_1"},
 		{"Asus2",	"1341_2"},
 		{"Asus4",	"2200_1"},
-		{"Bb",		"3211_3"},
+		{"Bb",		"3211_1"},
 		{"Bb11",	"xxxx_1"},
 		{"Bb13",	"xxxx_1"},
 		{"Bb5",		"xxxx_1"},
@@ -31,7 +31,7 @@ public class UkeleleChordShapeProvider extends ChordShapeProvider implements Cho
 		{"Bb7",		"1211_1"},
 		{"Bb9",		"1213_1"},
 		{"Bbaug",	"3221_1"},
-		{"Bbdim",	"0101_1"},
+		{"Bbdim",	"3101_1"},
 		{"Bbdim7",	"0101_1"},
 		{"Bbm",		"3111_1"},
 		{"Bbm6",	"3131_1"},
@@ -49,7 +49,7 @@ public class UkeleleChordShapeProvider extends ChordShapeProvider implements Cho
 		{"B7",		"2322_1"},
 		{"B9",		"2324_1"},
 		{"Baug",	"4332_1"},
-		{"Bdim",	"1212_1"},
+		{"Bdim",	"4212_1"},
 		{"Bdim7",	"1212_1"},
 		{"Bm",		"4222_1"},
 		{"Bm6",		"1222_1"},
@@ -67,7 +67,7 @@ public class UkeleleChordShapeProvider extends ChordShapeProvider implements Cho
 		{"C7",		"0001_1"},
 		{"C9",		"0201_1"},
 		{"Caug",	"1003_1"},
-		{"Cdim",	"2323_1"},
+		{"Cdim",	"x323_1"},
 		{"Cdim7",	"2323_1"},
 		{"Cm",		"0333_1"},
 		{"Cm6",		"0330_1"},
@@ -85,9 +85,9 @@ public class UkeleleChordShapeProvider extends ChordShapeProvider implements Cho
 		{"C#7",		"1112_1"},
 		{"C#9",		"1312_1"},
 		{"C#aug",	"2110_1"},
-		{"C#dim",	"0101_1"},
+		{"C#dim",	"0104_1"},
 		{"C#dim7",	"0101_1"},
-		{"C#m",		"1103_1"},
+		{"C#m",		"110x_1"},
 		{"C#m6",	"1441_1"},
 		{"C#m7",	"1111_4"},
 		{"C#m7b5",	"0102_1"},
@@ -103,7 +103,7 @@ public class UkeleleChordShapeProvider extends ChordShapeProvider implements Cho
 		{"D7",		"1112_2"},
 		{"D9",		"1312_2"},
 		{"Daug",	"3221_1"},
-		{"Ddim",	"1212_1"},
+		{"Ddim",	"121x_1"},
 		{"Ddim7",	"1212_1"},
 		{"Dm",		"2210_1"},
 		{"Dm6",		"2212_1"},
@@ -120,26 +120,26 @@ public class UkeleleChordShapeProvider extends ChordShapeProvider implements Cho
 		{"Eb6",		"3333_1"},
 		{"Eb7",		"1112_3"},
 		{"Eb9",		"0111_1"},
-		{"Ebaug",	"2111_1"},
-		{"Ebdim",	"2323_1"},
+		{"Ebaug",	"0332_1"},
+		{"Ebdim",	"2320_1"},
 		{"Ebdim7",	"2323_1"},
 		{"Ebm",		"3321_1"},
 		{"Ebm6",	"3021_1"},
 		{"Ebm7",	"2213_2"},
 		{"Ebm7b5",	"1213_2"},
 		{"Ebm9",	"2415_2"},
-		{"Ebmaj7",	"3330_1"},
+		{"Ebmaj7",	"1113_3"},
 		{"Ebsus2",	"3311_1"},
 		{"Ebsus4",	"1341_1"},
 		{"E",		"3331_2"},
-		{"E11",		"xxxx_1"},
-		{"E13",		"xxxx_1"},
-		{"E5",		"xxxx_1"},
-		{"E6",		"1020_1"},
+		{"E11",		"2202_1"},
+		{"E13",		"1204_1"},
+		{"E5",		"4402_1"},
+		{"E6",		"4444_1"},
 		{"E7",		"1202_1"},
 		{"E9",		"1222_1"},
 		{"Eaug",	"1003_1"},
-		{"Edim",	"0101_1"},
+		{"Edim",	"0401_1"},
 		{"Edim7",	"0101_1"},
 		{"Em",		"0432_1"},
 		{"Em6",		"2212_3"},
@@ -157,7 +157,7 @@ public class UkeleleChordShapeProvider extends ChordShapeProvider implements Cho
 		{"F7",		"2310_1"},
 		{"F9",		"2333_1"},
 		{"Faug",	"2110_1"},
-		{"Fdim",	"1212_1"},
+		{"Fdim",	"1x12_1"},
 		{"Fdim7",	"1212_1"},
 		{"Fm",		"1013_1"},
 		{"Fm6",		"1213_1"},
@@ -174,15 +174,15 @@ public class UkeleleChordShapeProvider extends ChordShapeProvider implements Cho
 		{"F#6",		"2213_2"},
 		{"F#7",		"2313_2"},
 		{"F#9",		"1101_1"},
-		{"F#aug",	"3211_2"},
-		{"F#dim",	"2323_1"},
+		{"F#aug",	"3221_1"},
+		{"F#dim",	"2020_1"},
 		{"F#dim7",	"2323_1"},
 		{"F#m",		"2120_1"},
 		{"F#m6",	"1213_2"},
 		{"F#m7",	"1313_2"},
 		{"F#m7b5",	"1312_2"},
 		{"F#m9",	"1120_1"},
-		{"F#maj7",	"0111_1"},
+		{"F#maj7",	"3524_1"},
 		{"F#sus2",	"1124_1"},
 		{"F#sus4",	"4122_1"},
 		{"G",		"0232_1"},
@@ -193,7 +193,7 @@ public class UkeleleChordShapeProvider extends ChordShapeProvider implements Cho
 		{"G7",		"0212_1"},
 		{"G9",		"2212_1"},
 		{"Gaug",	"3221_2"},
-		{"Gdim",	"0101_1"},
+		{"Gdim",	"0131_1"},
 		{"Gdim7",	"0101_1"},
 		{"Gm",		"0231_1"},
 		{"Gm6",		"0201_1"},
@@ -210,25 +210,27 @@ public class UkeleleChordShapeProvider extends ChordShapeProvider implements Cho
 		{"Ab6",		"1313_1"},
 		{"Ab7",		"1323_1"},
 		{"Ab9",		"3323_1"},
-		{"Abaug",	"1000_1"},
-		{"Abdim",	"1212_1"},
+		{"Abaug",	"1003_1"},
+		{"Abdim",	"12x2_1"},
 		{"Abdim7",	"1212_1"},
 		{"Abm",		"1342_1"},
 		{"Abm6",	"1312_1"},
-		{"Abm7",	"0322_1"},
+		{"Abm7",	"1322_1"},
 		{"Abm7b5",	"1222_1"},
 		{"Abm9",	"2231_2"},
 		{"Abmaj7",	"1333_1"},
 		{"Absus2",	"1341_1"},
 		{"Absus4",	"1344_1"},
 	};
-	/**
+    private int[] openNotes = {55,48,52,57};    // G C E A
+
+    /**
 	 * Constructor takes height in points of grid
-	 * @param maxHeight
+	 * @param songShapes Additional shapes
 	 */
 	public UkeleleChordShapeProvider(String songShapes){
 		// Ignore any extra shapes as these will only work for Guitar
-		super(songShapes, strings);	
+		super(songShapes, strings);
 	}
 	/* (non-Javadoc)
 	 * @see com.bondevans.chordinator.grids.ChordShapeProvider#getShapes()
@@ -252,6 +254,10 @@ public class UkeleleChordShapeProvider extends ChordShapeProvider implements Cho
 		// Need 6 frets (actually 5) for Ukelele
 		return 6;
 	}
+    @Override
+    public int[] openNotes() {
+        return openNotes;
+    }
 }
 
 

@@ -1,7 +1,5 @@
 package com.bondevans.chordinator;
 
-import java.io.File;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -18,7 +16,6 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
@@ -46,6 +43,8 @@ import com.bondevans.chordinator.search.SearchCriteria;
 import com.bondevans.chordinator.setlist.SetSongListActivity;
 import com.bondevans.chordinator.songlist.SongListFragment;
 import com.bondevans.chordinator.utils.Ute;
+
+import java.io.File;
 
 public class MainActivity extends AppCompatActivity
 implements SongListFragment.OnSongSelectedListener,
@@ -85,7 +84,7 @@ AddSetDialog.CreateSetListener
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		LinearLayout songFrame=null;
+        LinearLayout songFrame=null;
 		Log.d(TAG, "HELLO onCreate");
 		mColourScheme = Ute.getColourScheme(this);
 		setTheme(mColourScheme == ColourScheme.LIGHT? R.style.Chordinator_Light_Theme_Theme: R.style.Chordinator_Dark_Theme_Theme);
