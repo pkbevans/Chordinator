@@ -23,6 +23,13 @@ public class LatestFragment extends DialogFragment{
 	private static String mVersion = "";
 	private String[] mStrings = {
 			// TODO - Sort out memory problems
+            "v6.1 - Improved - Exported SETLISTs now saved as.txt ",
+            "v6.1 - Improved - text size in listing corresponds to Android Font-size setting",
+            "v6.1 - Fixed - Favourites sort icon now shows up correctly",
+            "v6.1 - Fixed - Moved favourite button to LEFT",
+            "v6.1 - Improved - Added Scroll Speed Multiplier in Preferences",
+            "v6.1 - Improved - Added larger text sizes for high density screens",
+            "v6.1 - New - Added ability to sync SETLISTS via DropBox",
             "v6.0.1 - Fixed - Corrected various chord shapes",
             "v6.0.1 - Fixed - Crash on adding songs to Set on some devices",
             "v6.0.1 - New - Inline chord mode - switch on for all songs from Preferences OR with {inline} tag in your song file",
