@@ -206,5 +206,8 @@
         <item>"Sólo cuando {inline} etiqueta utilizada en el archivo de canción"</item>
         <item>Mostrar siempre accordes en linea</item>
     </string-array>
+    <string name="pref_tit_scroll_speed_factor">Scroll speed multiplierScroll speed multiplier</string>
+    <string name="pref_sum_scroll_speed_factor">Increase this for faster scrolling</string>
+    <string name="edit_as_txt">Editar texto</string>
 
 </resources>

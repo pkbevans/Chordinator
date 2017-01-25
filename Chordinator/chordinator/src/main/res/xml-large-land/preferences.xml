@@ -46,7 +46,7 @@
             android:summaryOn="@string/pref_sum_grids_on"
             android:title="@string/pref_tit_grids_on" />
         <CheckBoxPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:key="@string/pref_key_adddashes"
             android:summaryOff="@string/pref_sum_adddashes_off"
             android:summaryOn="@string/pref_sum_adddashes_on"
@@ -63,13 +63,21 @@
             android:summaryOff="@string/pref_sum_autoscroll_off"
             android:summaryOn="@string/pref_sum_autoscroll_on"
             android:title="@string/pref_autoscroll" />
-        <CheckBoxPreference
+<!--        <CheckBoxPreference
             android:defaultValue="false"
             android:key="@string/pref_key_turboscroll"
             android:summaryOff="@string/pref_sum_turboscroll_off"
             android:summaryOn="@string/pref_sum_turboscroll_on"
-            android:title="@string/pref_turboscroll" />
-        
+            android:title="@string/pref_turboscroll" /> -->
+
+        <ListPreference
+            android:defaultValue="1"
+            android:entries="@array/scroll_speed_factor_entries"
+            android:entryValues="@array/scroll_speed_factor_values"
+            android:key="@string/pref_key_scroll_speed_factor"
+            android:summary="@string/pref_sum_scroll_speed_factor"
+            android:title="@string/pref_tit_scroll_speed_factor" />
+
         <ListPreference
             android:entries="@array/scroll_delay_entries"
             android:entryValues="@array/scroll_delay_values"
@@ -92,8 +100,6 @@
             android:summary="@string/pref_sum_split_proportions"
             android:title="@string/split_proportions" />
         >
-
-
         <!-- LARGE LANDSCAPE ONLY -->
 
     </PreferenceCategory>

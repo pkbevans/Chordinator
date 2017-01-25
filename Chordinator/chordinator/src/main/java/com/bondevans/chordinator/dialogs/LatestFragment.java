@@ -23,7 +23,8 @@ public class LatestFragment extends DialogFragment{
 	private static String mVersion = "";
 	private String[] mStrings = {
 			// TODO - Sort out memory problems
-            "v6.1 - Improved - Exported SETLISTs now saved as.txt ",
+            "v6.1.1 - Fixed - Added Scroll Speed Factor option to preferences for Large Screens",
+            "v6.1 - Improved - Exported SETLISTs now saved as.txt",
             "v6.1 - Improved - text size in listing corresponds to Android Font-size setting",
             "v6.1 - Fixed - Favourites sort icon now shows up correctly",
             "v6.1 - Fixed - Moved favourite button to LEFT",

@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="6dp"
                 android:text="Artist"
-                android:textSize="12dp"/>
+                android:textSize="12sp"/>
 
             <TextView
                 android:id="@+id/composer"
@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="6dp"
                 android:text="(Written by...)"
-                android:textSize="12dp"/>
+                android:textSize="12sp"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

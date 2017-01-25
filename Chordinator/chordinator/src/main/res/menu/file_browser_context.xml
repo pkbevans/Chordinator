@@ -3,6 +3,7 @@
   xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:id="@+id/context_group_browser">
     <item android:title="@string/edit_song" android:id="@+id/edit"></item>
+    <item android:title="@string/edit_as_txt" android:id="@+id/edit_as_txt"></item>
     <item android:title="@string/open" android:id="@+id/open"></item>
     <item android:title="@string/share_song" android:id="@+id/share"></item>
     <item android:id="@+id/add_to_set" android:title="@string/add_to_set_list"></item>

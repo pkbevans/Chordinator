@@ -443,6 +443,7 @@ public class SongBrowserFragment extends ListFragment
 		if(selectedItem.endsWith(File.separator) || selectedItem.equals("..")){
 			// Directory, so can't edit or delete or convert or save_as or add to set
 			menu.removeItem(R.id.edit);
+			menu.removeItem(R.id.edit_as_txt);
 			menu.removeItem(R.id.delete);
 			menu.removeItem(R.id.convert);
 			menu.removeItem(R.id.save_as);
@@ -460,11 +461,13 @@ public class SongBrowserFragment extends ListFragment
 			// On banned list so can't convert
 			menu.removeItem(R.id.convert);
 			menu.removeItem(R.id.edit);
+			menu.removeItem(R.id.edit_as_txt);
 			menu.removeItem(R.id.open);
 			menu.removeItem(R.id.import_set);//2.4.0
 		}
 		else{
 			// Anything else (normal song file)
+			menu.removeItem(R.id.edit_as_txt);//2.4.0
 			menu.removeItem(R.id.import_set);//2.4.0
 		}
 	}
@@ -493,7 +496,10 @@ public class SongBrowserFragment extends ListFragment
 				editSong(selectedItem);
 			}
 			return true;
-		} else if (item.getItemId() == R.id.share) {
+		}else if(item.getItemId() == R.id.edit_as_txt){
+            editSong(selectedItem); // Only for SETLIST files
+            return true;
+        }else if (item.getItemId() == R.id.share) {
 			shareSong(addDir(selectedItem));
 			return true;
 		} else if (item.getItemId() == R.id.convert) {
@@ -512,8 +518,7 @@ public class SongBrowserFragment extends ListFragment
 		} else if (item.getItemId() == R.id.open) {
 			openItem(selectedItem);
 			return true;
-		} else if( item.getItemId() == R.id.import_set){
-			importSet(selectedItem);
+		} else if( item.getItemId() == R.id.import_set){importSet(selectedItem);
 			return true;
 		} else if (item.getItemId() == R.id.add_to_set) {
 			showSetListDialog(addDir(selectedItem));

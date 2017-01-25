@@ -1,7 +1,8 @@
 package com.bondevans.chordinator.prefs;
 
-import java.util.Map;
-import java.util.Map.Entry;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import com.bondevans.chordinator.ChordinatorException;
 import com.bondevans.chordinator.Log;
@@ -9,9 +10,8 @@ import com.bondevans.chordinator.R;
 import com.bondevans.chordinator.SongUtils;
 import com.bondevans.chordinator.Statics;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+import java.util.Map;
+import java.util.Map.Entry;
 
 
 
@@ -20,6 +20,7 @@ public class SongPrefs {
 	private boolean mShowGrids= false;
 	private boolean mAutoScroll = false;
 	private boolean mTurboScroll = false;
+    private int mScrollSpeedMultiplier;
 	private int mColourScheme = 0;
 	private int mMode=0;
 	private String mDefaultEncoding="";
@@ -59,6 +60,7 @@ public class SongPrefs {
 	public static final String PREF_KEY_SCROLL_DELAY="scrollDelay";
 	public static final String PREF_KEY_COLOURSCHEME = "ColourScheme";
 	public static final String PREF_KEY_GRID_INSTRUMENT="GridInstrument";
+    public static final String PREF_KEY_SCROLL_SPEED_FACTOR = "speedFctirh";
 
 	public final static int DEFAULTSPEED = 10;
 	private static final String SETTING_SEPARATOR = "\n";
@@ -66,7 +68,7 @@ public class SongPrefs {
 	public static final String EXPORTFILE = ".chordinator_settings.txt";
 	private static final String TAG = "SongPrefs";
 
-	public SongPrefs(){
+    public SongPrefs(){
 		// Do nothing
 	}
 	public int getTextSize() {
@@ -282,6 +284,7 @@ public class SongPrefs {
 						keyValue[0].endsWith(PREF_KEY_TRANSPOSE) ||
 						keyValue[0].endsWith(PREF_KEY_SPLIT_PROPORTION) ||
 						keyValue[0].endsWith(PREF_KEY_SORTORDER) ||
+						keyValue[0].endsWith(PREF_KEY_SCROLL_SPEED_FACTOR) ||
 						keyValue[0].endsWith(PREF_KEY_SORTDIRECTION)
 						){
 					editor.putInt(keyValue[0], Integer.parseInt(keyValue[1]));
@@ -298,4 +301,11 @@ public class SongPrefs {
 		SongUtils.toast(context, context.getString(R.string.settings_imported));
 	}
 
+    public void setScrollSpeedMultiplier(int i) {
+        mScrollSpeedMultiplier=i;
+    }
+
+    public int getScrollSpeedMultiplier() {
+        return mScrollSpeedMultiplier;
+    }
 }

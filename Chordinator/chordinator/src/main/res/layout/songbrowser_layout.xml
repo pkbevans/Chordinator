@@ -33,7 +33,7 @@
                 android:scrollHorizontally="true"
                 android:singleLine="true"
                 android:text="Current Folder"
-                android:textSize="18dp"/>
+                android:textSize="18sp"/>
         </LinearLayout>
         <!-- Dividing Line -->
 
@@ -50,6 +50,6 @@
         android:layout_height="256dp"
         android:layout_alignParentBottom="true"
         android:layout_below="@+id/layout5"
-        android:textSize="18dp"/>
+        android:textSize="18sp"/>
 
 </RelativeLayout>

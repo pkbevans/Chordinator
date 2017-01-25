@@ -1,8 +1,5 @@
 package com.bondevans.chordinator;
 
-import java.io.File;
-import java.lang.ref.WeakReference;
-
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -21,10 +18,9 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.print.PrintAttributes;
 import android.print.PrintDocumentAdapter;
-import android.print.PrintManager;
 import android.print.PrintJob;
+import android.print.PrintManager;
 import android.support.v4.app.DialogFragment;
-
 import android.support.v4.app.Fragment;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -42,17 +38,22 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bondevans.chordinator.dialogs.PromotePaidAppDialog;
 import com.bondevans.chordinator.chunking.SongHTMLFormatter;
 import com.bondevans.chordinator.chunking.SongTextFormatter;
 import com.bondevans.chordinator.chunking.TextSongHTMLFormatter;
 import com.bondevans.chordinator.db.DBUtils;
+import com.bondevans.chordinator.dialogs.PromotePaidAppDialog;
 import com.bondevans.chordinator.grids.ChordShapeProvider;
 import com.bondevans.chordinator.prefs.SongPrefs;
 import com.bondevans.chordinator.trial.Trial;
 
+import java.io.File;
+import java.lang.ref.WeakReference;
+
 public class SongViewerFragment extends Fragment implements OnClickListener{
-	private View mContentView=null;
+    private static final int MINSLEEP_DEFAULT = 10;
+//    private static final int MINSLEEP_TURBO = 1;
+    private View mContentView=null;
 
 	private final static String TAG = "SongViewerFragment";
 	private final static int BACKGROUND_ALPHA = 125;
@@ -85,6 +86,7 @@ public class SongViewerFragment extends Fragment implements OnClickListener{
 	private final static int MINSPEED = 0;
 	private final static int SCROLL_INC = 10; //Milliseconds
 	private static final int MAXLINE_LEN = 80;
+//    private int mMinSleep=MINSLEEP_DEFAULT;
 
 	// ChordinatorPlus
 	long mSongId=0;
@@ -101,7 +103,7 @@ public class SongViewerFragment extends Fragment implements OnClickListener{
 	private final static int NO_TRANSPOSE=99;
 	private int mTranspose= NO_TRANSPOSE;
 
-	public interface SongViewerListener{
+    public interface SongViewerListener{
 		void onNewFileCreated();
 		void exitSong(int result);
 		void nextSong();
@@ -438,11 +440,13 @@ public class SongViewerFragment extends Fragment implements OnClickListener{
 		showGrids = mPrefs.isShowGridsOn();
 		mGridInstrument=Integer.parseInt(settings.getString(SongPrefs.PREF_KEY_GRID_INSTRUMENT, "1"));
 		mPrefs.setAutoScroll(settings.getBoolean(SongPrefs.PREF_KEY_AUTOSCROLL, false));
-		mPrefs.setTurboScroll(settings.getBoolean(SongPrefs.PREF_KEY_TURBOSCROLL, false));
+//		mPrefs.setTurboScroll(settings.getBoolean(SongPrefs.PREF_KEY_TURBOSCROLL, false));
+        mPrefs.setScrollSpeedMultiplier(Integer.parseInt(settings.getString(SongPrefs.PREF_KEY_SCROLL_SPEED_FACTOR, "1")));
 		mScrollDelay = Integer.parseInt(settings.getString(SongPrefs.PREF_KEY_SCROLL_DELAY, "0"));
 		mAutoScroll = mPrefs.isAutoScrollOn();
 		Log.d(TAG, "HELLO AUTOSCROLL=["+(mAutoScroll?"ON":"OFF")+"]");
-		mScrollBy = mPrefs.isTurboScrollOn()?SCROLLBY_TURBO:SCROLLBY_DEFAULT;
+//		mMinSleep = mPrefs.isTurboScrollOn()?MINSLEEP_TURBO:MINSLEEP_DEFAULT;
+		mScrollBy = SCROLLBY_DEFAULT* mPrefs.getScrollSpeedMultiplier();
 		//		mPrefs.setFullScreen(settings.getBoolean(SongPrefs.pref_key_fullscreen), false));
 		mPrefs.setColourScheme(Integer.parseInt(settings.getString(SongPrefs.PREF_KEY_COLOURSCHEME, "1")));
 		mPrefs.setMode(Integer.parseInt(settings.getString(SongPrefs.PREF_KEY_CHORDLYRIC_MODE, "0")));
@@ -866,7 +870,7 @@ public class SongViewerFragment extends Fragment implements OnClickListener{
 	private WeakReference<SongViewerFragment> mFragment;
 
 	private final int SCROLLBY_DEFAULT = 1;
-	private final int SCROLLBY_TURBO = 2;
+//	private final int SCROLLBY_TURBO = 2;
 	private int mScrollBy=SCROLLBY_DEFAULT;
 
 	static class RefreshHandler extends Handler {
@@ -902,7 +906,7 @@ public class SongViewerFragment extends Fragment implements OnClickListener{
 	 * Handles the basic autoScroll loop, checking to see if we are scrolling
 	 * and setting the timer for the next scroll.
 	 */
-	long lastUptime=0;
+//	long lastUptime=0;
 	private void updateScroll(int scrollDelay) {
 //		long thisUptime=0;
 		if (mAutoScroll) {
@@ -935,7 +939,7 @@ public class SongViewerFragment extends Fragment implements OnClickListener{
 		setScrollButtons();
 	}
 	private void setScrollSleep(){
-		scrollSleep = 10+(MAXSPEED - mScrollSpeed)*SCROLL_INC;
+		scrollSleep = MINSLEEP_DEFAULT +(MAXSPEED - mScrollSpeed)*SCROLL_INC;
 	}
 
 	private void setScrollSpeed(int speed){

@@ -184,6 +184,7 @@
     <string name="buffering_msg">Working…</string>
     <string name="pref_tit_inline_mode">In-line Chords</string>
     <string name="pref_sum_inline_mode">Choose When Chords are displayed In-line</string>
+    <string name="edit_as_txt">Edit text</string>
 
     <string-array name="colour_schemes">
         <item>Black Text on White Background</item>
@@ -207,5 +208,8 @@
         <item>Only when {inline} tag used in song file</item>
         <item>Always show chords In-line</item>
     </string-array>
+
+    <string name="pref_sum_scroll_speed_factor">Increase this for faster scrolling</string>
+    <string name="pref_tit_scroll_speed_factor">Scroll speed multiplier</string>
 
 </resources>

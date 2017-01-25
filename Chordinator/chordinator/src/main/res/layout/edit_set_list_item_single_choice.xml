@@ -22,5 +22,5 @@
     android:checkMark="?android:attr/listChoiceIndicatorSingle"
     android:paddingLeft="6dip"
     android:paddingRight="6dip"
-    android:textSize="18dp"
+    android:textSize="18sp"
 />

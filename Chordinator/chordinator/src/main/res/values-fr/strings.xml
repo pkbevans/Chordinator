@@ -206,5 +206,8 @@
         <item>"Seulement quand {inline} tag utilisé dans le fichier chanson"</item>
         <item>Toujours afficher accords en ligne</item>
     </string-array>
+    <string name="pref_tit_scroll_speed_factor">Scroll speed multiplier</string>
+    <string name="pref_sum_scroll_speed_factor">Increase this for faster scrolling</string>
+    <string name="edit_as_txt">Éditer le texte</string>
 
 </resources>
