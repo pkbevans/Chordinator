@@ -23,6 +23,7 @@ public class LatestFragment extends DialogFragment{
 	private static String mVersion = "";
 	private String[] mStrings = {
 			// TODO - Sort out memory problems
+            "v6.1.2 - Fixed - Bug fix in Print/Save to html (missing {eoc}",
             "v6.1.1 - Fixed - Added Scroll Speed Factor option to preferences for Large Screens",
             "v6.1 - Improved - Exported SETLISTs now saved as.txt",
             "v6.1 - Improved - text size in listing corresponds to Android Font-size setting",

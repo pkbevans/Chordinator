@@ -15,7 +15,7 @@ android {
         applicationId "com.bondevans.chordinator"
         minSdkVersion 11
         targetSdkVersion 23
-        versionCode 65
+        versionCode 66
         signingConfig signingConfigs.config
     }
     buildTypes {

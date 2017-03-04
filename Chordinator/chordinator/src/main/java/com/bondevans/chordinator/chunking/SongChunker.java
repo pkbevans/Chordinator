@@ -65,7 +65,7 @@ public class SongChunker {
 					{
 						Log.d(TAG, "HELLO - REPEAT CHORUS");
 						// Repeat chorus - must have been previously defined with {soc}/{eoc}
-						if(mSongChorus.length()>0){
+						if(mSongChorus != null && mSongChorus.length()>0){
 							// Get to end of the rc tag
 							int offset = mCs.substring(ind).indexOf("}");
 							// ... and insert the Chorus that we saved previously

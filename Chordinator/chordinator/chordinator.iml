@@ -43,6 +43,13 @@
       <sourceFolder url="file://$MODULE_DIR$/src/augtestDebug/jni" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/augtestDebug/rs" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/augtestDebug/shaders" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/r/androidTest/augtest/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/aidl/androidTest/augtest/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/buildConfig/androidTest/augtest/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/rs/androidTest/augtest/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/apt/androidTest/augtest/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/rs/androidTest/augtest/debug" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/resValues/androidTest/augtest/debug" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/testAugtestDebug/res" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/testAugtestDebug/resources" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/testAugtestDebug/assets" type="java-test-resource" />
@@ -51,13 +58,6 @@
       <sourceFolder url="file://$MODULE_DIR$/src/testAugtestDebug/jni" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/testAugtestDebug/rs" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/testAugtestDebug/shaders" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/r/androidTest/augtest/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/aidl/androidTest/augtest/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/buildConfig/androidTest/augtest/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/rs/androidTest/augtest/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/apt/androidTest/augtest/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/rs/androidTest/augtest/debug" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/resValues/androidTest/augtest/debug" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/augtest/res" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/augtest/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/augtest/assets" type="java-resource" />
