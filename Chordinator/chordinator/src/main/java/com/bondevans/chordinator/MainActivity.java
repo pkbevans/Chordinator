@@ -46,6 +46,8 @@ import com.bondevans.chordinator.utils.Ute;
 
 import java.io.File;
 
+import static android.support.v4.content.PermissionChecker.PERMISSION_DENIED;
+
 public class MainActivity extends AppCompatActivity
 implements SongListFragment.OnSongSelectedListener,
 SongViewerFragment.SongViewerListener,
@@ -69,7 +71,8 @@ AddSetDialog.CreateSetListener
 	private static final int ABOUT_ID = Menu.FIRST + 19;
 	private static final int SEARCH_LOCAL_ID = Menu.FIRST + 25;
     private static final int REQUEST_CODE_READ_STORAGE_PERMISSION = 4523;
-
+	private static final int OK = 0;
+	private static final int FAILED = -1;
 
     private static int mColourScheme;
 	private static int LIGHT=ColourScheme.LIGHT;
@@ -193,7 +196,9 @@ AddSetDialog.CreateSetListener
 		SharedPreferences.Editor editor = settings.edit();
 		if( settings.getBoolean(SongPrefs.PREF_KEY_FIRSTRUN, true)){
 			// If its the first time - create /chordinator directory and copy the sample songs into it
-			copySamples();
+			if(FAILED == copySamples()){
+				return;	// Get outta here - don't bother with the rest
+			}
 
 			// Show First Run Welcome Screen
 			FirstRunFragment newFragment = FirstRunFragment.newInstance();
@@ -236,7 +241,7 @@ AddSetDialog.CreateSetListener
 			return 0;
 		}
 	}
-	private void copySamples(){
+	private int copySamples(){
 		String sample1 = "{title:Sample Song}{composer:Paul Evans}{artist:Paul Evans}{c:Verse}My [Bm7]love has"+
 				" [A/C#]gone and [Bm7]kicked me where the sun once [A/C#]shone. [Bm7]Something grips my [A/C#]brain and all I [Bm7]see is endless [A/C#]pain and miser-ee-ee-[D7]ey... [C#]"+
 				"{c:Chorus}Cant e - [F#m]rase the [C#m]things we [Bm7]said (oh oh oh oh) [D7]But I'm still [C#]here an I'm [F#m]alive  [C#m] [Bm7] [D7]Its only [C#]Pride that gets me [F#m]up and [C#m]out my [Bm7]bed (oh oh oh oh) [D7]And I'm still [C#]here and I'll sur-[F#m]viiiiiiiiiiii[C#m]-i-i-i-i-[Bm7]ive.....";
@@ -245,13 +250,16 @@ AddSetDialog.CreateSetListener
 			if(	!dir.mkdir()){
 				Toast.makeText(this,
 						"Can't create dir: "+dir.getAbsolutePath(), Toast.LENGTH_LONG).show();
+				return FAILED;
 			}
 			try {
 				SongUtils.writeFile(Statics.CHORDINATOR_DIR+"Sample Song.txt", sample1);
 			} catch (ChordinatorException e) {
 				Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+				return FAILED;
 			}
 		}
+		return OK;
 	}
 
 	/**
@@ -676,7 +684,10 @@ AddSetDialog.CreateSetListener
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        // TODO need to handle user not allowing access.
+		if( requestCode == REQUEST_CODE_READ_STORAGE_PERMISSION && grantResults[0] == PERMISSION_DENIED){
+			// Handle user not allowing access.
+			Toast.makeText(this, getString(R.string.permission_required), Toast.LENGTH_SHORT).show();
+		}
         Log.d(TAG, "onRequestPermissionsResult");
     }
 

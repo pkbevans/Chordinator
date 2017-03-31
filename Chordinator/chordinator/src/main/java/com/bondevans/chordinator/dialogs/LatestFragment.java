@@ -22,7 +22,7 @@ public class LatestFragment extends DialogFragment{
 	private static final String TAG = "LatestFragment";
 	private static String mVersion = "";
 	private String[] mStrings = {
-			// TODO - Sort out memory problems
+			"v6.1.3 - Fixed - checks whether permission granted to access storage",
             "v6.1.2 - Fixed - Bug fix in Print/Save to html (missing {eoc}",
             "v6.1.1 - Fixed - Added Scroll Speed Factor option to preferences for Large Screens",
             "v6.1 - Improved - Exported SETLISTs now saved as.txt",
@@ -178,8 +178,8 @@ public class LatestFragment extends DialogFragment{
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
         return new AlertDialog.Builder(getActivity())
-        .setAdapter(new ArrayAdapter<String>(getActivity(),
-                R.layout.latest_item, mStrings), null)
+        .setAdapter(new ArrayAdapter<>(getActivity(),
+				R.layout.latest_item, mStrings), null)
                 
         .setTitle(getString(R.string.whats_new) + " - "+mVersion)
         .setPositiveButton(R.string.sendlog, new DialogInterface.OnClickListener() {

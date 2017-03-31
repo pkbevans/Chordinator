@@ -127,7 +127,7 @@
     <string name="pref_sum_colour_scheme">"Das Song-Screen-Farbschema"</string>
     <string name="pref_sum_textsize">"Textgröße auf dem SONG-Screen"</string>
     <string name="home">"Home"</string>
-    <string name="rename">"Umbenennen..."</string>
+    <string name="rename">"Umbenennen…"</string>
     <string name="rename_set">"Umbenennen der Setliste …"</string>
     <string name="are_you_sure_delete_set">"Wollen Sie die Setliste wirklich löschen?"</string>
     <string name="new_set_name">"Neuer Name fur Setliste"</string>
@@ -169,7 +169,7 @@
     <string name="start">"Suche starten"</string>
     <string name="folder">"Pfadname"</string>
     <string name="file">"Datei:"</string>
-    <string name="print">"Drucken..."</string>
+    <string name="print">"Drucken…"</string>
     <string name="chord_aug_firstrun_heading">"Erster Suchlauf"</string>
     <string name="alphabet">"ABCDEFGHIJKLMNOPQRSTUVWXYZ"</string>
     <string name="show_details">"Zeige Details"</string>
@@ -209,5 +209,6 @@
     <string name="pref_tit_scroll_speed_factor">Scroll speed multiplier</string>
     <string name="edit_as_txt">Text bearbeiten</string>
     <string name="pref_sum_scroll_speed_factor">\"Schneller scrollen\"</string>
+    <string name="permission_required">Chordinator will not work without access to the internal storage</string>
 
 </resources>
