@@ -22,6 +22,8 @@ public class LatestFragment extends DialogFragment{
 	private static final String TAG = "LatestFragment";
 	private static String mVersion = "";
 	private String[] mStrings = {
+			"v6.1.4 - New - Added support for FLIC buttons (Thanks Derek!!) - Aug Only",
+			"v6.1.4 - Fixed - Auto-scrolls while in Sets only if set in Preferences",
 			"v6.1.3 - Fixed - checks whether permission granted to access storage",
             "v6.1.2 - Fixed - Bug fix in Print/Save to html (missing {eoc}",
             "v6.1.1 - Fixed - Added Scroll Speed Factor option to preferences for Large Screens",

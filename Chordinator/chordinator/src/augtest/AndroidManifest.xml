@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.bondevans.chordinator"
     android:installLocation="auto"
-    android:versionName="v6.1.3AugTest">
+    android:versionName="v6.1.4AugTest">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -105,6 +105,12 @@
         </activity>
         <activity android:name="com.bondevans.chordinator.asynctask.ScanSongsActivity" >
         </activity>
+
+        <receiver android:name=".MyFlicReceiver"  android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

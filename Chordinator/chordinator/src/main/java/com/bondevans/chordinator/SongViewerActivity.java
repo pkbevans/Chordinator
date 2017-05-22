@@ -1,9 +1,13 @@
 package com.bondevans.chordinator;
 
 import android.content.ActivityNotFoundException;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
@@ -36,7 +40,7 @@ public class SongViewerActivity extends AppCompatActivity implements SongViewerF
 	private String mFileName;
 	private int mColourScheme;
 
-	@Override
+    @Override
 	public void onCreate(Bundle savedInstanceState) {
 		mColourScheme = Ute.getColourScheme(this);
 		setTheme(mColourScheme == ColourScheme.LIGHT? R.style.Chordinator_Light_Theme_Theme: R.style.Chordinator_Dark_Theme_Theme);
@@ -92,7 +96,7 @@ public class SongViewerActivity extends AppCompatActivity implements SongViewerF
 			// Set up the ActionBar correctly
 			setUpActionBar();
 		}
-	}
+    }
 	public void setUpActionBar(){
 		getSupportActionBar().setLogo(mColourScheme == ColourScheme.DARK? R.drawable.chordinator_aug_logo_dark_bkgrnd: R.drawable.chordinator_aug_logo_light_bkgrnd);
 		getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -292,4 +296,60 @@ public class SongViewerActivity extends AppCompatActivity implements SongViewerF
 		outState.putString(KEY_FILENAME, mFileName);
 		super.onSaveInstanceState(outState);
 	}
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "HELLO FLIC onResume");
+        // Register to receive messages.
+        // We are registering an observer (mFlicReceiver) to receive Intents
+        // with actions named "custom-event-name".
+        LocalBroadcastManager.getInstance(this).registerReceiver(mFlicReceiver,
+                new IntentFilter(MyFlicReceiver.FLIC_INTENT));
+    }
+
+    public void onPause() {
+        Log.d(TAG, "HELLO FLIC onPause");
+        if(mFlicReceiver != null) try {
+            Log.d(TAG, "HELLO FLIC receiver not null");
+            this.unregisterReceiver(mFlicReceiver);
+        } catch (Exception e){
+            Log.d(TAG, "HELLO FLIC - CAUGHT ERROR: "+e.getMessage());
+        }
+        super.onPause();
+    }
+    // Our handler for received Intents. This will be called whenever an Intent
+    // with an action named "custom-event-name" is broadcasted.
+    private BroadcastReceiver mFlicReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Get extra data included in the Intent
+            int event = intent.getIntExtra(MyFlicReceiver.FLIC_MESSAGE, 0);
+            Log.d(TAG, "HELLO FLIC Got event: " + event);
+            mViewer = (SongViewerFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.songview_fragment);
+
+            if(mViewer != null){
+                if(event == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) {
+					mViewer.toggleScroll();
+                }
+                else if(event == KeyEvent.KEYCODE_MEDIA_NEXT) {
+                    nextSong();
+                }
+                else if(event == KeyEvent.KEYCODE_MEDIA_PREVIOUS) {
+                    prevSong();
+                }
+//				else if(event == KeyEvent.KEYCODE_MEDIA_FAST_FORWARD) {
+//				}
+//				else if(event == KeyEvent.KEYCODE_MEDIA_REWIND) {
+//				}
+                else{
+                    Log.d(TAG, "HELLO FLIC - IGNORING UNKNOWN MESSAGE: "+event);
+                }
+            }
+            else{
+                Log.d(TAG,"HELLO FLIC - mViewer null");
+            }
+        }
+    };
 }

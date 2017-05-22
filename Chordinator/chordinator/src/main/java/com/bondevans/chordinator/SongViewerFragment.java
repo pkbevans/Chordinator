@@ -102,8 +102,9 @@ public class SongViewerFragment extends Fragment implements OnClickListener{
 
 	private final static int NO_TRANSPOSE=99;
 	private int mTranspose= NO_TRANSPOSE;
+	private boolean mScrollPreference;
 
-    public interface SongViewerListener{
+	public interface SongViewerListener{
 		void onNewFileCreated();
 		void exitSong(int result);
 		void nextSong();
@@ -284,7 +285,7 @@ public class SongViewerFragment extends Fragment implements OnClickListener{
 		else{
 			setScrollSpeed(settings.getInt(mSf.getTitle()+ SongPrefs.PREF_KEY_SCROLLSPEED, SongPrefs.DEFAULTSPEED));
 		}
-		setAutoScroll(mAutoScroll, mScrollDelay);// Make sure scroll delay kicks in when in a set list
+		setAutoScroll(mScrollPreference, mScrollDelay);// Make sure scroll delay kicks in when in a set list, but also make sure we only autoscroll if selected in preferences
 
 		// Keep the screen on...
 		mSongCanvas.setKeepScreenOn(true);
@@ -430,7 +431,7 @@ public class SongViewerFragment extends Fragment implements OnClickListener{
 			nextButton.setVisibility(View.INVISIBLE);
 		}
 	}
-	public void loadPreferences() {
+	private void loadPreferences() {
 		Log.d(TAG, "HELLO loadPreferences");
 		// Restore preferences....
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -443,7 +444,7 @@ public class SongViewerFragment extends Fragment implements OnClickListener{
 //		mPrefs.setTurboScroll(settings.getBoolean(SongPrefs.PREF_KEY_TURBOSCROLL, false));
         mPrefs.setScrollSpeedMultiplier(Integer.parseInt(settings.getString(SongPrefs.PREF_KEY_SCROLL_SPEED_FACTOR, "1")));
 		mScrollDelay = Integer.parseInt(settings.getString(SongPrefs.PREF_KEY_SCROLL_DELAY, "0"));
-		mAutoScroll = mPrefs.isAutoScrollOn();
+		mScrollPreference = mAutoScroll = mPrefs.isAutoScrollOn();
 		Log.d(TAG, "HELLO AUTOSCROLL=["+(mAutoScroll?"ON":"OFF")+"]");
 //		mMinSleep = mPrefs.isTurboScrollOn()?MINSLEEP_TURBO:MINSLEEP_DEFAULT;
 		mScrollBy = SCROLLBY_DEFAULT* mPrefs.getScrollSpeedMultiplier();
@@ -775,8 +776,7 @@ public class SongViewerFragment extends Fragment implements OnClickListener{
 			updateScrollSpeed(true);
 		}
 		else if (view.getId() == R.id.scrollButton) {
-			mAutoScroll = (mAutoScroll?false:true);// Toggle Autoscroll
-			setAutoScroll(mAutoScroll, mScrollDelay);
+			toggleScroll();
 		}
 		else if (view.getId() == R.id.nextButton) {
 			songViewerListener.nextSong();
@@ -1036,5 +1036,9 @@ public class SongViewerFragment extends Fragment implements OnClickListener{
     }
 	private boolean isDim(){
 		return(getString(R.string.app_version).equalsIgnoreCase("dim")?true:false);
+	}
+	public void toggleScroll(){
+		mAutoScroll = (mAutoScroll?false:true);// Toggle Autoscroll
+		setAutoScroll(mAutoScroll, mScrollDelay);
 	}
 }

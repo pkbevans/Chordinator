@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.bondevans.chordinator"
     android:installLocation="auto"
-    android:versionName="v6.1.3Aug">
+    android:versionName="v6.1.4Aug">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -107,4 +107,9 @@
         </activity>
     </application>
 
+    <receiver android:name=".MyFlicReceiver"  android:exported="true">
+        <intent-filter>
+            <action android:name="android.intent.action.MEDIA_BUTTON" />
+        </intent-filter>
+    </receiver>
 </manifest>
