@@ -105,11 +105,11 @@
         </activity>
         <activity android:name="com.bondevans.chordinator.asynctask.ScanSongsActivity" >
         </activity>
-    </application>
 
-    <receiver android:name=".MyFlicReceiver"  android:exported="true">
-        <intent-filter>
-            <action android:name="android.intent.action.MEDIA_BUTTON" />
-        </intent-filter>
-    </receiver>
+        <receiver android:name=".MyFlicReceiver"  android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+            </intent-filter>
+        </receiver>
+    </application>
 </manifest>
