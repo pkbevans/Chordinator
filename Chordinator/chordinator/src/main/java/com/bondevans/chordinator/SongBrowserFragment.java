@@ -597,7 +597,7 @@ public class SongBrowserFragment extends ListFragment
 		// Get the full file path to the chosen song from the Intent
 		try {
 			// Create a new SongFile - this loads up the contents of the file into the Song class
-			sf = new SongFile(mFilePath, settings.getString(SongPrefs.PREF_KEY_DEFAULT_ENCODING, ""));
+			sf = new SongFile(mFilePath, null, settings.getString(SongPrefs.PREF_KEY_DEFAULT_ENCODING, ""));
 		} catch (ChordinatorException e) {
 			SongUtils.toast(getActivity(), e.getMessage());
 			return;

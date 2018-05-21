@@ -234,7 +234,7 @@ public class ScanSongsFragment extends Fragment {
 			try {
 				// Create a new SongFile - this loads up the contents of the file into the Song class
 //				Log.d(TAG, "HELLO dofile:["+file.getAbsolutePath()+"]");
-				sf = new SongFile(file.getPath(), mEncoding);
+				sf = new SongFile(file.getPath(), null, mEncoding);
 			} catch (ChordinatorException e) {
 				Log.d(TAG, "HELLO ERROR!!!!!:"+file.getName());
 				return;

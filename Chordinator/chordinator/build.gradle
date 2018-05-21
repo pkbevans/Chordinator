@@ -3,14 +3,14 @@ apply plugin: 'com.android.application'
 android {
     signingConfigs {
         config {
-            storeFile file('C:/Users/Paul/Documents/Chordinator/Keystore/keystore')
-            keyAlias 'chordinator'
+            storeFile file('C:/Users/Paul/Documents/ChordinatorWorkspace3/Chordinator/chordinator/keystore/keystore2.jks')
+            keyAlias 'chordinator2'
             keyPassword 'beefheart'
             storePassword 'beefheart'
         }
     }
     compileSdkVersion 25
-    buildToolsVersion '25.0.2'
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.bondevans.chordinator"
         minSdkVersion 11
@@ -28,6 +28,7 @@ android {
             signingConfig signingConfigs.config
         }
     }
+    flavorDimensions 'tier'
     productFlavors {
         aug {
             applicationId = "com.bondevans.chordinator.aug"
@@ -47,7 +48,7 @@ android {
 
 dependencies {
     compile project(':DragDropLibrary')
-    compile 'com.android.support:support-v4:25.3.1'
+    compile 'com.android.support:support-v4:25.4.0'
     compile 'com.google.android.gms:play-services:8.4.0'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:preference-v7:25.3.1'

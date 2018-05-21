@@ -79,7 +79,7 @@ public class EditSong extends AppCompatActivity {
 		try {
 			SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
 			// ...and load up into a SongPrefs object, replacing any DOS-style CR/LF pairs with a single UNIX-style LF
-			mSongText.setText(SongUtils.loadFile(mFilePath, settings.getString(SongPrefs.PREF_KEY_DEFAULT_ENCODING, "")).replaceAll("\r\n", "\n"));
+			mSongText.setText(SongUtils.loadFile(mFilePath, null, settings.getString(SongPrefs.PREF_KEY_DEFAULT_ENCODING, "")).replaceAll("\r\n", "\n"));
 		} catch (ChordinatorException e) {
 			errMsgToast(e.getMessage());
 			this.finish();

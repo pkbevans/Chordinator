@@ -6,13 +6,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.ParcelFileDescriptor;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.bondevans.chordinator.dialogs.HelpFragment;
 import com.bondevans.chordinator.prefs.ChordinatorPrefsActivity;
@@ -20,6 +23,9 @@ import com.bondevans.chordinator.setlist.SetList;
 import com.bondevans.chordinator.setlist.SetList2;
 import com.bondevans.chordinator.setlist.SetSong;
 import com.bondevans.chordinator.utils.Ute;
+
+import java.io.FileDescriptor;
+import java.io.FileNotFoundException;
 
 public class SongViewerActivity extends AppCompatActivity implements SongViewerFragment.SongViewerListener{
 	private static final int SETOPTIONS_ID = Menu.FIRST + 6;
@@ -39,8 +45,9 @@ public class SongViewerActivity extends AppCompatActivity implements SongViewerF
 	private long mSongId=0;
 	private String mFileName;
 	private int mColourScheme;
+	FileDescriptor mFileDescriptor;
 
-    @Override
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		mColourScheme = Ute.getColourScheme(this);
 		setTheme(mColourScheme == ColourScheme.LIGHT? R.style.Chordinator_Light_Theme_Theme: R.style.Chordinator_Dark_Theme_Theme);
@@ -55,8 +62,39 @@ public class SongViewerActivity extends AppCompatActivity implements SongViewerF
 		long setId = myIntent.getLongExtra(INTENT_SETID, 0);
 		// See if we got the rowID of the Song record
 		mSongId = savedInstanceState == null?myIntent.getLongExtra(INTENT_SONGID, 0): savedInstanceState.getLong(KEY_SONGID);
-		mFileName = savedInstanceState == null?myIntent.getData().getPath(): savedInstanceState.getString(KEY_FILENAME);
-
+        Log.d(TAG, "INTENT data:" + myIntent.getData().toString());
+        Log.d(TAG, "INTENT path:" + myIntent.getData().getPath());
+        Log.d(TAG, "INTENT host:" + myIntent.getData().getHost());
+        Log.d(TAG, "INTENT scheme:" + myIntent.getData().getScheme());
+        Log.d(TAG, "INTENT port:" + myIntent.getData().getPort());
+        Log.d(TAG, "INTENT authority:" + myIntent.getData().getAuthority());
+        Log.d(TAG, "INTENT ssp:" + myIntent.getData().getSchemeSpecificPart());
+        Log.d(TAG, "INTENT fragment:" + myIntent.getData().getFragment());
+		if(myIntent.getScheme().equalsIgnoreCase("content")){
+			Log.d(TAG, "CONTENT");
+			// Get the URI for the content
+			Uri uri = myIntent.getData();
+			Log.d(TAG, "CONTENT - GOT uri"+uri.toString());
+			ParcelFileDescriptor parcelFileDescriptor = null;
+			try{
+				// Get a parcelFileDescriptor from the URI
+				parcelFileDescriptor = getContentResolver().openFileDescriptor(uri, "r");
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+				Log.d(TAG, "File not found: "+e.getMessage());
+				Toast.makeText(this, R.string.cant_open_file, Toast.LENGTH_LONG).show();
+				finish();
+			}
+			Log.d(TAG, "CONTENT - GOT ParcelFileDescriptor");
+			// Get a regular file descriptor
+			mFileDescriptor = parcelFileDescriptor.getFileDescriptor();
+			Log.d(TAG, "CONTENT - GOT FileDescriptor");
+			mFileName = "";
+			Toast.makeText(this, R.string.read_only_file, Toast.LENGTH_LONG).show();
+		}
+		else{
+			mFileName = savedInstanceState == null?myIntent.getData().getPath(): savedInstanceState.getString(KEY_FILENAME);
+		}
 		// If we have got a New-style set then load up a SetList2 and set the current position in it
 		if( setId > 0){
 			inSetList=true;
@@ -84,7 +122,7 @@ public class SongViewerActivity extends AppCompatActivity implements SongViewerF
 		mViewer = (SongViewerFragment) getSupportFragmentManager()
 				.findFragmentById(R.id.songview_fragment);
 
-		mViewer.setSong(inSetList, mSongId, mFileName);
+		mViewer.setSong(inSetList, mSongId, mFileName, mFileDescriptor);
 
 		// Hide the action bar - unless we are on a large tablet with no physical buttons
 		Configuration conf = getResources().getConfiguration();
@@ -205,11 +243,13 @@ public class SongViewerActivity extends AppCompatActivity implements SongViewerF
 		case KeyEvent.KEYCODE_BACK:
 			Log.d(TAG, "HELLO - BACK PRESSED");
 			exitSong(RESULT_OK);
+			super.onKeyDown(keyCode, event);
+			return true;
 		}
 		return false;
 	}
 
-	public void exitSong(int result) {
+	private void exitSong(int result) {
 		Log.d(TAG, "HELLO exitSong");
 		// Check whether there is actually a song being viewed before saving song settings
 		if(mViewer.mSf != null){
@@ -219,13 +259,8 @@ public class SongViewerActivity extends AppCompatActivity implements SongViewerF
 		mViewer.setAutoScroll(false,0);
 		// Finish this activity, which will take us back to the song
 		// browser.
-//		if(isDim()){
-//		SHOW AN AD
-//		Intent myIntent = new Intent(this, InterstitialActivity.class);
-//      startActivity(myIntent);
-//		}
 		this.setResult(result);
-		this.finish();
+//		this.finish();
 	}
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -253,7 +288,7 @@ public class SongViewerActivity extends AppCompatActivity implements SongViewerF
 		if(mSetList1 != null){
 			mFileName=mSetList1.getNextSong().getPath();
 			Log.d(TAG, "HELLO nextSong ["+mFileName+"]");
-			mViewer.setSong(true, 0, mFileName);
+			mViewer.setSong(true, 0, mFileName, mFileDescriptor);
 		}
 		else if(mSetList2 != null){
 			// Get next Song
@@ -262,7 +297,7 @@ public class SongViewerActivity extends AppCompatActivity implements SongViewerF
 				mSongId=song.id;
 				mFileName=song.filePath;
 				Log.d(TAG, "HELLO nextSong ["+song.title+"]");
-				mViewer.setSong(true, song.id, song.filePath);
+				mViewer.setSong(true, song.id, song.filePath, mFileDescriptor);
 			} catch (ChordinatorException e) {
 				e.printStackTrace();
 			}
@@ -274,7 +309,7 @@ public class SongViewerActivity extends AppCompatActivity implements SongViewerF
 		if(mSetList1 != null){
 			mFileName=mSetList1.getPrevSong().getPath();
 			Log.d(TAG, "HELLO prevSong ["+mFileName+"]");
-			mViewer.setSong(true, 0, mFileName);
+			mViewer.setSong(true, 0, mFileName, mFileDescriptor);
 		}
 		else if(mSetList2 != null){
 			try {
@@ -282,7 +317,7 @@ public class SongViewerActivity extends AppCompatActivity implements SongViewerF
 				mSongId=song.id;
 				mFileName=song.filePath;
 				Log.d(TAG, "HELLO prevSong ["+song.title+"]");
-				mViewer.setSong(true, song.id, song.filePath);
+				mViewer.setSong(true, song.id, song.filePath, mFileDescriptor);
 			} catch (ChordinatorException e) {
 				e.printStackTrace();
 			}
@@ -311,8 +346,7 @@ public class SongViewerActivity extends AppCompatActivity implements SongViewerF
     public void onPause() {
         Log.d(TAG, "HELLO FLIC onPause");
         if(mFlicReceiver != null) try {
-            Log.d(TAG, "HELLO FLIC receiver not null");
-            this.unregisterReceiver(mFlicReceiver);
+            LocalBroadcastManager.getInstance(this).unregisterReceiver(mFlicReceiver);
         } catch (Exception e){
             Log.d(TAG, "HELLO FLIC - CAUGHT ERROR: "+e.getMessage());
         }

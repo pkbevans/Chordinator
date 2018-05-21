@@ -237,7 +237,7 @@ public class SongPrefs {
 		// Open import file
 		String imports="";
 		try {
-			imports = SongUtils.loadFile(Statics.CHORDINATOR_DIR+EXPORTFILE, null);
+			imports = SongUtils.loadFile(Statics.CHORDINATOR_DIR+EXPORTFILE,null, null);
 		} 
 		catch (ChordinatorException e) {
 			SongUtils.toast(context, context.getString(R.string.import_failed)+Statics.CHORDINATOR_DIR+EXPORTFILE);
@@ -284,7 +284,7 @@ public class SongPrefs {
 						keyValue[0].endsWith(PREF_KEY_TRANSPOSE) ||
 						keyValue[0].endsWith(PREF_KEY_SPLIT_PROPORTION) ||
 						keyValue[0].endsWith(PREF_KEY_SORTORDER) ||
-						keyValue[0].endsWith(PREF_KEY_SCROLL_SPEED_FACTOR) ||
+//						keyValue[0].endsWith(PREF_KEY_SCROLL_SPEED_FACTOR) ||
 						keyValue[0].endsWith(PREF_KEY_SORTDIRECTION)
 						){
 					editor.putInt(keyValue[0], Integer.parseInt(keyValue[1]));

@@ -1,6 +1,7 @@
 package com.bondevans.chordinator;
 
 import java.io.File;
+import java.io.FileDescriptor;
 
 
 import android.annotation.SuppressLint;
@@ -21,20 +22,21 @@ public class SongFile {
 	/**
 	 * Constructor that takes a String representing a file/Directory path
 	 * and loads the song.
-	 * @param filePath
-	 * @param defEncoding
-	 * @throws ChordinatorException
+	 * @param filePath File Path
+	 * @param fileDescriptor FileDescriptor
+	 *@param defEncoding  @throws ChordinatorException
 	 */
-	public SongFile( String filePath, String defEncoding) throws ChordinatorException{
+	public SongFile(String filePath, FileDescriptor fileDescriptor, String defEncoding) throws ChordinatorException{
 		songFilePath = filePath;
 		File x = new File(filePath);
 		songFile = x.getName();
 		songPath = x.getParent();
 //		Log.d(TAG, "HELLO File=["+songFile+ "] path=["+songPath+"]");
-		this.setSongDetails(SongUtils.loadFile(filePath, defEncoding));
+		this.setSongDetails(SongUtils.loadFile(filePath, fileDescriptor, defEncoding));
 	}
+
 	public void reloadSong(String defEncoding) throws ChordinatorException{
-		setSongDetails(SongUtils.loadFile(songFilePath, defEncoding));
+		setSongDetails(SongUtils.loadFile(songFilePath, null, defEncoding));
 	}
 
 	/**

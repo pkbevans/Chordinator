@@ -21,7 +21,6 @@ import com.bondevans.chordinator.R;
 import com.bondevans.chordinator.SongFile;
 import com.bondevans.chordinator.SongUtils;
 import com.bondevans.chordinator.Statics;
-import com.bondevans.chordinator.conversion.SongConverter;
 import com.bondevans.chordinator.db.DBUtils;
 import com.bondevans.chordinator.prefs.SongPrefs;
 
@@ -67,7 +66,7 @@ public class SongConverterFragment extends DialogFragment {
 		// Get the full file path to the chosen song from the Intent
 		try {
 			// Create a new SongFile - this loads up the contents of the file into the Song class
-			sf = new SongFile(mFolder+mFileName, settings.getString(SongPrefs.PREF_KEY_DEFAULT_ENCODING, ""));
+			sf = new SongFile(mFolder+mFileName, null, settings.getString(SongPrefs.PREF_KEY_DEFAULT_ENCODING, ""));
 		} catch (ChordinatorException e) {
 			SongUtils.toast(getActivity(), e.getMessage());
 			return null;

@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.bondevans.chordinator"
     android:installLocation="auto"
-    android:versionName="v6.1.4Aug">
+    android:versionName="v6.1.5Aug">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -39,6 +39,7 @@
                 <action android:name="android.intent.action.EDIT" />
                 <action android:name="android.intent.action.PICK" />
                 <data android:scheme="file" />
+                <data android:scheme="content" />
                 <data android:mimeType="*/*" />
                 <data android:host="*" />
                 <data android:pathPattern=".*\\.txt" />
@@ -95,7 +96,7 @@
         </activity>
         <activity android:name="com.bondevans.chordinator.search.SearchActivity" >
         </activity>
-        <activity android:name="com.bondevans.chordinator.setlist.SetSongListActivity" 
+        <activity android:name="com.bondevans.chordinator.setlist.SetSongListActivity"
 			android:uiOptions="splitActionBarWhenNarrow" >
         </activity>
         <activity

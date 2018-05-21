@@ -56,7 +56,7 @@ public class SetList {
         // Remove .txt from set name if present in file
         mSetName=mSetName.replace(SETLIST_SUFFIX,"");
 		Log.d(TAG, "HELLO SetList2 setName=["+mSetName+"] setListPath=["+mSetListPath+"]");
-		String set = SongUtils.loadFile(setListFile.getPath(),"");
+		String set = SongUtils.loadFile(setListFile.getPath(), null, "");
 		// read each line and add to Vector
 		String [] theSongs = set.split(SETLIST_SEPARATER);
 		for( String filePath :theSongs){

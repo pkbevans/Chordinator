@@ -378,7 +378,7 @@ LoaderManager.LoaderCallbacks<Cursor> {
 
 		SongFile mSf;
 		try {
-			mSf = new SongFile(Ute.doPath(mFilePath, mFileName), settings.getString(SongPrefs.PREF_KEY_DEFAULT_ENCODING, ""));
+			mSf = new SongFile(Ute.doPath(mFilePath, mFileName), null, settings.getString(SongPrefs.PREF_KEY_DEFAULT_ENCODING, ""));
 		} catch (ChordinatorException e1) {
 			e1.printStackTrace();
 			SongUtils.toast(getActivity(), e1.getMessage());

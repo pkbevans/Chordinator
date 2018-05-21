@@ -236,7 +236,7 @@ AddSongsToSetFragment.OnSongsAddedListener
 		}
 		else {
 			Log.d(TAG, "HELLO onSongSelected - found the fragment");
-			songViewerFragment.setSong(false, songId, songPath);
+			songViewerFragment.setSong(false, songId, songPath, null);
 			if(!mSongInView){
 				addShareButton();
 			}
@@ -396,10 +396,6 @@ AddSongsToSetFragment.OnSongsAddedListener
 		newFragment.show(getSupportFragmentManager(), "dialog");
 	}
 
-	@Override
-	public void exitSong(int result) {
-		// Do Nothing - not applicable to songlist activity
-	}
 	private void setPreferences(){
 		Intent myIntent = new Intent(this, ChordinatorPrefsActivity.class);
 		try {

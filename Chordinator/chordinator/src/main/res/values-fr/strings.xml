@@ -210,5 +210,7 @@
     <string name="pref_sum_scroll_speed_factor">Increase this for faster scrolling</string>
     <string name="edit_as_txt">Éditer le texte</string>
     <string name="permission_required">Chordinator will not work without access to the internal storage</string>
+    <string name="cant_open_file">Impossible d\'ouvrir ce fichier</string>
+    <string name="read_only_file">Ce fichier est en lecture seule, donc certaines options ne sont pas disponibles</string>
 
 </resources>

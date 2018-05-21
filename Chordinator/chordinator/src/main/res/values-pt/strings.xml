@@ -210,5 +210,7 @@
     <string name="pref_sum_scroll_speed_factor">\"Velocidade de Auto-rolamento\"</string>
     <string name="edit_as_txt">Editar texto</string>
     <string name="permission_required">Chordinator will not work without access to the internal storage</string>
+    <string name="cant_open_file">Não é possível abrir este arquivo</string>
+    <string name="read_only_file">Este arquivo é somente leitura, então algumas opções não estão disponíveis</string>
 
 </resources>

@@ -304,10 +304,6 @@ AddSetDialog.CreateSetListener
 			songBrowserFragment.refresh();
 		}
 	}
-	@Override
-	public void exitSong(int result) {
-		// Do Nothing - not applicable to songlist activity
-	}
 	private void setPreferences(){
 		Intent myIntent = new Intent(this, ChordinatorPrefsActivity.class);
 		try {
@@ -368,7 +364,7 @@ AddSetDialog.CreateSetListener
 			}
 		}
 		else {
-			viewer.setSong(inSet, 0, songFile.getPath());
+			viewer.setSong(inSet, 0, songFile.getPath(), null);
 			if(!mSongInView){
 				addShareButton();
 			}
@@ -454,7 +450,7 @@ AddSetDialog.CreateSetListener
 		void doSaveAs(String oldPath, String newPath, String encoding){
 			Log.d(TAG, "HELLO doSaveAs ["+oldPath+" to ["+newPath+"]");
 			try {
-				SongUtils.writeFile(newPath, SongUtils.loadFile(oldPath, encoding));
+				SongUtils.writeFile(newPath, SongUtils.loadFile(oldPath, null, encoding));
 			} catch (ChordinatorException e) {
 				e.printStackTrace();
 				errorMsg = getString(R.string.copy_failed);

@@ -3,6 +3,7 @@ package com.bondevans.chordinator;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -18,12 +19,10 @@ import android.widget.Toast;
  */
 public class SongUtils {
 	public static final int	SETOPTIONS_REQUEST = 1;
-	public static final int	EDITSONG_REQUEST = 2;
-	public static final int	SHOWHELP_REQUEST = 3;
-	public static final int	SIMPLEFILEBROWSER_REQUEST = 4;
-	public static final int	SONGACTIVITY_REQUEST = 5;
+	static final int	EDITSONG_REQUEST = 2;
+    static final int	SONGACTIVITY_REQUEST = 5;
 	private static final String TAG = "SongUtils";
-	public final static int FILE_TOO_BIG = 15000;
+	private final static int FILE_TOO_BIG = 15000;
 
 	/**
 	 * Empty Constructor
@@ -34,9 +33,9 @@ public class SongUtils {
 	/**
 	 * Checks whether given char is in given String
 	 *
-	 * @param x
-	 * @param y
-	 * @return
+	 * @param x Char to search for
+	 * @param y String to search in
+	 * @return POsition of x in y
 	 */
 	public static boolean charIsInString(char x, String y) {
 		boolean ret = false;
@@ -51,11 +50,11 @@ public class SongUtils {
 
 	/**
 	 * Extracts value of tag from text
-	 * @param text
-	 * @param tag
-	 * @return
+	 * @param text Text to search
+	 * @param tag Tag
+	 * @return Value of tag
 	 */
-	public static String tagValue( String text, String tag  )
+	static String tagValue(String text, String tag)
 	{
 		int x, y;
 		String myTag = "{"+tag+":";
@@ -87,11 +86,11 @@ public class SongUtils {
 
 	/**
 	 * Gets value of tag -  ensuring that the value returned is from the first tag in the String
-	 * @param text
-	 * @param tag1
-	 * @param tag2
-	 * @param defaultRet
-	 * @return
+	 * @param text Text
+	 * @param tag1 Tag
+	 * @param tag2 Tag
+	 * @param defaultRet Default if not found
+	 * @return Returns value of tag
 	 */
 	public static String tagValueX(String text, String tag1, String tag2, String defaultRet ){
 		// Get end of tag
@@ -104,22 +103,26 @@ public class SongUtils {
 			return defaultRet;
 		}
 	}
-	
+
 	/**
 	 * LoadFile - Load a complete song file into Contents
 	 */
-
-	public final static String loadFile(String filePath, String defaultEncoding) throws ChordinatorException{
+	public static String loadFile(String filePath, FileDescriptor fileDescriptor, String defaultEncoding) throws ChordinatorException{
 		StringBuilder sb = new StringBuilder();
 		try
 		{
 			int length = 2048, bytesRead=0;
 			byte[] buffer = new byte[length];
 
-			BufferedInputStream buf = new BufferedInputStream(new FileInputStream(filePath), length);
+			BufferedInputStream buf;
+			if(fileDescriptor!=null){
+				buf = new BufferedInputStream(new FileInputStream(fileDescriptor));
+			}else {
+				buf = new BufferedInputStream(new FileInputStream(filePath), length);
+			}
 			length=2048;
 			int i=0;
-			String enc="";
+			String enc = "";
 			while( bytesRead>=0){
 				if((bytesRead = buf.read(buffer, 0, length))>=0 ){
 					// Have a look at the 1st 3 bytes. If these indicate UTF-8 then use UTF-8.
@@ -191,14 +194,9 @@ public class SongUtils {
 
 	private static boolean isUTF8( byte[] buffer){
 		// FIX 29/11/11 - Force close on creation of new set
-		if (buffer.length>=3 && buffer[0] == (byte) 0xef && buffer[1] == (byte) 0xbb && buffer[2] == (byte) 0xbf){
-//			Log.d(TAG, "IS UTF8");
-			return true;
-		}
-		else{
+        //			Log.d(TAG, "IS UTF8");
 //			Log.d(TAG, "NOT UTF8");
-			return false;
-		}
+        return buffer.length >= 3 && buffer[0] == (byte) 0xef && buffer[1] == (byte) 0xbb && buffer[2] == (byte) 0xbf;
 	}
 	private static boolean isUTF16LE( byte[] buffer){
 		// FIX 29/11/11 - Force close on creation of new set
@@ -235,21 +233,13 @@ public class SongUtils {
 //		Log.d(TAG, "Using "+enc+" encoding");
 		return enc;
 	}
-	public static boolean isBanned(String fileName){
+	static boolean isBanned(String fileName){
 		return isBanned(new File(fileName));
 	}
-	public static boolean isBanned(File file){
-		// Check Size 1st
-		if(file.length()>FILE_TOO_BIG){
-			return true;
-		}
-		else if(file.getName().startsWith(".")){
-			return true;
-		}
-		else{
-			return isBannedFileType(file.getName());
-		}
-	}
+	static boolean isBanned(File file) {
+        // Check Size 1st
+        return file.length() > FILE_TOO_BIG || file.getName().startsWith(".") || isBannedFileType(file.getName());
+    }
 	@SuppressLint("DefaultLocale")
 	public static boolean isBannedFileType(String fileName){
 		// Suffixs MUST be UPPERCASE!!!
@@ -266,9 +256,9 @@ public class SongUtils {
 
 	/**
 	 * Changes the file suffix of a file path
-	 * @param path
-	 * @param suffix
-	 * @return
+	 * @param path Path
+	 * @param suffix Suffix
+	 * @return Returns new path
 	 */
 	public static String swapSuffix(String path, String suffix){
 		String ret;

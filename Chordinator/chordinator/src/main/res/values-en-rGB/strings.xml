@@ -5,5 +5,6 @@
 
     <string name="pref_tit_colour_scheme">Colour Scheme</string>
     <string name="pref_sum_colour_scheme">The Song Screen Colour Scheme</string>
+    <string name="cant_open_file">Diese Datei konnte nicht geöffnet werden</string>
 
 </resources>

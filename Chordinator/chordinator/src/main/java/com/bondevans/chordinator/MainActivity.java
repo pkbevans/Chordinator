@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -17,6 +18,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.SearchView;
@@ -313,7 +315,7 @@ AddSetDialog.CreateSetListener
 		}
 		else {
 			Log.d(TAG, "HELLO onSongSelected - found the fragment");
-			songViewerFragment.setSong(false, songId, songPath);
+			songViewerFragment.setSong(false, songId, songPath, null);
 			if(!mSongInView){
 				addShareButton();
 			}
@@ -444,11 +446,26 @@ AddSetDialog.CreateSetListener
 	}
 	private void deleteSongs() {
 		Log.d(TAG, "HELLO deleteSongs");
-		// Delete all Sets
-        getContentResolver().delete(DBUtils.SET(getString(R.string.authority)), null, null);
-		// Delete all Songs
-		int rows = getContentResolver().delete(DBUtils.SONG(getString(R.string.authority)), null, null);
-		SongUtils.toast(this, rows+" Songs Deleted");
+		AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+		alertDialog.setTitle("You are about to remove all songs from the listing");
+		alertDialog.setMessage("Are you sure?\n(No files will be deleted)\nHave you backed up your SETs?");
+		alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(android.R.string.yes), new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// Delete all Sets
+				getContentResolver().delete(DBUtils.SET(getString(R.string.authority)), null, null);
+				// Delete all Songs
+				int rows = getContentResolver().delete(DBUtils.SONG(getString(R.string.authority)), null, null);
+				SongUtils.toast(MainActivity.this, rows+" Songs Deleted");
+			}
+		});
+		alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(android.R.string.cancel), new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// Do nothing
+			}
+		});
+		alertDialog.show();
 	}
 	private void showHelp() {
 		Log.d(TAG, "showHelp");
@@ -482,10 +499,6 @@ AddSetDialog.CreateSetListener
 		}
 	}
 
-	@Override
-	public void exitSong(int result) {
-		// Do Nothing - not applicable to songlist activity
-	}
 	private void setPreferences(){
 		Intent myIntent = new Intent(this, ChordinatorPrefsActivity.class);
 		try {

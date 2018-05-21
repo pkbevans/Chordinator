@@ -48,6 +48,7 @@ import com.bondevans.chordinator.prefs.SongPrefs;
 import com.bondevans.chordinator.trial.Trial;
 
 import java.io.File;
+import java.io.FileDescriptor;
 import java.lang.ref.WeakReference;
 
 public class SongViewerFragment extends Fragment implements OnClickListener{
@@ -103,10 +104,10 @@ public class SongViewerFragment extends Fragment implements OnClickListener{
 	private final static int NO_TRANSPOSE=99;
 	private int mTranspose= NO_TRANSPOSE;
 	private boolean mScrollPreference;
+	private boolean mReadOnly;
 
 	public interface SongViewerListener{
 		void onNewFileCreated();
-		void exitSong(int result);
 		void nextSong();
 		void prevSong();
 	}
@@ -218,7 +219,9 @@ public class SongViewerFragment extends Fragment implements OnClickListener{
 		}
 	}
 
-	public void setSong(boolean inSetList, long songId, String fileName){
+	public void setSong(boolean inSetList, long songId, String fileName, FileDescriptor mFileDescriptor){
+		// Readonly if opening content from FileDescriptor
+		mReadOnly = mFileDescriptor != null;
 		// Save any settings for previous song, if appropriate
 		savePreviousSongSettings();
 
@@ -234,7 +237,7 @@ public class SongViewerFragment extends Fragment implements OnClickListener{
 				Log.d(TAG, "HELLO onCreate BANNED");
 				throw new ChordinatorException(getString(R.string.banned_file_type));
 			}
-			mSf = new SongFile(fileName, mPrefs.getDefaultEncoding());
+			mSf = new SongFile(fileName, mFileDescriptor, mPrefs.getDefaultEncoding());
 		} catch (ChordinatorException e) {
 			errMsgToast(e.getMessage());
 			//			this.finish();
@@ -258,8 +261,8 @@ public class SongViewerFragment extends Fragment implements OnClickListener{
 			trupButton.setVisibility(View.VISIBLE);
 			trdownButton.setVisibility(View.VISIBLE);
 		}
-		// Check whether song is in the Db and add if not (dont bother if its just an orientation change
-		if( mSavedScrollSpeed == -1 ){// TODO Shouldnt be using this flag
+		// Check whether song is in the Db and add if not (dont bother if its just an orientation change (or if we are opening from fileDescriptor)
+		if( mSavedScrollSpeed == -1 && mFileDescriptor == null){// TODO Shouldnt be using this flag
 			UpdateSongDB();
 		}
 		// Create a new Song Canvas and load up the chosen song
@@ -338,7 +341,15 @@ public class SongViewerFragment extends Fragment implements OnClickListener{
 				// Remove printing option if version < 19 (Kitkat)
 				menu.removeItem(R.id.print);
 			}
-
+			if(mReadOnly){
+				// Remove Edit/Save to Text/Save to Html, etc if mReadonly
+				menu.removeItem(R.id.save_text);
+				menu.removeItem(R.id.save_html);
+				menu.removeItem(R.id.edit);
+				menu.removeItem(R.id.save_trans);
+				menu.removeItem(R.id.print);
+				menu.removeItem(R.id.share_song);
+			}
 		}
 		else{
 			Log.d(TAG,"HELLO onCreateContextMenu- NOT now dear");
@@ -557,7 +568,7 @@ public class SongViewerFragment extends Fragment implements OnClickListener{
 		// load up file and transpose the whole lot
 		String newSong;
 		try {
-			newSong = Transpose.song(SongUtils.loadFile(filePath, mPrefs.getDefaultEncoding()),
+			newSong = Transpose.song(SongUtils.loadFile(filePath, null, mPrefs.getDefaultEncoding()),
 					mSongCanvas.getTranspose());
 			// then save it back to same file name
 			SongUtils.writeFile(filePath, newSong);
@@ -987,7 +998,7 @@ public class SongViewerFragment extends Fragment implements OnClickListener{
 	}
 
 
-	public void UpdateSongDB() {
+	private void UpdateSongDB() {
 		Log.d(TAG, "HELLO UpdateSongDB");
 		UpdateSongDBTask task = new UpdateSongDBTask();
 		task.execute(new String[] {});
