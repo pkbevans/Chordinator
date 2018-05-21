@@ -22,6 +22,9 @@ public class LatestFragment extends DialogFragment{
 	private static final String TAG = "LatestFragment";
 	private static String mVersion = "";
 	private String[] mStrings = {
+			"v6.1.5 - Fixed - Import/export of settings caused crash",
+			"v6.1.5 - Fixed - Preview from DropBox app now works again (read only)",
+			"v6.1.5 - Improved - performance/memory fixes",
 			"v6.1.4 - New - Added support for FLIC buttons (Thanks Derek!!) - Aug Only",
 			"v6.1.4 - Fixed - Auto-scrolls while in Sets only if set in Preferences",
 			"v6.1.3 - Fixed - checks whether permission granted to access storage",
