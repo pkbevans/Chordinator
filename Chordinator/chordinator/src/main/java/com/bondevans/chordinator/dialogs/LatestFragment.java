@@ -22,7 +22,7 @@ public class LatestFragment extends DialogFragment{
 	private static final String TAG = "LatestFragment";
 	private static String mVersion = "";
 	private String[] mStrings = {
-			"v6.1.5 - Fixed - Import/export of settings caused crash",
+			"v6.2 - Fixed - Chordie.com downloads fixed.",
 			"v6.1.5 - Fixed - Preview from DropBox app now works again (read only)",
 			"v6.1.5 - Improved - performance/memory fixes",
 			"v6.1.4 - New - Added support for FLIC buttons (Thanks Derek!!) - Aug Only",
@@ -213,7 +213,7 @@ public class LatestFragment extends DialogFragment{
 			startActivity(Intent.createChooser(theIntent, "Send Feedback With...."));
 		} 
 		catch (Exception e) {
-			Log.d(TAG,"Something went wrong");
+			Log.d(TAG,"Something went wrong: "+e.getMessage());
 		}
 	}
 
@@ -223,7 +223,7 @@ public class LatestFragment extends DialogFragment{
 	public void sendLog(){
 		String filename = Environment.getExternalStorageDirectory()+"/"+getString(R.string.logfile_name);
 		SongUtils.getLog(filename);
-		
+
 		File aFile = new File(filename);
 		Intent theIntent = new Intent(Intent.ACTION_SEND);
 		theIntent.setType("text/plain");
@@ -237,7 +237,7 @@ public class LatestFragment extends DialogFragment{
 			startActivity(Intent.createChooser(theIntent, "Share With...."));
 		}
 		catch (Exception e) {
-			Log.d(TAG,"Something went wrong");
+			Log.d(TAG,"Something went wrong: "+e.getMessage());
 		}
 	}
 }

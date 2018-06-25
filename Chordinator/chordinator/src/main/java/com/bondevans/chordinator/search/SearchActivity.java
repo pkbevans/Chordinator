@@ -93,7 +93,7 @@ public class SearchActivity extends AppCompatActivity implements GotSongDialog.G
 		searcher = (WebView) findViewById(R.id.searcher);
 
 		WebSettings settings = searcher.getSettings();
-        String ua = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.7 (KHTML, like Gecko) Chrome/16.0.912.77 Safari/535.7	";
+        String ua = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36";
         settings.setUserAgentString(ua);
 		settings.setBuiltInZoomControls(true);
 
@@ -286,15 +286,18 @@ public class SearchActivity extends AppCompatActivity implements GotSongDialog.G
                  * */
 		public int findChoproStart(String line) {
 			String [] startTags = {"{title:", "{t:"};// MUST BE LOWERCASE
-			String [] badTags = {"{t:{start:"};
+			String [] badTags = {"{t:{start:","{t: t, o:"};
  			int ret=-1;
+			int index=0;
 			for( String tag: startTags){
-				if( (ret=line.toLowerCase().indexOf(tag))>-1){
+				index=0;
+                while( (ret=line.substring(index).toLowerCase().indexOf(tag))>-1){
 					int ret2=-1;
 					// Found a possible start tag, but need to check its not one of the known BAD tags
 					for(String badTag: badTags){
-						if((ret2=line.substring(ret, ret+20).toLowerCase().indexOf(badTag))>-1){
+						if((ret2=line.substring(index).substring(ret, ret+20).toLowerCase().indexOf(badTag))>-1){
 							Log.d(TAG, "HELLO found BAD tag: ["+badTag+"] index=["+ret2+"]");
+							index=ret+1; // Continue search for a matching tag
 							break;
 						}
 					}
@@ -304,7 +307,7 @@ public class SearchActivity extends AppCompatActivity implements GotSongDialog.G
 					}
 				}
 			}
-			return ret;
+			return index+ret;
 		}
 		public int findChoproEnd(String line) {
 			// IF any of the "end" tags are found then we have found the end
