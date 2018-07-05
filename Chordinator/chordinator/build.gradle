@@ -1,0 +1,52 @@
+apply plugin: 'com.android.application'
+
+android {
+    signingConfigs {
+        config {
+            storeFile file('C:/Users/Paul/Documents/ChordinatorWorkspace3/Chordinator/chordinator/keystore/keystore.jks')
+            keyAlias 'chordinator'
+        }
+    }
+    compileSdkVersion 26
+    defaultConfig {
+        applicationId "com.bondevans.chordinator"
+        minSdkVersion 14
+        targetSdkVersion 26
+        versionCode 70
+        signingConfig signingConfigs.config
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            signingConfig signingConfigs.config
+        }
+        debug {
+            signingConfig signingConfigs.config
+        }
+    }
+    flavorDimensions 'tier'
+    productFlavors {
+        aug {
+            applicationId = "com.bondevans.chordinator.aug"
+            signingConfig signingConfigs.config
+        }
+        dim {
+            applicationId = "com.bondevans.chordinator"
+            minSdkVersion 14
+            signingConfig signingConfigs.config
+        }
+        augtest {
+            applicationId = "com.bondevans.chordinator.augtest"
+            signingConfig signingConfigs.config
+        }
+    }
+}
+
+dependencies {
+    implementation project(':DragDropLibrary')
+    implementation 'com.android.support:support-v4:26.1.0'
+    implementation 'com.google.android.gms:play-services:12.0.1'
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support:preference-v7:26.1.0'
+}
