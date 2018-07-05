@@ -166,7 +166,7 @@ AddSetDialog.CreateSetListener
 		});
 
 		setupActionBar();// This will be called many times
-		onFirstRun();
+//		onFirstRun();
 	}
 
 	@SuppressLint("NewApi")
@@ -700,6 +700,10 @@ AddSetDialog.CreateSetListener
 		if( requestCode == REQUEST_CODE_READ_STORAGE_PERMISSION && grantResults[0] == PERMISSION_DENIED){
 			// Handle user not allowing access.
 			Toast.makeText(this, getString(R.string.permission_required), Toast.LENGTH_SHORT).show();
+		}
+		else{
+			// Only run this if they have given consent
+			onFirstRun();
 		}
         Log.d(TAG, "onRequestPermissionsResult");
     }

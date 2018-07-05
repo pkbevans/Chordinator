@@ -14,12 +14,12 @@ android {
         applicationId "com.bondevans.chordinator"
         minSdkVersion 14
         targetSdkVersion 26
-        versionCode 69
+        versionCode 70
         signingConfig signingConfigs.config
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
             signingConfig signingConfigs.config
         }
@@ -35,7 +35,7 @@ android {
         }
         dim {
             applicationId = "com.bondevans.chordinator"
-            minSdkVersion 12
+            minSdkVersion 14
             signingConfig signingConfigs.config
         }
         augtest {
@@ -47,8 +47,8 @@ android {
 
 dependencies {
     implementation project(':DragDropLibrary')
-    compile 'com.android.support:support-v4:26.1.0'
-    compile 'com.google.android.gms:play-services:12.0.1'
-    compile 'com.android.support:appcompat-v7:26.1.0'
-    compile 'com.android.support:preference-v7:26.1.0'
+    implementation 'com.android.support:support-v4:26.1.0'
+    implementation 'com.google.android.gms:play-services:12.0.1'
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support:preference-v7:26.1.0'
 }

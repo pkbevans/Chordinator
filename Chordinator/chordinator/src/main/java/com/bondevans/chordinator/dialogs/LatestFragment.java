@@ -22,7 +22,8 @@ public class LatestFragment extends DialogFragment{
 	private static final String TAG = "LatestFragment";
 	private static String mVersion = "";
 	private String[] mStrings = {
-			"v6.2 - Fixed - Chordie.com downloads fixed.",
+			"v6.2.1 - Fixed - First run creates /chordinator directory.",
+			"v6.2.1 - Fixed - Chordie.com downloads fixed.",
 			"v6.1.5 - Fixed - Preview from DropBox app now works again (read only)",
 			"v6.1.5 - Improved - performance/memory fixes",
 			"v6.1.4 - New - Added support for FLIC buttons (Thanks Derek!!) - Aug Only",

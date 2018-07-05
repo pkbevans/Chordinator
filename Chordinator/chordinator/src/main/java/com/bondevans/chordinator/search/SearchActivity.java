@@ -56,6 +56,10 @@ public class SearchActivity extends AppCompatActivity implements GotSongDialog.G
     ProgressBar mProgressBar;
 
     // Chord Reader stuff - START
+    private static Pattern textAreaPattern = Pattern.compile(
+            "(" +
+                    "<\\s*textarea.*?>.*?<\\s*/textarea\\s*>" + // style span
+                    ")", Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
 	// html tag or html escaped character
 	private static Pattern htmlObjectPattern = Pattern.compile(
 			"(" +
@@ -90,7 +94,7 @@ public class SearchActivity extends AppCompatActivity implements GotSongDialog.G
 		setTheme(colourScheme == ColourScheme.LIGHT? R.style.Chordinator_Light_Theme_Theme: R.style.Chordinator_Dark_Theme_Theme);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.song_search_layout);
-		searcher = (WebView) findViewById(R.id.searcher);
+		searcher = findViewById(R.id.searcher);
 
 		WebSettings settings = searcher.getSettings();
         String ua = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36";
@@ -114,9 +118,9 @@ public class SearchActivity extends AppCompatActivity implements GotSongDialog.G
 			newFragment.show(getSupportFragmentManager(), "dialog");
 		}
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
+        Toolbar toolbar = findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
         setSupportActionBar(toolbar);                   // Setting toolbar as the ActionBar with setSupportActionBar() call
-        mProgressBar = (ProgressBar) findViewById(R.id.progress_bar); // Attaching the layout to the toolbar object
+        mProgressBar = findViewById(R.id.progress_bar); // Attaching the layout to the toolbar object
 
 
 //        getSupportActionBar().setLogo(/*mColourScheme == ColourScheme.DARK? */R.drawable.chordinator_aug_logo_dark_bkgrnd/*: R.drawable.chordinator_aug_logo_light_bkgrnd*/);
@@ -243,8 +247,10 @@ public class SearchActivity extends AppCompatActivity implements GotSongDialog.G
 			int start;
 			int end;
 			// See if there is a Chopro song in there
-			if( (start=findChoproStart(params[0]))>-1){
-				songText = params[0].substring(start);
+            String textArea=findTextArea(params[0]);
+            if(!textArea.isEmpty() &&
+			    (start=findChoproStart(textArea))>-1){
+				songText = textArea.substring(start);
 				Log.d(TAG, "HELLO searchPage2["+songText+"]");
 				// if start found then find end
 				if( (end=findChoproEnd(songText))>-1){
@@ -284,7 +290,7 @@ public class SearchActivity extends AppCompatActivity implements GotSongDialog.G
                  * {t:{start:(new Date).getTime()},bfr:!(!b)}};window.google.tick=function(a,b,c){if(!window.google.timers[a])google.startTick(a);window.google.timers[a].t[b]=c||(new Date).getTime()};google.startTick("load",true);try{window.google.pt=window.chrome&&window.chrome.csi&&Math.floor(window.chrome.csi().pageT);}catch(u){}
 
                  * */
-		public int findChoproStart(String line) {
+        int findChoproStart(String line) {
 			String [] startTags = {"{title:", "{t:"};// MUST BE LOWERCASE
 			String [] badTags = {"{t:{start:","{t: t, o:"};
  			int ret=-1;
@@ -309,7 +315,7 @@ public class SearchActivity extends AppCompatActivity implements GotSongDialog.G
 			}
 			return index+ret;
 		}
-		public int findChoproEnd(String line) {
+		int findChoproEnd(String line) {
 			// IF any of the "end" tags are found then we have found the end
 			String [] endTags={"\"<", "<a href=","</textarea>","</form>", "<input", "</pre>","</body>"};// MUST BE LOWERCASE
 			int ret=-1;
@@ -326,13 +332,25 @@ public class SearchActivity extends AppCompatActivity implements GotSongDialog.G
 			}
 			return ret;
 		}
+        String findTextArea(String html){
+            Log.d(TAG, "HELLO findTextArea");
+            Matcher matcher = textAreaPattern.matcher(html);
+
+            if (matcher.find()) {
+                Log.d(TAG, "HELLO found <textArea> tag"+matcher.group());
+                return matcher.group();
+            }
+            else{
+                return "";
+            }
+        }
 		/**
 		 * Try to find a likely chord chart from the "pre" section of a page
 		 * Returns null if it doesn't find anything likely to be a chord chart
 		 * @param html HTML to sesarch
 		 * @return Returns song if found
 		 */
-		public String findUGSong(String html) {
+        String findUGSong(String html) {
 			Log.d(TAG, "HELLO findUGSong");
 			Matcher matcher = prePattern.matcher(html);
 
@@ -348,7 +366,7 @@ public class SearchActivity extends AppCompatActivity implements GotSongDialog.G
 			}
 			return null;
 		}
-		public String cleanUpText(String text) {
+		String cleanUpText(String text) {
 
 			if (text == null) {
 				return null;
@@ -365,7 +383,7 @@ public class SearchActivity extends AppCompatActivity implements GotSongDialog.G
 			return text;
 		}
 
-		public String convertHtmlToText(String htmlText) {
+		String convertHtmlToText(String htmlText) {
 
 			StringBuilder plainText = new StringBuilder();
 
